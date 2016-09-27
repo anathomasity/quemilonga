@@ -114,9 +114,9 @@
                             </div>
 
                             <div class="row linksbackground">
-                                <h6 class="col-xs-4 col-sm-4 littlelinks" style="font-family: 'Copse', serif;">Last updated by: <a href="https://www.facebook.com/{{m._added_by.id}}">{{m._added_by.name}}</a></h6>
+                                <h6 class="col-xs-4 col-sm-4 littlelinks" style="font-family: 'Copse', serif;">Last updated by: <a ng-click='openFaceProfile(m._added_by.id)'>{{m._added_by.name}}</a></h6>
                                 <h6 class="col-xs-4 col-sm-4 littlelinks" style="font-family: 'Copse', serif;">Not accurate? <a href="#/milongas/{{m._id}}/edit">UPDATE</a></h6>
-                                <h6 class="col-xs-4 col-sm-4 littlelinks"><a href="">Report a problem</a></h6>
+                                <h6 class="col-xs-4 col-sm-4 littlelinks"><a ng-click='sendMail("qmilonga@gmail.com","Mail Subject","Mail Body Message")'>Report a problem</a></h6>
                             </div>
                             
                         </div>

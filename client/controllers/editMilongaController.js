@@ -34,9 +34,9 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 	}
 
 	$scope.updateMilonga = function(){
-		if($rootScope.user == undefined){
-			console.log($rootScope.user, 'ROOSTCOPE USER')
-	 		$location.url('/login');
+		if(!$rootScope.user){
+	 		console.log('!Rosotscope user')
+	 		return $location.url('/login');
 	 	}
 	 	else{
 

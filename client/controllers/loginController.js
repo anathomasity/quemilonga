@@ -5,13 +5,13 @@ myApp.controller('loginController', function($scope, eventsFactory, $facebook, $
       if($scope.status) {
         $facebook.api('/me').then(function(user) {
           $rootScope.user = user;
-          var split = user.name.split();
-          for(var i = 0; i < user.name.length; i++){
-            if(user.name[i] != " "){
-              
+          for(var i = 0; i < $rootScope.user.name.length; i++){
+            if($rootScope.user.name[i] == " "){
+              $rootScope.user.first_name = $rootScope.user.name.slice(0,i);
+              $rootScope.user.last_name = $rootScope.user.name.slice(i+1);
             }
           }
-          console.log('rootscope.user', $rootScope.user)
+          console.log('rootscope.user: ', $rootScope.user)
           $window.history.back()
         });
       }

@@ -6,8 +6,10 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	$scope.event.address = {};
 	$scope.performersList = [];
 
+	console.log('USER is: ',$rootScope.user);
+
 	eventsFactory.getPerformers(function(data){
-		console.log('performers:',data);
+		// console.log('performers:',data);
 		for ( var i = 0; i < data.length; i++){
 			$scope.performers.push({name: data[i].name, _id: data[i]._id})
 			$scope.teachers.push({name: data[i].name, _id: data[i]._id})
@@ -19,9 +21,9 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	// ADD A PERFORMER TO THE LIST OF PERFORMERS
 	$scope.addPerformer = function(){
 		$('#exampleModal').modal('hide');
-		console.log('ADD PERFORMER CONTROLLER')
+		// console.log('ADD PERFORMER CONTROLLER')
 		eventsFactory.addPerformer($scope.dancer, function(addedDancer){
-			console.log('added dancer', addedDancer)
+			// console.log('added dancer', addedDancer)
 			$scope.performers.push({name: addedDancer.data.name, _id: addedDancer.data._id});
 			$scope.teachers.push({name: addedDancer.data.name, _id: addedDancer.data._id});
 		});
@@ -30,8 +32,10 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 
 	$scope.addMilonga = function(){
 	 	if(!$rootScope.user){
-	 		$location.url('/login');
+	 		console.log('!Rosotscope user')
+	 		return $location.url('/login');
 	 	}
+	 	console.log('USER is: ',$rootScope.user);
 
 		$scope.performersList = [];
 		// MAKE SURE EACH COMPONENT OF THE ADDRESS IS IN THE CORRECT FIELD
@@ -56,6 +60,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 				$scope.event.address.zip_code = $scope.address.address_components[i].long_name;
 			}
 		}
+
 	    
 		$scope.event.address.coords = { 
 	            lat: $scope.address.geometry.location.lat(),
@@ -67,7 +72,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
         // IF ANY OF THE DATES IS BEFORE THE ORIGINAL DATE, POP IT OUT OF THE ARRAY
         for (var i = 0; i < $scope.repeatMilonga.length; i++) {
         	if ($scope.repeatMilonga[i]._d <= $scope.event.date){
-        		console.log('less than date!');
+        		// console.log('less than date!');
         		$scope.repeatMilonga.splice(i, 1);
         		i--;
         	}
@@ -87,7 +92,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
         	}
 
 			eventsFactory.addMilonga(simpleVersion, function(addedMilonga){
-				console.log('MILOGA ADDED:', addedMilonga)
+				// console.log('MILOGA ADDED:', addedMilonga)
 			});
         }
 
@@ -119,8 +124,8 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 
         // CREATE THE ORIGINAL MILONGA WITH ALL THE INFO
 		eventsFactory.addMilonga($scope.event, function(addedMilonga){
-			console.log("THIS IS THE PERFORMERSLIST", $scope.performersList)
-			console.log('ADDED MILONGA', addedMilonga);
+			// console.log("THIS IS THE PERFORMERSLIST", $scope.performersList)
+			// console.log('ADDED MILONGA', addedMilonga);
 			
 			for (var i = 0; i < $scope.performersList.length; i++){
 				var info = {
@@ -128,9 +133,9 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 					action: $scope.performersList[i].action,
 					milonga: addedMilonga._id,
 				}
-				console.log('THIS IS THE INFO WE ARE PASSING',info);
+				// console.log('THIS IS THE INFO WE ARE PASSING',info);
 				eventsFactory.addMilongaToPerformer(info, function(result){
-					console.log(result);
+					// console.log(result);
 				});
 			}
 

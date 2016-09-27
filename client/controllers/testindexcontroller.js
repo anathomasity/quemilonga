@@ -1,6 +1,7 @@
-myApp.controller('indexController', function($scope, eventsFactory, $location, $http){
+myApp.controller('indexController', function($scope, eventsFactory, $location, $http, $rootScope, $window){
 
-  
+  console.log('USER is: ',$rootScope.user);
+
   var user_position;
   var user_state;
   var pos;
@@ -33,10 +34,19 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
       return true;
   }
 
+  $scope.openFaceProfile = function(added_by_id) {
+     $window.open('https://www.facebook.com/' + added_by_id, '_blank');
+  };
+
+  $scope.sendMail = function(emailId,subject,message){
+    console.log('inside sendMail function,', emailId, subject, message);
+    $window.open("mailto:"+ emailId + "?subject=" + subject+"&body="+message,"_self");
+  };
+
   $scope.passRange = function(){
     // IF THE USER ENTERS A CITY, PASS ITS COORDS TO BACKEND INSIDE INFO, ELSE PASS THE USERS LOCATION
     if($scope.search && $scope.search.city != 'My Current Location'){
-      console.log("CITY",$scope.search.city);
+      // console.log("CITY",$scope.search.city);
       pos = {
             lat: $scope.search.city.geometry.location.lat(),
             lng: $scope.search.city.geometry.location.lng()
@@ -62,10 +72,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
     // IF THE USER ENTERS A DATE, PASS IT TO BACKEND INSIDE INFO
 
     if($scope.search && $scope.search.date){
-      console.log("DATE",$scope.search.date)
+      // console.log("DATE",$scope.search.date)
       info.state.date = $scope.search.date;
     }
-    console.log(range);
+    // console.log(range);
 
     eventsFactory.getMilongas(info, function(data){
           getMapData(data);      
@@ -86,7 +96,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
         + user_position.lng 
         + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
       .then(function(resp){
-        console.log('RESPO',resp)
+        // console.log('RESPO',resp)
 
         for (var p=0; p < resp.data.results[0].address_components.length; p++){
 
@@ -111,26 +121,26 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
     }; // END OF IF
 
     function getMapData(data) {
-      console.log('this is data in indexController get milongas', data);
+      // console.log('this is data in indexController get milongas', data);
           $scope.milongas = data;
           // FOR EACH OF THE MILONGAS WE GET BACK, GET THE COORDS FROM GOOGLE MAPS API:
           for(var i in $scope.milongas) {
             for(var j in $scope.milongas[i]){
                 (function(i) {
                   (function (j) {
-                  console.log("HERE",$scope.milongas[i][j])
+                  // console.log("HERE",$scope.milongas[i][j])
                   var address = 
                           $scope.milongas[i][j].address.st_number 
                         + $scope.milongas[i][j].address.st_name
                         + $scope.milongas[i][j].address.city
                         + $scope.milongas[i][j].address.state;
-                console.log('ADDRESS', address)
+                // console.log('ADDRESS', address)
                     $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
                     + address
                     + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
                     // SET THE MAP INFO OF THAT PARTICULAR milonga:
                       .then(function(response){ 
-                    console.log('RESPONSE', $scope.milongas[i][j]);
+                    // console.log('RESPONSE', $scope.milongas[i][j]);
                     $scope.milongas[i][j].map = { 
                             center: { 
                               latitude: response.data.results[0].geometry.location.lat, 
@@ -138,7 +148,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
                             zoom: 12,
                             control: {},
                             refresh: function () {
-                                console.log('REFRESHING MAP');
+                                // console.log('REFRESHING MAP');
                                 setTimeout(function (){
                                   $scope.milongas[i][j].map.control.refresh($scope.milongas[i][j].map.center);
                           }, 400)
