@@ -1,0 +1,170 @@
+<div class="container"><br>
+
+	<div class="alert alert-warning fade in">
+		<button class="close" data-dismiss="alert" aria-label="close">&times;</button>
+		<strong>Hey, {{user.name}}!</strong> In order to help the community, please make sure the event you are adding is not already in our database, and the information is accurate. Thanks!
+	</div>
+	<h2>Add a New Milonga: </h2> <br>
+
+
+	<div class="form-group row">
+	  <label for="example-date-input" class="col-md-4 col-form-label">Date</label>
+	  <div class="col-md-8">
+
+		 <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="event.date" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-text-input" class="col-md-4 col-form-label" >Title</label>
+	  <div class="col-md-8">
+	    <input class="form-control" type="text" ng-click='passDate()' value="Artisanal kale" id="example-text-input" ng-model="event.title">
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-time-input" class="col-md-4 col-form-label">Start Time</label>
+	  <div class="col-md-8">
+	    <input class="form-control" type="time" value="13:45:00" id="example-time-input" ng-model="event.start_time">
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-time-input" class="col-md-4 col-form-label">End Time</label>
+	  <div class="col-md-8">
+	    <input class="form-control" type="time" value="13:45:00" id="example-time-input" ng-model="event.end_time">
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-time-input" class="col-md-4 col-form-label">Performers</label>
+	  <div class="col-md-8">
+			<div
+		    isteven-multi-select
+		    input-model="performers"
+		    output-model="outputPerformers"
+		    button-label="icon name"
+		    item-label="name"
+		    tick-property="ticked">
+			</div>
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-number-input" class="col-md-4 col-form-label">Milonga Price</label>
+	  <div class="col-md-8">
+	    <input class="form-control" type="number" min="1" id="example-number-input" ng-model='event.price'>
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-text-input" class="col-md-4 col-form-label">Address</label>
+	  <div class="col-md-8">
+	    <input class="form-control" type="text" g-places-autocomplete ng-model='address' options="autocompleteOptions" placeholder="type and select from options" />
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-text-input" class="col-md-4 col-form-label" ></label>
+	  <div class="col-md-8">
+	    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input" ng-model="event.address.details" max="20" placeholder="Suite # or additional address details (optional) ">
+	  </div>
+	</div>
+
+	<br><br>
+	<div class="form-group row">
+	  <h4 for="example-number-input" >Is there a Class before the Milonga? This section is optional.</h4>
+	</div>
+	<div class="form-group row">
+	  <label for="example-time-input" class="col-md-4 col-form-label">Class Start Time</label>
+	  <div class="col-md-8">
+	    <input class="form-control" type="time" value="13:45:00" id="example-time-input" ng-model="event.class_start_time">
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-time-input" class="col-md-4 col-form-label">Class End Time</label>
+	  <div class="col-md-8">
+	    <input class="form-control" type="time" value="13:45:00" id="example-time-input" ng-model="event.class_end_time">
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-time-input" class="col-md-4 col-form-label">Class Teachers</label>
+	  <div class="col-md-8">
+			<div
+		    isteven-multi-select
+		    input-model="teachers"
+		    output-model="outputTeachers"
+		    button-label="icon name"
+		    item-label="name"
+		    tick-property="ticked">
+			</div>
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-number-input" class="col-md-4 col-form-label">Class Price</label>
+	  <div class="col-md-8">
+	    <input class="form-control" type="number" min="1" id="example-number-input" ng-model='event.class_price'>
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label for="example-number-input" class="col-md-4 col-form-label">Class + Milonga combo price (optional):</label>
+	  <div class="col-md-8">
+	    <input class="form-control" type="number" min="1" id="example-number-input" ng-model='event.class_combo_price'>
+	  </div>
+	</div><br><hr><br>
+	<div class="form-group row">
+	  <label for="example-text-input" class="col-md-4 col-form-label">Additional Milonga Details</label>
+	  <div class="col-md-8">
+	    <textarea class="form-control" id="exampleTextarea" maxlength="500" ng-model='event.details' placeholder="Max Length 500 characters."></textarea>
+	  </div>
+	</div><br>
+	<div class="form-group row">
+	  <label for="example-text-input" class="col-md-4 col-form-label">Do you want to repeat this milonga?</label>
+	  <div class="col-md-8" id="multipleDatePicker">
+	  	<div class="alert alert-warning">
+  			<strong>Select the dates this milonga repeats: </strong><br>Only the title, time and address will be added. You can later update the specifics of each event from the calendar on the front page.  
+		</div>
+    	<multiple-date-picker disable-days-before="datesUntil" disallow-back-past-months="true" ng-click='passDate()' ng-model='repeatMilonga'></multiple-date-picker>
+	  </div>
+	</div><br>
+	
+	<div class="form-group row">
+	  <label for="example-text-input" class="col-xs-6 col-form-label"></label>
+	  <div class="col-xs-2">
+	    <input type="submit" value="Add Milonga" ng-click='addMilonga()' class="btn btn-primary"></input>
+	  </div>
+	</div>
+
+	<br><br><br><br>
+	
+	
+
+	</div>
+
+	<div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+
+				<div class="container">
+					<br><h4>Add a Performer or Teacher</h4>
+
+
+					<form>
+						<div class="form-group">
+							<label for="recipient-name" class="form-control-label">Performer\'s or teacher\'s full name: (e.j: "Osvaldo Zotto")</label>
+							<input type="text" class="form-control" id="recipient-name" ng-model="dancer.name">
+						</div>
+						<div class="form-group">
+							<label for="message-text" class="form-control-label">Where is he/she from?</label>
+							<input type="text" class="form-control" id="recipient-name" ng-model="dancer.from">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" ng-click="addPerformer()">Add</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,111 @@
+<!doctype html>
+
+<html ng-app = 'Myapp'>
+<head>
+	<title>Cartelera de Milongas</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta charset="UTF-8">
+
+<!--     Bootstrap and jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+
+
+
+<!--     Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=La+Belle+Aurore" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Coming+Soon|Copse" rel="stylesheet">
+
+<!-- angular google maps -->
+    <script src='lodash/lodash.js'></script>
+    <script src="angular/angular.js"></script>
+    <script src="angular-route/angular-route.js"></script>
+    <script src='angular-simple-logger/dist/angular-simple-logger.js'></script>
+
+    <!--     ANGULAR CALENDAR -->
+    <link href="angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.min.css" rel="stylesheet">
+    <script src="angular-bootstrap-calendar/dist/js/angular-bootstrap-calendar-tpls.min.js"></script>
+    <script src="angular-animate/angular-animate.js"></script>
+    <script src="angular-touch/angular-touch.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.0.1/ui-bootstrap-tpls.js"></script>
+    
+
+
+
+
+    <script src = "app.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q"></script>
+    <script src='angular-google-maps/dist/angular-google-maps.js'></script>
+    <script src="angular-google-places-autocomplete/src/autocomplete.js"></script>
+    <link rel="stylesheet" href="angular-google-places-autocomplete/src/autocomplete.css">
+
+
+
+
+    <!-- controllers -->
+    <script src = "/controllers/testindexcontroller.js"></script>
+    <script src = "/controllers/newController.js"></script>
+    <script src = "/controllers/editMilongaController.js"></script>
+    <script src = "/controllers/showController.js"></script>
+    <script src = "/controllers/loginController.js"></script>
+
+	<!-- factories -->
+    <script src = "/factories/eventsFactory.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/assets/stylesheet.css">
+
+<!--     FB LOGGIN -->
+    <!-- <script src="angularFacebookUtils/src/facebookUtils.min.js"></script> -->
+    <script src="ng-facebook/ngFacebook.js"></script>
+
+<!--     multidatepicker
+ -->
+    <link rel="stylesheet" type="text/css" href="/angular-multiple-date-picker/dist/multiple-date-picker.css"/>
+    <script type="text/javascript" src="/angular-multiple-date-picker/dist/multipleDatePicker.min.js"></script>
+
+<!--     multiselect for performers -->
+    <script src="isteven-multi-select.js"></script>
+    <link rel="stylesheet" href="isteven-multi-select.css">
+
+
+            
+</head>
+<header class="clearfix">
+    <div class="container">
+        <div class="header-left">
+            <h1>QueMilonga<span class="com">.com</span></h1>
+        </div>
+        <div class="header-right">
+            <label for="open">
+                <span class="hidden-desktop"></span>
+            </label>
+            <input type="checkbox" name="" id="open">
+            <nav style="font-family: 'Copse', serif;">
+                <a href="#/">Home</a>
+                <a href="#">Inspiration</a>
+                <a href="#">Articles</a>
+                <a href="#">Works</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<body>
+	<div>
+		
+		<div ng-view></div>
+	</div>
+</body>
+
+</html>
+

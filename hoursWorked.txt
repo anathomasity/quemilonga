@@ -1,0 +1,3 @@
+Hours worked 8/1/16: 7hs.
+Made the form for adding a milnonga, created schemas, retrieved all the 
+performers.

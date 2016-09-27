@@ -1,0 +1,820 @@
+<!--     <script type="text/javascript">
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      console.log(pos);
+    })
+  };
+
+  var placeSearch, autocomplete;
+var componentForm = {
+  street_number: 'short_name',
+  route: 'long_name',
+  locality: 'long_name',
+  administrative_area_level_1: 'short_name',
+  country: 'long_name',
+  postal_code: 'short_name'
+};
+
+function initAutocomplete() {
+  // Create the autocomplete object, restricting the search to geographical
+  // location types.
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+      {types: ['geocode']});
+
+  // When the user selects an address from the dropdown, populate the address
+  // fields in the form.
+  autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+  // Get the place details from the autocomplete object.
+  var place = autocomplete.getPlace();
+
+  for (var component in componentForm) {
+    document.getElementById(component).value = '';
+    document.getElementById(component).disabled = false;
+  }
+
+  // Get each component of the address from the place details
+  // and fill the corresponding field on the form.
+  for (var i = 0; i < place.address_components.length; i++) {
+    var addressType = place.address_components[i].types[0];
+    if (componentForm[addressType]) {
+      var val = place.address_components[i][componentForm[addressType]];
+      document.getElementById(addressType).value = val;
+    }
+  }
+}
+
+// Bias the autocomplete object to the user's geographical location,
+// as supplied by the browser's 'navigator.geolocation' object.
+function geolocate() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+    
+
+</script>
+ -->
+
+<!-- libraries=places&callback=initAutocomplete
+ -->
+
+
+
+
+    // for(var i = 0; i < $scope.milongas.length; i++){
+    //  console.log('THIS IS THE ADDRESS',$scope.milongas[i].address)
+    //  $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
+    //   + $scope.milongas[i].address.st_number 
+    //   + $scope.milongas[i].address.st_name
+    //   + $scope.milongas[i].address.city
+    //   + $scope.milongas[i].address.state
+    //   + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+    //  .then(function(response){ 
+    //    console.log('THIS IS THE RESPONSE:', response)
+    //    $scope.map = { center: { latitude: response.data.results[0].geometry.location.lat, longitude: response.data.results[0].geometry.location.lng }, zoom: 14 }; 
+    //    console.log('this is $scope.map', $scope.map)
+    //  });
+    // }
+
+
+
+
+
+
+
+
+
+
+
+    $scope.milongas[i].map = { 
+          center: { 
+            latitude: response.data.results[0].geometry.location.lat, 
+            longitude: response.data.results[0].geometry.location.lng }, 
+          zoom: 14
+        }
+
+
+
+
+
+          eventsFactory.getMilongas(function(data){
+    console.log('this is data in indexController get milongas', data);
+    $scope.milongas = data;
+    for(var i = 0; i < $scope.milongas.length; i++){
+      $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
+        + $scope.milongas[i].address.st_number 
+        + $scope.milongas[i].address.st_name
+        + $scope.milongas[i].address.city
+        + $scope.milongas[i].address.state
+        + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+      .then(function(response){ 
+        $scope.details = response.data; 
+        console.log('HELLO', response)
+        $scope.map.push({ center: { latitude: 45, longitude: -73 }, zoom: 14 });
+      });
+    }
+  })
+
+  // $scope.map = { center: { latitude: 45, longitude: -73 }, zoom: 14 };
+
+})
+
+
+
+
+for(var i in $scope.milongas){
+      $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
+        + $scope.milongas[i].address.st_number 
+        + $scope.milongas[i].address.st_name
+        + $scope.milongas[i].address.city
+        + $scope.milongas[i].address.state
+        + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+      .then(function(response){ 
+        console.log('RESPONSE', response)
+        for(var j = 0; j < $scope.milongas.length; j++){
+          $scope.milongas[j].map = { 
+                  center: { 
+                    latitude: response.data.results[0].geometry.location.lat, 
+                    longitude: response.data.results[0].geometry.location.lng }, 
+                  zoom: 14
+              }
+          }
+      });
+    }
+
+
+
+
+
+<div>
+  <div class='row' ng-repeat='day in milongas' class="milonga">
+  <div ng-init="parentIndex = $index">
+  {{parentIndex}}
+      <div class="panel-group" id="accordion{{parentIndex}}">
+          <div ng-repeat='m in day | filter:filter_name' ng-init="childIndex = $index" class="col-xs-6 col-sm-4" class="panel panel-default">
+              <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{childIndex}}">
+                  <h4 class="panel-title">
+                      <a>{{m.title}} <span class="city">{{m.address.city}}</span></a>
+                      <h4>{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h4>
+                  </h4>
+              </div>
+              <div id="collapse{{childIndex}}" class="panel-collapse collapse">
+                {{childIndex}}
+                  <div class="panel-body">
+                      <h3 ng-if="m._performers[0]._id">Performance by: {{m._performers[0].names}}</h3>
+                      <div ng-if="m._class_teachers[0]._id" class="class">
+                          <h4>Class by: {{m._class_teachers[0].names}}</h4>
+                          <h5>from {{m.class_start_time | date:'shortTime'}} to {{m.class_end_time | date:'shortTime'}} | ${{m.class_price}}</h5>
+                      </div>
+                      <h4>Milonga price: ${{m.price}}</h4>
+                      <h4 ng-if='m.class_combo_price'>Milonga + Class: ${{m.class_combo_price}}</h4>
+                      <h4>{{m.details}}</h4>
+                      <h5 ng-if='m.address.st_number'>{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h5>
+                      <ui-gmap-google-map center='m.map.center' zoom='m.map.zoom'>
+                      <ui-gmap-marker idKey='day[$index]' coords='m.map.center'></ui-gmap-marker>
+                      </ui-gmap-google-map>
+                      <a href="{{m.link}}">Open in maps</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+
+
+
+
+ONLY WITH COLUMNS:
+
+<div>
+  <div class='row' ng-repeat='day in milongas' class="milonga" class="panel-group" id="accordion">
+
+    <div ng-repeat='m in day | filter:filter_name' ng-init="parentIndex = $index" class="col-xs-6 col-sm-4">
+    <h2>{{m.title}} <span class="city">{{m.address.city}}</span></h2>
+
+    <h4>{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h4>
+    <h3 ng-if="m._performers[0]._id">Performance by: {{m._performers[0].names}}</h3>
+    <div ng-if="m._class_teachers[0]._id" class="class">
+      <h4>Class by: {{m._class_teachers[0].names}}</h4>
+      <h5>from {{m.class_start_time | date:'shortTime'}} to {{m.class_end_time | date:'shortTime'}} | ${{m.class_price}}</h5>
+    </div>
+    <h4>Milonga price: ${{m.price}}</h4>
+    <h4 ng-if='m.class_combo_price'>Milonga + Class: ${{m.class_combo_price}}</h4>
+    <h4>{{m.details}}</h4>
+    <h5 ng-if='m.address.st_number'>{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h5>
+    <ui-gmap-google-map center='m.map.center' zoom='m.map.zoom'>
+    <ui-gmap-marker idKey='day[$index]' coords='m.map.center'></ui-gmap-marker>
+    </ui-gmap-google-map>
+    <a href="{{m.link}}">Open in maps</a>
+    </div>
+  </div>
+</div>
+
+
+ONLY WITH ACCORDION LAST VERSION:
+
+<div>
+  <div ng-repeat='day in milongas' class="milonga">
+  <div ng-init="parentIndex = $index">
+  <h3 ng-if="parentIndex == 0">Tonight's Milongas</h3>
+  <h3 ng-if="parentIndex == 1">Tomorrow's Milongas</h3>
+  <h3 ng-if="parentIndex == 2">Day after tomorrow's Milongas</h3>
+
+      <div class="panel-group" id="accordion{{parentIndex}}">
+          <div ng-repeat='m in day | filter:filter_name' ng-init="childIndex = $index" class="panel panel-default">
+              <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}">
+                  <h4 class="panel-title">
+                      <a>{{m.title}} <span class="city">{{m.address.city}}</span></a>
+                      <h4>{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h4>
+                  </h4>
+              </div>
+              <div id="collapse{{parentIndex}}{{childIndex}}" class="panel-collapse collapse">
+                {{childIndex}}
+                  <div class="panel-body">
+                      <h3 ng-if="m._performers[0]._id">Performance by: {{m._performers[0].names}}</h3>
+                      <div ng-if="m._class_teachers[0]._id" class="class">
+                          <h4>Class by: {{m._class_teachers[0].names}}</h4>
+                          <h5>from {{m.class_start_time | date:'shortTime'}} to {{m.class_end_time | date:'shortTime'}} | ${{m.class_price}}</h5>
+                      </div>
+                      <h4>Milonga price: ${{m.price}}</h4>
+                      <h4 ng-if='m.class_combo_price'>Milonga + Class: ${{m.class_combo_price}}</h4>
+                      <h4>{{m.details}}</h4>
+                      <h5 ng-if='m.address.st_number'>{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h5>
+                      {{m.map.center}}
+                      <ui-gmap-google-map center='m.map.center' zoom='m.map.zoom'>
+                      <ui-gmap-marker idKey='m._id' coords='m.map.center'></ui-gmap-marker>
+                      </ui-gmap-google-map>
+                      <a href="{{m.link}}">Open in maps</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+
+
+
+                    // var link = "http://maps.google.com/maps?saddr="+$scope.slat+","+$scope.slon+" &daddr="+$scope.dlat+","+$scope.dlon;
+
+
+
+info = {
+          pos: pos,
+          state: {state: resp.data.results[0].address_components[5].short_name}
+        };
+
+
+
+
+
+FIX BUG WHEN THE USER DENIES LOCATION AND THEN THEY WANT TO USE IT
+$scope.setCurrentLocation = function(){
+      if(user_position && user_state){
+        $scope.search.city = 'My Current Location';
+      }
+      else{
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+
+              user_position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
+            + user_position.lat + ","
+            + user_position.lng 
+            + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+          .then(function(resp){
+            console.log('RESPO',resp)
+
+            for (var p=0; p < resp.data.results[0].address_components.length; p++){
+
+              if (resp.data.results[0].address_components[p].types[0] == 'administrative_area_level_1') {
+                  user_state = resp.data.results[0].address_components[p].short_name;
+              }
+            }
+
+          })
+        })
+      }
+      }
+      
+    }$scope.setCurrentLocation = function(){
+      if(user_position && user_state){
+        $scope.search.city = 'My Current Location';
+      }
+      else{
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+
+              user_position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
+            + user_position.lat + ","
+            + user_position.lng 
+            + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+          .then(function(resp){
+            console.log('RESPO',resp)
+
+            for (var p=0; p < resp.data.results[0].address_components.length; p++){
+
+              if (resp.data.results[0].address_components[p].types[0] == 'administrative_area_level_1') {
+                  user_state = resp.data.results[0].address_components[p].short_name;
+              }
+            }
+
+          })
+        })
+      }
+      }
+      
+    }$scope.setCurrentLocation = function(){
+      if(user_position && user_state){
+        $scope.search.city = 'My Current Location';
+      }
+      else{
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+
+              user_position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
+            + user_position.lat + ","
+            + user_position.lng 
+            + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+          .then(function(resp){
+            console.log('RESPO',resp)
+
+            for (var p=0; p < resp.data.results[0].address_components.length; p++){
+
+              if (resp.data.results[0].address_components[p].types[0] == 'administrative_area_level_1') {
+                  user_state = resp.data.results[0].address_components[p].short_name;
+              }
+            }
+
+          })
+        })
+      }
+      }
+      
+    }$scope.setCurrentLocation = function(){
+      if(user_position && user_state){
+        $scope.search.city = 'My Current Location';
+      }
+      else{
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+
+              user_position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
+            + user_position.lat + ","
+            + user_position.lng 
+            + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+          .then(function(resp){
+            console.log('RESPO',resp)
+
+            for (var p=0; p < resp.data.results[0].address_components.length; p++){
+
+              if (resp.data.results[0].address_components[p].types[0] == 'administrative_area_level_1') {
+                  user_state = resp.data.results[0].address_components[p].short_name;
+              }
+            }
+
+          })
+        })
+      }
+      }
+      
+    }$scope.setCurrentLocation = function(){
+      if(user_position && user_state){
+        $scope.search.city = 'My Current Location';
+      }
+      else{
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+
+              user_position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
+            + user_position.lat + ","
+            + user_position.lng 
+            + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+          .then(function(resp){
+            console.log('RESPO',resp)
+
+            for (var p=0; p < resp.data.results[0].address_components.length; p++){
+
+              if (resp.data.results[0].address_components[p].types[0] == 'administrative_area_level_1') {
+                  user_state = resp.data.results[0].address_components[p].short_name;
+              }
+            }
+
+          })
+        })
+      }
+      }
+      
+    }$scope.setCurrentLocation = function(){
+      if(user_position && user_state){
+        $scope.search.city = 'My Current Location';
+      }
+      else{
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+
+              user_position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
+            + user_position.lat + ","
+            + user_position.lng 
+            + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+          .then(function(resp){
+            console.log('RESPO',resp)
+
+            for (var p=0; p < resp.data.results[0].address_components.length; p++){
+
+              if (resp.data.results[0].address_components[p].types[0] == 'administrative_area_level_1') {
+                  user_state = resp.data.results[0].address_components[p].short_name;
+              }
+            }
+
+          })
+        })
+      }
+      }
+      
+    }$scope.setCurrentLocation = function(){
+      if(user_position && user_state){
+        $scope.search.city = 'My Current Location';
+      }
+      else{
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+
+              user_position = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              };
+              $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
+            + user_position.lat + ","
+            + user_position.lng 
+            + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+          .then(function(resp){
+            console.log('RESPO',resp)
+
+            for (var p=0; p < resp.data.results[0].address_components.length; p++){
+
+              if (resp.data.results[0].address_components[p].types[0] == 'administrative_area_level_1') {
+                  user_state = resp.data.results[0].address_components[p].short_name;
+              }
+            }
+
+          })
+        })
+      }
+      }
+      
+    }
+
+
+
+
+
+index.html before modifing map inside refresh
+
+myApp.controller('indexController', function($scope, eventsFactory, $location, $http){
+
+  console.log('I am able to load my indexController along with my index partial');
+
+  $scope.map = [];
+  var user_position;
+  var user_state;
+  var pos;
+  var st;
+  var info;
+  var state;
+  var range = 50;
+
+  $scope.autocompleteOptions = {
+        types: ['(cities)'],
+    }
+
+    $scope.search = {};
+    $scope.search.city = 'My Current Location';
+    $scope.setCurrentLocation = function(){
+      $scope.search.city = 'My Current Location';
+    }
+
+  $scope.anyMilonga = function() {
+    // console.log('inside anyMilonga')
+    if ($scope.milongas.today.length < 1 && $scope.milongas.tomorrow.length < 1 && $scope.milongas.day_after.length < 1){
+      // console.log('inside if check');
+      return false;
+    }
+    return true;
+  }
+
+  $scope.passRange = function(){
+    // IF THE USER ENTERS A CITY, PASS ITS COORDS TO BACKEND INSIDE INFO, ELSE PASS THE USERS LOCATION
+    if($scope.search && $scope.search.city != 'My Current Location'){
+      console.log("CITY",$scope.search.city);
+      pos = {
+            lat: $scope.search.city.geometry.location.lat(),
+            lng: $scope.search.city.geometry.location.lng()
+          };
+          st = $scope.search.city.address_components[2].short_name;
+      // console.log('lat', $scope.search.city.geometry.location.lat(), 'LNG', $scope.search.city.geometry.location.lng() )
+    }
+    else{
+      pos = user_position;
+      st = user_state;
+    }
+    // IF THE USER ENTERS A RANGE, PASS IT TO BACKEND INSIDE INFO
+    if($scope.search && $scope.search.range){
+      range = $scope.search.range;
+    }
+
+    info = {
+      range: range,
+      pos: pos,
+      state: {state: st}
+    };
+
+    // IF THE USER ENTERS A DATE, PASS IT TO BACKEND INSIDE INFO
+
+    if($scope.search && $scope.search.date){
+      console.log("DATE",$scope.search.date)
+      info.state.date = $scope.search.date;
+    }
+    console.log(range);
+
+    eventsFactory.getMilongas(info, function(data){
+          console.log('this is data in indexController get milongas', data);
+          $scope.milongas = data;
+          // FOR EACH OF THE MILONGAS WE GET BACK, GET THE COORDS FROM GOOGLE MAPS API:
+          for(var i in $scope.milongas) {
+            for(var j in $scope.milongas[i]){
+                (function(i) {
+                  (function (j) {
+                  console.log("HERE",$scope.milongas[i][j])
+                  var address = 
+                          $scope.milongas[i][j].address.st_number 
+                        + $scope.milongas[i][j].address.st_name
+                        + $scope.milongas[i][j].address.city
+                        + $scope.milongas[i][j].address.state;
+                console.log('ADDRESS', address)
+                    $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
+                    + address
+                    + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+                    // SET THE MAP INFO OF THAT PARTICULAR milonga:
+                      .then(function(response){ 
+                    console.log('RESPONSE', $scope.milongas[i][j]);
+                    $scope.milongas[i][j].map = { 
+                            center: { 
+                              latitude: response.data.results[0].geometry.location.lat, 
+                              longitude: response.data.results[0].geometry.location.lng }, 
+                            zoom: 12,
+                            control: {},
+                            refresh: function () {
+                                console.log('REFRESHING MAP');
+                                setTimeout(function (){
+                                  $scope.milongas[i][j].map.control.refresh($scope.milongas[i][j].map.center);
+                          }, 400)
+                              
+                          },
+                        }
+                        $scope.milongas[i][j].link = "http://maps.google.com/?q=" + address
+                  });
+                })(j);
+                })(i);
+            }
+          } // END OF FOR
+          
+        })
+  }
+
+
+  // IF THE USER ALOWS LOCATION, STORE IT IN POS AND MAKE THE API CALL TO GET THEIR STATE
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+
+          user_position = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
+        + user_position.lat + ","
+        + user_position.lng 
+        + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+      .then(function(resp){
+        console.log('RESPO',resp)
+
+        for (var p=0; p < resp.data.results[0].address_components.length; p++){
+
+          if (resp.data.results[0].address_components[p].types[0] == 'administrative_area_level_1') {
+              user_state = resp.data.results[0].address_components[p].short_name;
+          }
+        }
+        
+        info = {
+          range: range,
+          pos: user_position,
+          state: {state: user_state}
+        };
+          // state: "IL"};
+        // PASS THE STATE TO QUERY ALL MILONGAS IN THAT STATE
+        eventsFactory.getMilongas(info, function(data){
+          console.log('this is data in indexController get milongas', data);
+          $scope.milongas = data;
+          // FOR EACH OF THE MILONGAS WE GET BACK, GET THE COORDS FROM GOOGLE MAPS API:
+          for(var i in $scope.milongas) {
+            for(var j in $scope.milongas[i]){
+                (function(i) {
+                  (function (j) {
+                  console.log("HERE",$scope.milongas[i][j])
+                  var address = 
+                          $scope.milongas[i][j].address.st_number 
+                        + $scope.milongas[i][j].address.st_name
+                        + $scope.milongas[i][j].address.city
+                        + $scope.milongas[i][j].address.state;
+                console.log('ADDRESS', address)
+                    $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
+                    + address
+                    + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+                    // SET THE MAP INFO OF THAT PARTICULAR milonga:
+                      .then(function(response){ 
+                    console.log('RESPONSE', $scope.milongas[i][j]);
+                    $scope.milongas[i][j].map = { 
+                            center: { 
+                              latitude: response.data.results[0].geometry.location.lat, 
+                              longitude: response.data.results[0].geometry.location.lng }, 
+                            zoom: 12,
+                            control: {},
+                            refresh: function () {
+                                console.log('REFRESHING MAP');
+                                setTimeout(function (){
+                                  $scope.milongas[i][j].map.control.refresh($scope.milongas[i][j].map.center);
+                          }, 400)
+                              
+                          },
+                        }
+                        $scope.milongas[i][j].link = "http://maps.google.com/?q=" + address
+                  });
+                })(j);
+                })(i);
+            }
+          } // END OF FOR
+          
+        })
+      })
+          
+      })
+    }; // END OF IF
+
+})
+
+
+
+TRIAL FOR THE MAP ON REFRESH
+
+  // $scope.loadMap = function(milongaAddress){
+ //     var address = 
+ //         milongaAddress.st_number 
+  //      + milongaAddress.st_name
+  //      + milongaAddress.city
+  //      + milongaAddress.state;
+  //  console.log('ADDRESS', address)
+  //  $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
+  //      + address
+  //      + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+  //  // SET THE MAP INFO OF THAT PARTICULAR milonga:
+  //    .then(function(response){ 
+  //      console.log('RESPONSE', response);
+  //      $scope.map = { 
+  //              center: { 
+  //                latitude: response.data.results[0].geometry.location.lat, 
+  //                longitude: response.data.results[0].geometry.location.lng }, 
+  //              zoom: 12,
+  //              control: {},
+  //              refresh: function () {
+  //                  console.log('REFRESHING MAP');
+  //         //         setTimeout(function (){
+  //         //           $scope.map.control.refresh($scope.map.center);
+  //            // }, 400)
+  //            //show map action
+  //            $scope.map.showMap = true;
+
+  //            //delayed refresh map action
+  //            setTimeout(function(){
+  //                $scope.map.control.refresh($scope.map.refresh);
+  //            },4000);
+  //                working on refreshing map, cant make it work
+  //            },
+  //          }
+  //          $scope.map.link = "http://maps.google.com/?q=" + address
+  //    });
+  // }
+
+
+
+  WORKING ACCORDION BEFORE RESPONSIVE TEST: (AFTER LINE 29 CLASS ROW, BEFORE NG IF FALSE)
+
+<div ng-if="anyMilonga()" class="col-xs-12 col-md-8 wrap">
+
+            <div class="col-xs-4">
+                <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
+            </div>
+            <br><br>
+
+            <div ng-repeat='day in milongas' ng-if='day.length > 0' class="milonga">
+            <div ng-init="parentIndex = $index">
+            <h5 id="mDate">{{day[0].date | date : fullDate}}</h5>
+
+                <div class="panel-group" id="accordion{{parentIndex}}">
+                    <div ng-repeat='m in day | filter:filter_name' ng-init="childIndex = $index" class="panel panel-default">
+                        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='m.map.refresh()'>
+
+                          <h4 class="panel-title">
+                                <h3 class="inline">{{m.title}}&nbsp;</h3><h5 class="inline">{{m.address.city}}</h5><br>
+                                <h5 ng-if="m._performers[0]._id" class="inline">Performance by:&nbsp;</h5><h5 ng-repeat='p in m._performers' class="inline"><a class='body_links' href="#/performers/{{p._id}}"> {{p.name}}&nbsp;</a></h5>
+                                
+                            </h4>
+                        </div>
+                        <div id="collapse{{parentIndex}}{{childIndex}}" class="panel-collapse collapse" >
+<!--                           {{childIndex}} -->
+
+                            <div class="panel-body" class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-8">
+                                    <h5>{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h5>
+                                    
+
+                                    <div ng-if="m._class_teachers[0]._id" class="class clase">
+                                        <h4>Class by: </h4><h4 ng-repeat='t in m._class_teachers'><a class='body_links' href="#/performers/{{t._id}}">{{t.name}}&nbsp;</a></h4>
+                                        <h5 ng-if='m.class_start_time'>from {{m.class_start_time | date:'shortTime'}} to {{m.class_end_time | date:'shortTime'}} | ${{m.class_price}}</h5>
+                                    </div>
+                                    
+
+                                    <h4>Milonga price: ${{m.price}}</h4>
+                                    <h4 ng-if='m.class_combo_price'>Milonga + Class: ${{m.class_combo_price}}</h4>
+                                    <h5>{{m.details}}</h5>
+                                </div>
+                                <div class="col-xs-6 col-md-4">
+                                    <h5 ng-if='m.address.st_number'>{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h5>
+                                    <h5 ng-if='m.address.details'>{{m.address.details}}</h5>
+                                    <ui-gmap-google-map center='m.map.center' zoom='m.map.zoom' control='m.map.control' refresh='m.map.refresh'>
+                                    <ui-gmap-marker idKey='m._id' coords='m.map.center'></ui-gmap-marker>
+                                    </ui-gmap-google-map>
+                                    <a href="{{m.link}}" class="open_maps"><button type="button" class="btn btn-info">Open in maps</button></a>
+<!--                                                                         <ui-gmap-google-map center='map.center' zoom='map.zoom' control='map.control' refresh='map.refresh'>
+                                    <ui-gmap-marker idKey='m._id' coords='map.center' showMap='false'></ui-gmap-marker>
+                                    </ui-gmap-google-map>
+                                    <a href="{{map.link}}" class="open_maps"><button type="button" class="btn btn-info">Open in maps</button></a> -->
+                                </div>
+                            </div>
+
+                            <div class="row" id="inline">
+                                <div class="col-xs-6 col-sm-4"><h6 class="inline">Last updated by: <a href="https://www.facebook.com/{{m._added_by.id}}">{{m._added_by.name}}</a></h6></div>
+                                <div class="col-xs-6 col-sm-4"><h6 class="inline">Not accurate? <a href="#/milongas/{{m._id}}/edit">UPDATE</a></h6></div>
+                                <div class="col-xs-6 col-sm-4"><h6 class="inline"><a href="">Report a problem</a></h6></div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>    
+            </div>
+
+
+        </div>

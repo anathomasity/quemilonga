@@ -1,0 +1,30 @@
+<div class="container">
+<!-- {{performer}} -->
+	<h3>{{performer.name}}'s future events</h3>
+<!-- 	{{performer._id}} -->
+
+	<table class="table table-hover">
+	  <thead>
+	    <tr>
+	      <th></th>
+	      <th></th>
+	      <!-- <th></th> -->
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr ng-if="m.milonga[0].date >= now" ng-repeat='m in performer._milongas_attending | orderBy : !sortMilongas : true'>
+
+	      <th scope="row"><h3>{{m.milonga[0].title}}</h3>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</th>
+
+	      <td ng-if='m.action == "performance"'>{{m.milonga[0].date | date : fullDate}}
+	      	<h5>Performance</h5></td>
+  		  <td ng-if='m.action == "both"'>{{m.milonga[0].date | date : fullDate}}
+	      	<h5>Performance and Class</h5></td>
+  		  <td ng-if='m.action == "class"'>{{m.milonga[0].date | date : fullDate}}
+	      	<h5>Class</h5></td>
+<!-- 
+	      <td><h6>{{m.milonga[0].title}}</h6></td> -->
+	    </tr>
+	  </tbody>
+	</table>
+</div>

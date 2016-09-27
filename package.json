@@ -1,0 +1,13 @@
+{
+  "name": "MongooseDash",
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "latest",
+    "express": "~4.2.0",
+    "google-auth-library": "^0.9.8",
+    "googleapis": "^12.1.0",
+    "moment": "^2.14.1",
+    "mongoose": "latest",
+    "multiple-date-picker": "^2.0.2"
+  }
+}
