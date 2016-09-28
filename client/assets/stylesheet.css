@@ -200,6 +200,20 @@ section{
 	border-top: 1px solid white;
 
 }
+.searchLine {
+	color: white; 
+	padding: 1em; 
+	font-family: 'Copse', serif; 
+	font-weight: lighter;
+}
+
+.searchInputs {
+	background-color: transparent;
+	color: white;
+	font-weight: bold;
+	letter-spacing: 2px;
+	padding: 7px;
+}
 
 .section-left,
 .section-right{

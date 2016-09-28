@@ -20,22 +20,21 @@
                 <input ng-if='search.city' type="button" id="location_icon" ng-click="setCurrentLocation()"></input>
               </div>
 
-              <input type="submit" class="btn btn-primary" value="Find" ng-click="passRange()"></input>
+              <input type="submit" class="btn btn-primary" value="Find" ng-click="getMilongas()"></input>
             </form> -->
-            <div style="color: white; padding: 1em; font-family: 'Copse', serif;">
+            <div class="searchLine">
                 <h4 class="inline">Find milongas within</h4>
-                <select class="inline" ng-model="search.range">
-                    <option ng-value="10">10</option> 
-                    <option ng-value="25">25</option>
-                    <option ng-value="50" ng-selected="search">50</option>
-                    <option ng-value="75">75</option>
-                    <option ng-value="100">100</option>
-                    <option ng-value="200">200</option>
+                <select class="inline searchInputs" ng-model="search.range">
+                    <option ng-value="10" style="color: black">10</option> 
+                    <option ng-value="25" style="color: black">25</option>
+                    <option ng-value="50" ng-selected="search" style="color: black">50</option>
+                    <option ng-value="75" style="color: black">75</option>
+                    <option ng-value="100" style="color: black">100</option>
+                    <option ng-value="200" style="color: black">200</option>
                 </select>
                 <h4 class="inline">miles from</h4>
-                <input class="inline" type="text" g-places-autocomplete ng-model="search.city" options="autocompleteOptions" placeholder="Enter a City" ng-value='search.city'/>
-                <input class="inline" ng-if='search.city' type="button" id="location_icon" ng-click="setCurrentLocation()"></input>
-                <input type="submit" class="btn btn-primary inline" value="Find" ng-click="passRange()"></input>
+                <input class="inline searchInputs" type="text" g-places-autocomplete ng-model="search.city" options="autocompleteOptions" placeholder="Enter a City" ng-value='search.city'/>
+<!--                 <input class="inline" ng-if='search.city' type="button" id="location_icon" ng-click="setCurrentLocation()"></input> -->
             </div>
 
             
@@ -149,7 +148,7 @@
         <!-- CALENDAR FOR OTHER DATES -->
         <div class="col-xs-8 col-md-4">
             <h5>Want to check other dates?</h5>
-            <div uib-datepicker ng-model="search.date" ng-click='passRange()' class="well-sm" datepicker-options="options">
+            <div uib-datepicker ng-model="search.date" class="well-sm" datepicker-options="options">
             </div>
         </div>
 
