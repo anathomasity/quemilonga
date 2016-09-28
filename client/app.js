@@ -1,4 +1,4 @@
-var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'uiGmapgoogle-maps', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'google.places', 'multipleDatePicker', "isteven-multi-select"]);
+var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'google.places', 'multipleDatePicker', "isteven-multi-select"]);
 
 (function(){
 	myApp.config(function($routeProvider){
