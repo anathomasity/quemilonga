@@ -12,7 +12,7 @@
                     <option ng-value="200" style="color: black">200</option>
                 </select>
                 <h4 class="inline">miles from</h4>
-                <input class="inline searchInputs" type="text" g-places-autocomplete ng-model="search.city" options="autocompleteOptions" placeholder="Enter a City" ng-value='search.city'/>
+                <input class="inline searchInputs cityInput" type="text" g-places-autocomplete ng-model="search.city" options="autocompleteOptions" placeholder="Enter a City" ng-value='search.city' ng-click="search.city = null"/>
 <!--                 <input class="inline" ng-if='search.city' type="button" id="location_icon" ng-click="setCurrentLocation()"></input> -->
             </div>
 
@@ -82,10 +82,26 @@
                                 </div>
                             </div>
 
-                            <div class="row linksbackground">
+<!--                             <div class="row linksbackground">
                                 <h6 class="col-xs-4 col-sm-4 littlelinks" style="font-family: 'Copse', serif;">Last updated by: <a ng-click='openFaceProfile(m._added_by.id)'>{{m._added_by.name}}</a></h6>
                                 <h6 class="col-xs-4 col-sm-4 littlelinks" style="font-family: 'Copse', serif;">Not accurate? <a href="#/milongas/{{m._id}}/edit">UPDATE</a></h6>
                                 <h6 class="col-xs-4 col-sm-4 littlelinks"><a ng-click='sendMail("qmilonga@gmail.com","Something is Wrong","Tell us more about what is wrong with this milonga {{m._id}}")'>Report a problem</a></h6>
+                            </div> -->
+                            <div class="row linksbackground">
+
+
+                                <a class="col-xs-4 col-sm-4 littlelinks" style="font-family: 'Copse', serif;" ng-click='openFaceProfile(m._added_by.id)'>
+                                    <div id="fbIcon" class="inline"></div>
+                                    <div class="inline"><h6>Last updated by: {{m._added_by.name}}</h6></div>
+                                </a>
+                                <a class="col-xs-4 col-sm-4 littlelinks" style="font-family: 'Copse', serif;" href="#/milongas/{{m._id}}/edit">
+                                    <div id="updateIcon" class="inline"></div>
+                                    <div class="inline"><h6>Not accurate? UPDATE</h6></div>
+                                </a>
+                                <a class="col-xs-4 col-sm-4 littlelinks" style="font-family: 'Copse', serif;" ng-click='sendMail("qmilonga@gmail.com","Something is Wrong","Tell us more about what is wrong with this milonga {{m._id}}")'>
+                                    <div id="reportIcon" class="inline"></div>
+                                    <div class="inline"><h6>Report a problem</h6></div>
+                                </a>
                             </div>
                             
                         </div>

@@ -9,6 +9,11 @@
 	margin-bottom: 15px;
 }
 
+.redBack{
+	display: none;
+}
+
+
 #mDate {
 	border-top: 4px solid #e64d00;
 	border-left: 1px solid #ff884d;
@@ -44,6 +49,37 @@
 	text-align: center;
 }
 
+/*#fbIcon {
+	background: url('facebook.png');
+	width: 1.2em;
+	height: 1.2em;
+	vertical-align: center;
+	background-position: center;
+	background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#updateIcon {
+	background: url('update.png');
+	width: 1.2em;
+	height: 1.2em;
+	vertical-align: center;
+	background-position: center;
+	background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#reportIcon {
+	background: url('report.png');
+	width: 1.2em;
+	height: 1.2em;
+	vertical-align: center;
+	background-position: center;
+	background-repeat: no-repeat;
+    background-size: 100% 100%;
+}*/
+
+
 #location_icon {
 	background: url('32x32.png');
 	width: 25px;
@@ -72,6 +108,7 @@ html{
 body{
 	background: url('brushed_alu.png');
 }
+
 .clearfix:before,
 .clearfix:after {
   display: table;
@@ -211,7 +248,16 @@ section{
 	color: white;
 	font-weight: bold;
 	letter-spacing: 2px;
-	padding: 7px;
+	padding: 2px;
+	margin:5px;
+	padding-bottom: 2px;
+	border: 1px white;
+	border-style: none solid dotted solid;
+}
+
+.cityInput {
+	width: 15em;
+	padding-left: 7px;
 }
 
 .section-left,
@@ -280,6 +326,10 @@ section{
 		margin-right: 0;
 		clear: right;
 	}
+
+	.redBack{
+		display: none;
+	}
 }
 
 /* Small monitor */
@@ -307,6 +357,9 @@ section{
 	}
 	.learn-more{
 		margin: 0 auto;
+	}
+	.redBack{
+		display: none;
 	}
 }
  
@@ -361,6 +414,9 @@ section{
 	.learn-more{
 		margin: 0 auto;
 	}
+	.redBack{
+		display: none;
+	}
 }
  
 /* Landscape phones and down */
@@ -368,6 +424,12 @@ section{
 	body{
 		padding: 0;
 	}
+
+	#newMilLink {
+		background: #EAAF00;
+		background-image: -webkit-linear-gradient(#EAAF00 0%, #D78100 100%);
+	}
+
 	.container{
 		width: 92%;
 		margin:0 auto;
@@ -428,6 +490,7 @@ section{
 	}
 
 	.redBack{
+		display: block;
 		width: 100%;
 		height: auto;
 		background-image: -webkit-linear-gradient(#660000 0%, #b30000 100%);

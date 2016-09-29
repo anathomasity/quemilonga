@@ -90,10 +90,10 @@
             <input type="checkbox" name="" id="open">
             <nav style="font-family: 'Copse', serif;">
                 <a href="#/">Home</a>
-                <a href="#/milongas/new">Post New Milonga</a>
-                <a href="#">Find Teacher/Performer's Schedule</a>
+                <a id="newMilLink" href="#/milongas/new">Post New Milonga</a>
+                <a href="#">Find Performer's Schedule</a>
                 <a href="#">About Us</a>
-                <a href="#">Contact</a>
+                <a ng-click='sendMail("qmilonga@gmail.com","Hey there, QueMilonga!","Please send us an Email, we will get back to you as soon as possible")'>Contact</a>
             </nav>
         </div>
     </div>
