@@ -42,7 +42,7 @@
             <div class="col-sm-4">
                 <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
             </div>
-            <br><br>
+            <br>
 
             <div ng-repeat='day in milongas' ng-if='day.length > 0' class="milonga">
             <div ng-init="parentIndex = $index">
@@ -116,9 +116,16 @@
         </div>
 
         <!-- CALENDAR FOR OTHER DATES -->
-        <div class="col-xs-8 col-md-4">
+        <div class="col-xs-8 col-md-4"><br>
             <h5>Want to check other dates?</h5>
             <div uib-datepicker ng-model="search.date" class="well-sm" datepicker-options="options">
+            </div><br>
+        </div>
+
+        <!-- BUTTON FOR MOBILE VERSION -->
+        <div class="col-xs-8 col-md-4 redBack">
+            <div class="addMilongaMobile">
+                <a href="#/milongas/new"><button class="learn-more">Not listed? <br>Add Milonga</button></a>
             </div>
         </div>
 
