@@ -76,7 +76,6 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
     + address
     + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
 
-    // SET THE MAP INFO OF THAT PARTICULAR milonga:
     .then(function(response){ 
       console.log(response);
       document.getElementById('map_canvas_' + mId).style.display="block";
@@ -100,6 +99,16 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
 
   $scope.autocompleteOptions = {
     types: ['(cities)'],
+  }
+
+
+  $scope.openInMaps = function(addr) {
+    var address = 
+          addr.st_number 
+        + addr.st_name
+        + addr.city
+        + addr.state;
+    $window.open("http://maps.google.com/?q=" + address);
   }
 
   $scope.anyMilonga = function() {

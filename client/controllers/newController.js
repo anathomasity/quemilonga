@@ -31,10 +31,10 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 
 
 	$scope.addMilonga = function(){
-	 	if(!$rootScope.user){
-	 		console.log('!Rosotscope user')
-	 		return $location.url('/login');
-	 	}
+	 	// if(!$rootScope.user){
+	 	// 	console.log('!Rosotscope user')
+	 	// 	return $location.url('/login');
+	 	// }
 	 	console.log('USER is: ',$rootScope.user);
 
 		$scope.performersList = [];

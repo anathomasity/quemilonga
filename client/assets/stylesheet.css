@@ -10,8 +10,8 @@
 
 .mapa{
 	display: none;
-	height: 170px; 
-	width: 170px;
+	height: 12em; 
+	width: 12em;
 	margin-bottom: 15px;
 }
 
@@ -149,6 +149,10 @@ header{
 	left: 0;
 	background: black;
 }
+
+.foto {
+	background-image: url("milonga.jpg");
+}
 .header-right span:after{
 	top: 14px;
 }
@@ -176,7 +180,7 @@ a{
 	border-top: 4px solid #e64d00;
 	border-left: 1px solid #ff884d;
 	border-right: 1px solid #ff884d;
-	padding: 1em;
+	padding: 1em 1em 0 1em ;
 }
 
 nav>a{
