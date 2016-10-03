@@ -511,3 +511,18 @@ section{
 		display: block;
 	}
 }
+
+/*LOGIN CSS*/
+
+#loginModal {
+	text-align: center;
+}
+
+#login-btn {
+	background-color: white;
+	background-image: url("fblogin.png");
+	width: 18em;
+	height: 3em;
+	background-size: auto 100%;
+	background-repeat: no-repeat;
+}

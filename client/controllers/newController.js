@@ -1,4 +1,4 @@
-myApp.controller('newController', function($scope, eventsFactory, $location, $http, $rootScope){
+myApp.controller('newController', function($scope, eventsFactory, $location, $http, $rootScope, $facebook){
 
 	$scope.event = {};
 	$scope.performers = [];
@@ -31,10 +31,17 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 
 
 	$scope.addMilonga = function(){
+	 	// if(!$rootScope.user){
+	 	// 	console.log('!Rosotscope user')
+	 	// 	return $location.url('/login');
+	 	// }
+
 	 	if(!$rootScope.user){
 	 		console.log('!Rosotscope user')
-	 		return $location.url('/login');
+	 		$('#loginModal').modal();
+
 	 	}
+
 	 	console.log('USER is: ',$rootScope.user);
 
 		$scope.performersList = [];
@@ -163,6 +170,32 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
   	$scope.autocompleteOptions = {
         types: ['address'],
     }
+
+    $scope.$on('fb.auth.authResponseChange', function() {
+      $scope.status = $facebook.isConnected();
+      if($scope.status) {
+        $facebook.api('/me').then(function(user) {
+          $rootScope.user = user;
+          for(var i = 0; i < $rootScope.user.name.length; i++){
+            if($rootScope.user.name[i] == " "){
+              $rootScope.user.first_name = $rootScope.user.name.slice(0,i);
+              $rootScope.user.last_name = $rootScope.user.name.slice(i+1);
+            }
+          }
+          console.log('rootscope.user: ', $rootScope.user)
+          $window.history.back()
+        });
+      }
+    });
+
+    $scope.loginToggle = function() {
+      if($scope.status) {
+        $facebook.logout();
+      } else {
+        $facebook.login();
+        $('#loginModal').modal('hide');
+      }
+    };
 
 
 });

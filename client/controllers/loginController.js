@@ -1,6 +1,6 @@
 myApp.controller('loginController', function($scope, eventsFactory, $facebook, $location, $http, $rootScope, $window){
 
-     $scope.$on('fb.auth.authResponseChange', function() {
+    $scope.$on('fb.auth.authResponseChange', function() {
       $scope.status = $facebook.isConnected();
       if($scope.status) {
         $facebook.api('/me').then(function(user) {
