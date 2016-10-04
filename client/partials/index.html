@@ -88,16 +88,15 @@
 
 
                                 <a class="col-xs-4 col-sm-4 littlelinks" ng-click='openFaceProfile(m._added_by.id)'>
-                                    <div id="fbIcon" class="inline"></div>
-                                    <div class="inline"><h6>Last updated by: {{m._added_by.name}}</h6></div>
+                                    <h6>Last updated by:<span class="body_links">{{m._added_by.name}}</span></h6>
                                 </a>
+
                                 <a class="col-xs-4 col-sm-4 littlelinks" href="#/milongas/{{m._id}}/edit">
-                                    <div id="updateIcon" class="inline"></div>
-                                    <div class="inline"><h6>Not accurate? UPDATE</h6></div>
+                                    <h6>Not accurate? <span class="body_links">UPDATE</span></h6>
                                 </a>
+
                                 <a class="col-xs-4 col-sm-4 littlelinks" ng-click='sendMail("qmilonga@gmail.com","Something is Wrong","Tell us more about what is wrong with this milonga {{m._id}}")'>
-                                    <div id="reportIcon" class="inline"></div>
-                                    <div class="inline"><h6>Report a problem</h6></div>
+                                    <h6 class="body_links">Report a problem</h6>
                                 </a>
                             </div>
                             
