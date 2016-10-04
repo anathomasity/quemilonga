@@ -526,3 +526,21 @@ section{
 	background-size: auto 100%;
 	background-repeat: no-repeat;
 }
+
+/*NEW MILONGA*/
+
+#showClass {
+	text-decoration: underline;
+	cursor: pointer;
+	padding-left: .5em;
+}
+
+#newClassForm {
+	display: none;
+}
+
+.errorMsgs {
+	color: red;
+	font-size: 80%;
+	padding: .5em;
+}

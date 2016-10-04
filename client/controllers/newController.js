@@ -31,123 +31,122 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 
 
 	$scope.addMilonga = function(){
-	 	// if(!$rootScope.user){
-	 	// 	console.log('!Rosotscope user')
-	 	// 	return $location.url('/login');
-	 	// }
 
 	 	if(!$rootScope.user){
 	 		console.log('!Rosotscope user')
 	 		$('#loginModal').modal();
-
 	 	}
+	 	else {
 
-	 	console.log('USER is: ',$rootScope.user);
+		 	console.log('USER is: ',$rootScope.user);
 
-		$scope.performersList = [];
-		// MAKE SURE EACH COMPONENT OF THE ADDRESS IS IN THE CORRECT FIELD
-		for (var i=0; i < $scope.address.address_components.length; i++){
+			$scope.performersList = [];
+			// MAKE SURE EACH COMPONENT OF THE ADDRESS IS IN THE CORRECT FIELD
+			for (var i=0; i < $scope.address.address_components.length; i++){
 
-			if ($scope.address.address_components[i].types[0] == 'street_number') {
-				$scope.event.address.st_number = $scope.address.address_components[i].short_name;
-			}
-			else if ($scope.address.address_components[i].types[0] == 'route') {
-				$scope.event.address.st_name = $scope.address.address_components[i].short_name;
-			}
-			else if ($scope.address.address_components[i].types[0] == 'locality') {
-			    $scope.event.address.city = $scope.address.address_components[i].long_name;
-			}
-			else if ($scope.address.address_components[i].types[0] == 'administrative_area_level_1') {
-			    $scope.event.address.state = $scope.address.address_components[i].short_name;
-			}
-			else if ($scope.address.address_components[i].types[0] == 'country') {
-				$scope.event.address.country = $scope.address.address_components[i].long_name;
-			}
-			else if ($scope.address.address_components[i].types[0] == 'postal_code') {
-				$scope.event.address.zip_code = $scope.address.address_components[i].long_name;
-			}
-		}
-
-	    
-		$scope.event.address.coords = { 
-	            lat: $scope.address.geometry.location.lat(),
-	            lng: $scope.address.geometry.location.lng()
-        };
-
-        $scope.event._added_by = $rootScope.user;
-
-        // IF ANY OF THE DATES IS BEFORE THE ORIGINAL DATE, POP IT OUT OF THE ARRAY
-        for (var i = 0; i < $scope.repeatMilonga.length; i++) {
-        	if ($scope.repeatMilonga[i]._d <= $scope.event.date){
-        		// console.log('less than date!');
-        		$scope.repeatMilonga.splice(i, 1);
-        		i--;
-        	}
-        }
-
-        // CREATE A DUPLICATE EVENT FOR EACH OF THE DATES IN THE ARRAY, WITH ONLY BASIC INFO
-        for (var i = 0; i < $scope.repeatMilonga.length; i++) {
-
-            var simpleVersion = {
-            	date: $scope.repeatMilonga[i]._d,
-            	title: $scope.event.title,
-            	start_time: $scope.event.start_time,
-            	end_time: $scope.event.end_time,
-            	price: $scope.event.price,
-            	address: $scope.event.address,
-            	_added_by: $rootScope.user,
-        	}
-
-			eventsFactory.addMilonga(simpleVersion, function(addedMilonga){
-				// console.log('MILOGA ADDED:', addedMilonga)
-			});
-        }
-
-        // PUSH EACH TEACHER AND EACH PERFORMER TO THEIR ARRAY
-        // PUSH TEACHERS AND PERFORMERS TO PERFORMERSLIST ARRAY
-		$scope.event._performers = [];
-		for (var i in $scope.outputPerformers){
-			$scope.event._performers.push($scope.outputPerformers[i]._id);
-			$scope.performersList.push({perfId: $scope.outputPerformers[i]._id, action: 'performance'});
-		}
-		$scope.event._class_teachers = [];
-		for (var i in $scope.outputTeachers){
-			$scope.event._class_teachers.push($scope.outputTeachers[i]._id)
-			$scope.performersList.push({perfId: $scope.outputTeachers[i]._id, action: 'class'});
-			
-		}
-
-		// DELETE DUPLICATES FROM PERFORMERSLIST AND CHANGE ACTION TO BOTH
-		for(var i = 0; i < $scope.performersList.length; i++){
-			for (var j = i+1; j < $scope.performersList.length; j++){
-				if($scope.performersList[i].perfId == $scope.performersList[j].perfId){
-					$scope.performersList[i].action = 'both';
-					$scope.performersList.splice(j, 1);
-					i--;
-					j--;
+				if ($scope.address.address_components[i].types[0] == 'street_number') {
+					$scope.event.address.st_number = $scope.address.address_components[i].short_name;
+				}
+				else if ($scope.address.address_components[i].types[0] == 'route') {
+					$scope.event.address.st_name = $scope.address.address_components[i].short_name;
+				}
+				else if ($scope.address.address_components[i].types[0] == 'locality') {
+				    $scope.event.address.city = $scope.address.address_components[i].long_name;
+				}
+				else if ($scope.address.address_components[i].types[0] == 'administrative_area_level_1') {
+				    $scope.event.address.state = $scope.address.address_components[i].short_name;
+				}
+				else if ($scope.address.address_components[i].types[0] == 'country') {
+					$scope.event.address.country = $scope.address.address_components[i].long_name;
+				}
+				else if ($scope.address.address_components[i].types[0] == 'postal_code') {
+					$scope.event.address.zip_code = $scope.address.address_components[i].long_name;
 				}
 			}
-		}
 
-        // CREATE THE ORIGINAL MILONGA WITH ALL THE INFO
-		eventsFactory.addMilonga($scope.event, function(addedMilonga){
-			// console.log("THIS IS THE PERFORMERSLIST", $scope.performersList)
-			// console.log('ADDED MILONGA', addedMilonga);
-			
-			for (var i = 0; i < $scope.performersList.length; i++){
-				var info = {
-					performerId: $scope.performersList[i].perfId,
-					action: $scope.performersList[i].action,
-					milonga: addedMilonga._id,
-				}
-				// console.log('THIS IS THE INFO WE ARE PASSING',info);
-				eventsFactory.addMilongaToPerformer(info, function(result){
-					// console.log(result);
+		    
+			$scope.event.address.coords = { 
+		            lat: $scope.address.geometry.location.lat(),
+		            lng: $scope.address.geometry.location.lng()
+	        };
+
+	        $scope.event._added_by = $rootScope.user;
+
+	        // IF ANY OF THE DATES IS BEFORE THE ORIGINAL DATE, POP IT OUT OF THE ARRAY
+	        for (var i = 0; i < $scope.repeatMilonga.length; i++) {
+	        	if ($scope.repeatMilonga[i]._d <= $scope.event.date){
+	        		// console.log('less than date!');
+	        		$scope.repeatMilonga.splice(i, 1);
+	        		i--;
+	        	}
+	        }
+
+	        // CREATE A DUPLICATE EVENT FOR EACH OF THE DATES IN THE ARRAY, WITH ONLY BASIC INFO
+	        for (var i = 0; i < $scope.repeatMilonga.length; i++) {
+
+	            var simpleVersion = {
+	            	date: $scope.repeatMilonga[i]._d,
+	            	title: $scope.event.title,
+	            	start_time: $scope.event.start_time,
+	            	end_time: $scope.event.end_time,
+	            	price: $scope.event.price,
+	            	address: $scope.event.address,
+	            	_added_by: $rootScope.user,
+	        	}
+
+				eventsFactory.addMilonga(simpleVersion, function(addedMilonga){
+					// console.log('MILOGA ADDED:', addedMilonga)
 				});
+	        }
+
+	        // PUSH EACH TEACHER AND EACH PERFORMER TO THEIR ARRAY
+	        // PUSH TEACHERS AND PERFORMERS TO PERFORMERSLIST ARRAY
+			$scope.event._performers = [];
+			for (var i in $scope.outputPerformers){
+				$scope.event._performers.push($scope.outputPerformers[i]._id);
+				$scope.performersList.push({perfId: $scope.outputPerformers[i]._id, action: 'performance'});
+			}
+			$scope.event._class_teachers = [];
+			for (var i in $scope.outputTeachers){
+				$scope.event._class_teachers.push($scope.outputTeachers[i]._id)
+				$scope.performersList.push({perfId: $scope.outputTeachers[i]._id, action: 'class'});
+				
 			}
 
-			$location.url('/');
-		});
+			// DELETE DUPLICATES FROM PERFORMERSLIST AND CHANGE ACTION TO BOTH
+			for(var i = 0; i < $scope.performersList.length; i++){
+				for (var j = i+1; j < $scope.performersList.length; j++){
+					if($scope.performersList[i].perfId == $scope.performersList[j].perfId){
+						$scope.performersList[i].action = 'both';
+						$scope.performersList.splice(j, 1);
+						i--;
+						j--;
+					}
+				}
+			}
+
+	        // CREATE THE ORIGINAL MILONGA WITH ALL THE INFO
+			eventsFactory.addMilonga($scope.event, function(addedMilonga){
+				// console.log("THIS IS THE PERFORMERSLIST", $scope.performersList)
+				// console.log('ADDED MILONGA', addedMilonga);
+				
+				for (var i = 0; i < $scope.performersList.length; i++){
+					var info = {
+						performerId: $scope.performersList[i].perfId,
+						action: $scope.performersList[i].action,
+						milonga: addedMilonga._id,
+					}
+					// console.log('THIS IS THE INFO WE ARE PASSING',info);
+					eventsFactory.addMilongaToPerformer(info, function(result){
+						// console.log(result);
+					});
+				}
+
+				$location.url('/');
+
+			});
+
+		} //END OF ELSE
 
 	};
 
@@ -197,5 +196,8 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
       }
     };
 
+    $scope.showClass = function(){
+    	$('#newClassForm').css('display', 'block');
+    }
 
 });

@@ -129,32 +129,59 @@
 	</div>
 
 	<br><br><br><br>
-	
-<div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-sm">
-		<div class="modal-content">
-
-			<div class="container">
-				<br><h4>Add a Performer or Teacher</h4>
 
 
-				<form>
-					<div class="form-group">
-						<label for="recipient-name" class="form-control-label">Performer\'s or teacher\'s full name: (e.j: "Osvaldo Zotto")</label>
-						<input type="text" class="form-control" id="recipient-name" ng-model="dancer.name">
-					</div>
-					<div class="form-group">
-						<label for="message-text" class="form-control-label">Where is he/she from?</label>
-						<input type="text" class="form-control" id="recipient-name" ng-model="dancer.from">
-					</div>
-				</form>
+	<!-- ADD A TEACHER MODAL -->
+	<div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+
+				<div class="container">
+					<br><h4>Add a Performer or Teacher</h4>
+
+
+					<form>
+						<div class="form-group">
+							<label for="recipient-name" class="form-control-label">Performer\'s or teacher\'s full name: (e.j: "Osvaldo Zotto")</label>
+							<input type="text" class="form-control" id="recipient-name" ng-model="dancer.name">
+						</div>
+						<div class="form-group">
+							<label for="message-text" class="form-control-label">Where is he/she from?</label>
+							<input type="text" class="form-control" id="recipient-name" ng-model="dancer.from">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" ng-click="addPerformer()">Add</button>
+				</div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" ng-click="addPerformer()">Add</button>
-			</div>
+
 		</div>
-
 	</div>
-</div>
+
+	<!-- LOGIN MODAL -->
+	<div class="modal fade bd-example-modal-sm" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+
+				<div class="container">
+					<br><br><h4>Please Login with Facebook to continue</h4>
+						<br>
+				        <button id="login-btn" ng-click="loginToggle()">
+<!-- 				            <span ng-if="status">Logout</span>
+				            <span ng-if="!status">Login</span> -->
+				        </button> <br><br><br>
+				        <span ng-if="status" class="message">
+				            You are <strong>Logged in</strong> as <em>{{user.name}}</em>
+				        </span>
+				        <span ng-if="!status" class="message">
+				            You are <strong>not</strong> logged in.
+				        </span><br><br>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
 
 </div>
