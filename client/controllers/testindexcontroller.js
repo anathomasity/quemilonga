@@ -2,7 +2,6 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
 
   // console.log('USER is: ',$rootScope.user);
 
-  var info;
   var state;
   var range = 50;
   var pos = {
@@ -21,11 +20,12 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
   $scope.search = {};
   $scope.search.city = 'San Francisco, CA, USA';
 
-  info = {
+  var info = {
       range: range,
       pos: pos,
       state: {state: st}
   };
+
 
   eventsFactory.getMilongas(info, function(data){
       $scope.milongas = data;  

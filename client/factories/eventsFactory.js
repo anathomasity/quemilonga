@@ -9,7 +9,14 @@ myApp.factory('eventsFactory', function($http){
 	var milongas = [];
 
 	factory.getMilongas = function(info, callback){
-			// console.log('this is the get milongas AT FACTORY', info);
+			console.log('this is the get milongas AT FACTORY', info);
+
+
+			// DIRTY FIX, HAVE TO SOLVE THIS AFTER SOLVING THE DEFAULT CITY OF THE USER
+			if(!info.range){
+				info.range = 50;
+			}
+
 			$http.post('/milongas/get', info.state).then(function(data){
 
 				for(day in data.data){

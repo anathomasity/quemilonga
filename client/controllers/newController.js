@@ -182,7 +182,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
             }
           }
           console.log('rootscope.user: ', $rootScope.user)
-          $window.history.back()
+          // $window.history.back()
         });
       }
     });

@@ -11,7 +11,7 @@ var Userschema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	email: {
+	fb_id: {
 		type: String,
 		required: true
 	},

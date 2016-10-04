@@ -6,7 +6,27 @@
 	display: none;
 	height: 12em; 
 	width: 12em;
+	margin: 0 auto;
 	margin-bottom: 15px;
+}
+
+#queMilonga {
+	margin: 0;
+	font-family: 'La Belle Aurore', cursive;
+	font-size: 75%;
+	text-decoration: none;
+}
+#queMilonga:hover{
+	text-decoration: none;
+	color:white;
+}
+#queMilonga:visited{
+	text-decoration: none;
+	color:white;
+}
+#com {
+	font-family: 'La Belle Aurore', cursive;
+	font-size: 60%;
 }
 
 .redBack{
@@ -47,6 +67,7 @@
 
 .littlelinks{
 	text-align: center;
+	cursor: pointer;
 }
 
 /*#fbIcon {
@@ -93,7 +114,7 @@
 	outline: none;
 	border: none;
 	-webkit-box-sizing: border-box;
-	font-family: 'Coming Soon', cursive;
+	font-family: 'Inconsolata', monospace;
 }
 *:before,
 *:after{
@@ -138,10 +159,7 @@ header{
 	font-size: 5em;
 	font-family: 'La Belle Aurore', cursive;
 }
-.header-left h1 .com {
-/*	font-size: 2em;*/
-	font-family: 'La Belle Aurore', cursive;
-}
+
 .panel-title{
 	padding: 0;
 }
@@ -178,6 +196,11 @@ header{
 .foto {
 	background-image: url("milonga.jpg");
 }
+
+.noto{
+	font-family: 'Noto Serif', serif;
+}
+
 .header-right span:after{
 	top: 14px;
 }
@@ -198,7 +221,9 @@ a{
 }
 
 .body_links{
-	color: black;
+	color: #EAAF00;
+	text-decoration: underline;
+	padding: 3px;
 }
 
 .clase {
@@ -206,6 +231,10 @@ a{
 	border-left: 1px solid #ff884d;
 	border-right: 1px solid #ff884d;
 	padding: 1em 1em 0 1em ;
+}
+
+.centered {
+	text-align: center;
 }
 
 nav>a{
@@ -239,7 +268,6 @@ section{
 .searchLine {
 	color: white; 
 	padding: 1em; 
-	font-family: 'Copse', serif; 
 	font-weight: lighter;
 }
 
@@ -462,9 +490,7 @@ section{
 	h1{
 		padding: .5em 0;
 	}
-	.respNav{
-		margin: 0;
-	}
+
 	.header-left,
 	.header-right{
 		width: 100%;
