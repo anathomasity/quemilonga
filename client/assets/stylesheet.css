@@ -205,6 +205,10 @@ header{
 	font-family: 'Noto Serif', serif;
 }
 
+.calendar {
+/*	font-size: 1.7em;*/
+}
+
 .header-right span:after{
 	top: 14px;
 }
