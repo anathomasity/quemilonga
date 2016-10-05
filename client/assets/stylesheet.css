@@ -241,6 +241,11 @@ a{
 	text-align: center;
 }
 
+.navLinks {
+	font-size: 1.2em;
+	letter-spacing: 0.1em;
+}
+
 nav>a{
 	position: relative;
 	display: inline-block;
@@ -327,14 +332,14 @@ section{
 }
 .learn-more{
 	display: table;
-	margin: 3em auto 0;
-	padding: 1em 6em;
+	margin: 1em auto;
+	padding: 1em 3em;
 	cursor: pointer;
 	border-radius: 3px;
 	box-shadow: inset 0 -3px 0 rgba(0,0,0,.8);
 	background: #EAAF00;
 	background-image: -webkit-linear-gradient(#EAAF00 0%, #D78100 100%);
-	font-size: 1.2em;
+	font-size: 1.4em;
 }
 .learn-more:hover{
 	background: #EAAF00;
@@ -474,6 +479,11 @@ section{
 
 
 	.panel-body{
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.searchLine {
 		padding-left: 0;
 		padding-right: 0;
 	}

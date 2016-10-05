@@ -101,6 +101,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
     types: ['(cities)'],
   }
 
+  $scope.options = {
+    showWeeks: false
+  };
+
 
   $scope.openInMaps = function(addr) {
     var address = 

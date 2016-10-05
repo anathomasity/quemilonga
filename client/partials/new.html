@@ -2,9 +2,9 @@
 
 	<div class="alert alert-warning fade in">
 		<button class="close" data-dismiss="alert" aria-label="close">&times;</button>
-		<strong>Welcome<span ng-if='user.name'>, {{user.name}}</span>!</strong> In order to help the community, please make sure the event you are adding is not already in our database, and the information is accurate. Thanks!
+		<strong class="noto">Welcome<span ng-if='user.name'>, {{user.name}}</span>!</strong> In order to help the community, please make sure the event you are adding is not already in our database, and the information is accurate. Thanks!
 	</div>
-	<h2>Add a New Milonga: </h2> <br>
+	<h2 class="noto">Add a New Milonga: </h2> <br>
 
 	<form name="form">
 	<div class="form-group row">
@@ -86,17 +86,17 @@
 	  </div>
 	</div>
 	<div class="form-group row">
-	  <label for="example-text-input" class="col-md-4 col-form-label" ></label>
+	  <label for="example-text-input" class="col-md-4 col-form-label" >Address Details</label>
 	  <div class="col-md-8">
-	    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input" ng-model="event.address.details" max="20" placeholder="Address details">
+	    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input" ng-model="event.address.details" max="20" placeholder="e.g: Suite #">
 	  </div>
 	</div>
 
 	<br><br>
 
 
-	<div class="form-group row" id="showClass" ng-click='showClass()'>
-	  <h4 for="example-number-input">Add Class Details (Optional) ▼</h4>
+	<div class="form-group row body_links noto" id="showClass" ng-click='showClass()'>
+	  <h4 for="example-number-input">Add Class Details</h4>
 	</div>
 
 
@@ -144,13 +144,13 @@
 
 
 	<div class="form-group row">
-	  <label for="example-text-input" class="col-md-4 col-form-label">Additional Milonga Details</label>
+	  <label for="example-text-input" class="col-md-4 col-form-label">Event Description</label>
 	  <div class="col-md-8">
-	    <textarea class="form-control" id="exampleTextarea" maxlength="500" ng-model='event.details' placeholder="Max Length 500 characters."></textarea>
+	    <textarea class="form-control" id="exampleTextarea" maxlength="500" ng-model='event.details' placeholder="Details like organizer's contact info, etc. Max Length 500 characters."></textarea>
 	  </div>
 	</div><br><br>
 	<div class="form-group row">
-	  <label for="example-text-input" class="col-md-4 col-form-label">Do you want to repeat this milonga?</label>
+	  <label for="example-text-input" class="col-md-4 col-form-label">Repeat milonga?</label>
 	  <div class="col-md-8" id="multipleDatePicker">
 	  	<div class="alert alert-warning">
   			<strong>Select the dates this milonga repeats: </strong><br>Only the title, time and address will be added. You can later update the specifics of each event from the calendar on the home page.  
@@ -162,7 +162,7 @@
 	<div class="form-group row">
 	  <label for="example-text-input" class="col-xs-6 col-form-label">* Required Fields</label>
 	  <div class="col-xs-2">
-	    <input type="submit" value="Add Milonga" ng-click='addMilonga()' class="btn btn-primary"></input>
+	    <input type="submit" value="Add Milonga" ng-click='addMilonga()' class="btn btn-primary noto"></input>
 	  </div>
 	</div>
 	</form>
