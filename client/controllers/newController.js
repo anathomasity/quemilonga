@@ -32,11 +32,11 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 
 	$scope.addMilonga = function(){
 
-	 	// if(!$rootScope.user){
-	 	// 	console.log('!Rosotscope user')
-	 	// 	$('#loginModal').modal();
-	 	// }
-	 	// else {
+	 	if(!$rootScope.user){
+	 		console.log('!Rosotscope user')
+	 		$('#loginModal').modal();
+	 	}
+	 	else {
 
 		 	console.log('USER is: ',$rootScope.user);
 
@@ -146,7 +146,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 
 			});
 
-		// } //END OF ELSE
+		} //END OF ELSE
 
 	};
 
