@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Performer = mongoose.model('performer');
 var Milonga = mongoose.model('milonga');
+var Request = mongoose.model('request');
 var moment = require('moment');
 
 module.exports = (function() {
@@ -153,6 +154,41 @@ module.exports = (function() {
 					res.json(milonga);
 				}
 			});
+		},
+		createRequest: function(req, res){
+			console.log(req.body, 'THIS IS REQ BODY');
+			request = new Request(req.body);
+			request.save(function(err, result){
+				if(err){
+					console.log(err);
+					console.log('error creating a new request');
+				} else {
+					console.log('this is our new request',result);
+					res.json(result);
+
+				}
+			})
+		},
+		getRequests: function(req, res){
+			Request.find({}, function(err, requests){
+				if(err){
+					console.log(err);
+					console.log('error finding requests, milongas controller');
+				} else {
+					res.json(requests);
+				}
+			})
+		},
+		destroyRequest: function(req, res){
+			Request.findByIdAndRemove(req.params.id, function(err){
+				if(err){
+					console.log('error removing request')
+				}
+				else{
+					res.json({status:'ok'})
+				}
+
+			})
 		},
 		addMilongaToPerformer: function(req, res){
 

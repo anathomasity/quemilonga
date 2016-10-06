@@ -64,8 +64,16 @@ myApp.factory('eventsFactory', function($http){
 	}
 
 	factory.addPerformer = function(data, callback){
-		// console.log('made it to my Add performer in the factory');
+		console.log('made it to my Add performer in the factory', data);
 		$http.post('/performers', data).then(function(data){
+			console.log('made it back from backend this is our new performer', data);
+			callback(data);
+		})
+	}
+
+	factory.addPerformerRequest = function(data, callback){
+		// console.log('made it to my Add performer in the factory');
+		$http.post('/requests', data).then(function(data){
 			// console.log('made it back from backend this is our new performer', data);
 			callback(data);
 		})
@@ -77,6 +85,23 @@ myApp.factory('eventsFactory', function($http){
 			// console.log('made it back from backend with performers', performers);
 			performers = performers.data;
 			callback(performers);
+		})
+	}
+
+	factory.getRequests = function(callback){
+		// console.log('made it to Get performers factory');
+		$http.get('/requests').then(function(requests){
+			// console.log('made it back from backend with requests', requests);
+			requests = requests.data;
+			callback(requests);
+		})
+	}
+
+	factory.destroyRequest = function(requestId, callback){
+		// console.log('INFO', info)
+		$http.post('/requests/' + requestId + '/destroy').then(function(request){
+			// console.log('made it back from backend eddited this performer', performer);
+			callback(request);
 		})
 	}
 

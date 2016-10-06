@@ -21,9 +21,18 @@ module.exports = function(app){
 		milongas.createMilonga(req, res);
 
 	})
+	app.post('/requests', function(req, res){
+		console.log('made it to my post /requests route');
+		milongas.createRequest(req, res);
+
+	})
 	app.get('/performers', function(req, res){
 		console.log(' made it to my /performers get route');
 		milongas.getPerformers(req, res);
+	})
+	app.get('/requests', function(req, res){
+		console.log(' made it to my /requests get route');
+		milongas.getRequests(req, res);
 	})
 
 	app.get('/milongas/:id', function(req, res){
@@ -43,6 +52,11 @@ module.exports = function(app){
 	app.post('/performers/:id/removeMilonga', function(req,res) {
 		console.log('made it to my /performers/:id/update post route');
 		milongas.removeMilongaFromPerformer(req,res);
+	})
+
+	app.post('/requests/:id/destroy', function(req,res) {
+		console.log('made it to my /destroy request');
+		milongas.destroyRequest(req,res);
 	})
 
 	app.post('/performers', function(req, res){

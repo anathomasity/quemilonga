@@ -1,0 +1,69 @@
+<div class="container">
+	<h3>Add dancer REQUESTS:</h3>
+
+	<table class="table table-hover">
+	  <thead>
+	    <tr>
+	      <th>Time</th>
+	      <th>Request made by</th>
+	      <th>Id # on FB</th>
+	      <th>Name of Dancer</th>
+	      <th>City of Dancer</th>
+	      <th>Accept/Destroy</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr ng-if="dancerRequests" ng-repeat='r in dancerRequests track by $index'>
+
+	      <th scope="row">{{r.createdAt | date:'short'}}</th>
+
+	      <td>{{r.user.name}}</td>
+
+	      <td>{{r.user.id}}</td>
+
+	      <td>{{r.dancer_name}}</td>
+
+	      <td>{{r.dancer_from}}</td>
+
+	      <td>
+	      	<button ng-click='addPerformer($index)'>Accept</button>
+	      	<button ng-click='destroyRequest($index)'>Destroy</button>
+	      </td>
+
+	    </tr>
+	  </tbody>
+	</table><br><br><hr><br>
+
+	<h4>Dancers currently in the Dadabase</h4><br>
+
+	<div>
+        <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
+    </div>
+    <br>
+    <div style="height: 300px; overflow: scroll;">
+		<table class="table table-hover" >
+		  <thead>
+		    <tr>
+		      <th>Name</th>
+		      <th>From</th>
+		      <th>ID</th>
+		      <th>FB ID</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr ng-if="dancers" ng-repeat='d in dancers | filter:filter_name'>
+
+		      <th scope="row">{{d.name}}</th>
+
+		      <td>{{d.from}}</td>
+
+		      <td>{{d._id}}</td>
+
+		      <td>FB ID TO BE ADDED</td>
+
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+
+</div>

@@ -30,6 +30,11 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 				controller: 'loginController', 
 				templateUrl: "partials/login.html"
 			})
+			.when('/admin', 
+			{
+				controller: 'adminController', 
+				templateUrl: "partials/admin.html"
+			})
 
 	});
 	myApp.config(['$facebookProvider', function($facebookProvider) {

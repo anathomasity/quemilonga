@@ -5,6 +5,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	$scope.teachers = [];
 	$scope.event.address = {};
 	$scope.performersList = [];
+	$scope.toggle;
 
 	console.log('USER is: ',$rootScope.user);
 
@@ -34,11 +35,18 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 		}//END OF ELSE
 	}
 
+
 	$scope.selectMatch = function(match){
 		console.log('match:',match);
 		for (var i = 0; i < $scope.performers.length; i++){
 			if(match._id == $scope.performers[i]._id){
-				$scope.performers[i].ticked = true;
+				if ($scope.toggle == 'performers') {
+					$scope.performers[i].ticked = true;
+				}
+				else if ($scope.toggle == 'teachers') {
+					$scope.teachers[i].ticked = true;
+				}
+				
 				$('#exampleModal').modal('hide');
 				$scope.matches = false;
 				$scope.dancer = {};
@@ -46,13 +54,30 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 		}
 	}
 
+	$scope.toggleList = function(list) {
+		if (list == 'p') {
+			$scope.toggle = 'performers';
+		}
+		else if (list == 't') {
+			$scope.toggle = 'teachers';
+		}
+	}
+
 	$scope.addPerformer = function(){
-		$('#exampleModal').modal('hide');
-		// console.log('ADD PERFORMER CONTROLLER')
-		eventsFactory.addPerformer($scope.dancer, function(addedDancer){
-			// console.log('added dancer', addedDancer)
-			$scope.performers.push({name: addedDancer.data.name, _id: addedDancer.data._id});
-			$scope.teachers.push({name: addedDancer.data.name, _id: addedDancer.data._id});
+		$('#noMatchMessage').html('Thanks! Request succesfully submitted');
+		setTimeout(function(){ 
+			console.log("Hello"); 
+			$('#exampleModal').modal('hide');
+		}, 3000);
+
+		var requestData = {
+			user: $rootScope.user,
+			dancer_name: $scope.dancer.name,
+			dancer_from: $scope.dancer.from
+		}
+
+		eventsFactory.addPerformerRequest(requestData, function(addedDancer){
+			console.log('succesfully requested, CONTROLLER')
 		});
 	}
 
