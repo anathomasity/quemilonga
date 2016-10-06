@@ -63,7 +63,7 @@
                                     <h5>Milonga <span class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</span></h5><br>
                                     
 
-                                    <div ng-if="m._class_teachers[0]._id" class="clase">
+                                    <div ng-if="m.class_start_time" class="clase">
                                         <h5>Class by: </h5><h6 ng-repeat='t in m._class_teachers' class="inline"><a class='body_links noto' href="#/performers/{{t._id}}">{{t.name}}</a></h6>
                                         <h5 class="inline" ng-if='m.class_start_time'>@ {{m.class_start_time | date:'shortTime'}} - {{m.class_end_time | date:'shortTime'}}</h5><br>
                                         <h6 class="inline" ng-if='m.class_price'>Class: ${{m.class_price}}</h6>

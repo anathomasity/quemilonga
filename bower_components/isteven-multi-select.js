@@ -1101,7 +1101,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
 
     //         '<form>'+
     //         '<div class="form-group">'+
-    //           '<label for="recipient-name" class="form-control-label">Performer\'s or teacher\'s full name: (e.j: "Osvaldo Zotto")</label>'+
+    //           '<label for="recipient-name" class="form-control-label">Performer\'s or teacher\'s full name: (e.g: "Osvaldo Zotto")</label>'+
     //           '<input type="text" class="form-control" id="recipient-name" ng-model="dancer.name">'+
     //         '</div>'+
     //         '<div class="form-group">'+
