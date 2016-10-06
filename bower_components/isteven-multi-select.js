@@ -1085,7 +1085,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 '</div>'+
             '</div>'+
             '<div class="container">'+
-            '<button class="btn btn-secondary btn-sm" type="button" data-toggle="modal" data-target="#exampleModal">Not there? Add them</button>'+
+            '<h5><a style="cursor: pointer;" class="body_links" type="button" data-toggle="modal" data-target="#exampleModal">Not there? Add them</a></h5>'+
         '</div>'+
         '</div>'+   
     '</span>'

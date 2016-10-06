@@ -187,6 +187,10 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 		} //END OF ELSE
 	}
 
+	$scope.editAddress = function() {
+		$scope.addressForm = true;
+	}
+
   	$scope.popup1 = {
     	opened: false
   	};

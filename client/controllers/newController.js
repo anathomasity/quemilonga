@@ -19,6 +19,33 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 
 
 	// ADD A PERFORMER TO THE LIST OF PERFORMERS
+	$scope.findMatches = function(){
+	 	if(!$rootScope.user){
+	 		console.log('!Rosotscope user')
+	 		$('#loginModal').modal();
+	 	}
+	 	else {
+			$scope.matches = [];
+			for (var i = 0; i < $scope.performers.length; i++){
+				if(getEditDistance($scope.dancer.name, $scope.performers[i].name) < 7){
+					$scope.matches.push($scope.performers[i])
+				}			
+			}
+		}//END OF ELSE
+	}
+
+	$scope.selectMatch = function(match){
+		console.log('match:',match);
+		for (var i = 0; i < $scope.performers.length; i++){
+			if(match._id == $scope.performers[i]._id){
+				$scope.performers[i].ticked = true;
+				$('#exampleModal').modal('hide');
+				$scope.matches = false;
+				$scope.dancer = {};
+			}			
+		}
+	}
+
 	$scope.addPerformer = function(){
 		$('#exampleModal').modal('hide');
 		// console.log('ADD PERFORMER CONTROLLER')
@@ -199,5 +226,39 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
     $scope.showClass = function(){
     	$('#newClassForm').css('display', 'block');
     }
+
+    var getEditDistance = function(a, b){
+	  if(a.length == 0) return b.length; 
+	  if(b.length == 0) return a.length; 
+
+	  var matrix = [];
+
+	  // increment along the first column of each row
+	  var i;
+	  for(i = 0; i <= b.length; i++){
+	    matrix[i] = [i];
+	  }
+
+	  // increment each column in the first row
+	  var j;
+	  for(j = 0; j <= a.length; j++){
+	    matrix[0][j] = j;
+	  }
+
+	  // Fill in the rest of the matrix
+	  for(i = 1; i <= b.length; i++){
+	    for(j = 1; j <= a.length; j++){
+	      if(b.charAt(i-1) == a.charAt(j-1)){
+	        matrix[i][j] = matrix[i-1][j-1];
+	      } else {
+	        matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
+	                                Math.min(matrix[i][j-1] + 1, // insertion
+	                                         matrix[i-1][j] + 1)); // deletion
+	      }
+	    }
+	  }
+
+	  return matrix[b.length][a.length];
+	};
 
 });
