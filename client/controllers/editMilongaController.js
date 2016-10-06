@@ -69,11 +69,11 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 	}
 
 	$scope.updateMilonga = function(){
-		// if(!$rootScope.user){
-	 // 		console.log('!Rosotscope user')
-	 // 		$('#loginModal').modal();
-	 // 	}
-	 // 	else{
+		if(!$rootScope.user){
+	 		console.log('!Rosotscope user')
+	 		$('#loginModal').modal();
+	 	}
+	 	else{
 	 		$scope.editMilonga.date = $scope.dt;
 	 		$scope.editMilonga.start_time = $scope.m_st;
 	 		$scope.editMilonga.end_time = $scope.m_et;
@@ -184,7 +184,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 				}
 				$location.path('/');
 			})
-		// } //END OF ELSE
+		} //END OF ELSE
 	}
 
   	$scope.popup1 = {
