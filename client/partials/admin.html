@@ -66,4 +66,30 @@
 		</table>
 	</div>
 
+		<!-- LOGIN MODAL -->
+	<div class="modal fade bd-example-modal-sm" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+
+				<div class="container">
+					<br><br><h4>Please Login with Facebook to continue</h4>
+						<br>
+				        <button id="login-btn" ng-click="loginToggle()">
+<!-- 				            <span ng-if="status">Logout</span>
+				            <span ng-if="!status">Login</span> -->
+				        </button> <br><br><br>
+				        <span ng-if="status" class="message">
+				            You are <strong>Logged in</strong> as <em>{{user.name}}</em>
+				        </span>
+				        <span ng-if="!status" class="message">
+				            You are <strong>not</strong> logged in.
+				        </span><br><br>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
 </div>
