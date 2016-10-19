@@ -818,3 +818,49 @@ TRIAL FOR THE MAP ON REFRESH
 
 
         </div>
+
+
+
+
+GEOLOCATION GOOGLE API TO AVOID TURNING INTO HTTPS: TESTINDEXCONTROLLER:
+
+
+$http.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDRaVQ9KMXo3RJKxF_sIMHFs0RDLK2oxNQ")
+  .then(function(response){ 
+    console.log('RESPONSE:',response);
+    user_position = {
+        lat: response.data.location.lat,
+        lng: response.data.location.lng
+      };
+      $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
+    + user_position.lat + ","
+    + user_position.lng 
+    + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+    .then(function(resp){
+        console.log('RESPO',resp);
+
+        for (var p=0; p < resp.data.results[0].address_components.length; p++){
+
+            if (resp.data.results[0].address_components[p].types[0] == 'administrative_area_level_1') {
+                user_state = resp.data.results[0].address_components[p].short_name;
+                if (resp.data.results[0].address_components[p].types[0] == 'country') {
+                    user_country = resp.data.results[0].address_components[p].short_name;
+                    if (resp.data.results[0].address_components[p].types[0] == 'locality') {
+                        $scope.search.city = resp.data.results[0].address_components[p].long_name + ', ' + user_state + ', ' + user_country;
+                    }
+                }
+            }
+        }
+
+        info = {
+            range: range,
+            pos: user_position,
+            state: {state: user_state}
+        };
+
+        eventsFactory.getMilongas(info, function(data){
+            $scope.milongas = data;  
+        });
+
+    });
+  });

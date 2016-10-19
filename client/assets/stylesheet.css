@@ -201,12 +201,31 @@ header{
 	background-image: url("milonga.jpg");
 }
 
-.noto{
-	font-family: 'Noto Serif', serif;
+.closeIcon {
+	background-image: url("close_button.png");
+	width: 1em;
+	height: 1em;
+	background-color: transparent;
+	background-size: auto 100%;
+	background-repeat: no-repeat;
+}
+.closeIcon:hover {
+	width: 1.5em;
+	height: 1.5em;
 }
 
-.calendar {
-/*	font-size: 1.7em;*/
+.pointer {
+	cursor: pointer;
+}
+
+#buttonsBox {
+	/*border: 1px solid #D5DBDB;*/
+	padding: 5px;
+/*	margin: 5px;*/
+}
+
+.noto{
+	font-family: 'Noto Serif', serif;
 }
 
 .header-right span:after{
@@ -245,9 +264,17 @@ a{
 	text-align: center;
 }
 
+.cente{
+	margin: 0 auto;
+}
+.fav-attending {
+	margin: 3em 0 3em 0;
+}
+
 .navLinks {
 	font-size: 1.2em;
 	letter-spacing: 0.1em;
+	cursor: pointer;
 }
 
 nav>a{
@@ -301,6 +328,12 @@ section{
 	padding-left: 7px;
 }
 
+.searchLine {
+	padding-right: 0;
+}
+
+
+
 .section-left,
 .section-right{
 	float: left;
@@ -311,6 +344,7 @@ section{
 }
 .section-right{
 	width: 30%;
+	margin: 2em auto 1em auto;
 }
 .section-title,
 .section-tagline{
@@ -471,6 +505,16 @@ section{
 		background-image: -webkit-linear-gradient(#EAAF00 0%, #D78100 100%);
 	}
 
+	.navLinks {
+		font-size: 1.2em;
+		letter-spacing: 0.1em;
+		background-color: black;
+	}
+
+	.calendar {
+		margin: auto .5em auto 2em;
+	}
+
 	.container{
 		width: 92%;
 		margin:0 auto;
@@ -483,8 +527,8 @@ section{
 
 
 	.panel-body{
-		padding-left: 0;
-		padding-right: 0;
+		padding-left: 10px;
+		padding-right: 10px;
 	}
 
 	.searchLine {
@@ -570,6 +614,7 @@ section{
 	background-size: auto 100%;
 	background-repeat: no-repeat;
 }
+
 
 /*NEW MILONGA*/
 

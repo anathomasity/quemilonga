@@ -49,6 +49,26 @@ module.exports = function(app){
 		milongas.addMilongaToPerformer(req, res);
 	})
 
+	app.post('/users', function(req, res){
+		console.log('made it to my /users post route');
+		milongas.createUser(req, res);
+	})
+
+	app.get('/users/:id', function(req, res){
+		console.log('made it to my /users/:id get route');
+		milongas.getUser(req, res);
+	})
+	
+	app.post('/users/:id/update', function(req, res){
+		console.log('made it to my /users/:id/update post route');
+		milongas.likeEvent(req, res);
+	})
+
+	app.post('/users/:id/attend', function(req, res){
+		console.log('made it to my /users/:id/attend post route');
+		milongas.attendEvent(req, res);
+	})
+
 	app.post('/performers/:id/removeMilonga', function(req,res) {
 		console.log('made it to my /performers/:id/update post route');
 		milongas.removeMilongaFromPerformer(req,res);
@@ -68,5 +88,15 @@ module.exports = function(app){
 	app.get('/performers/:id', function(req, res){
 		console.log('made it to my /performers/:id get route');
 		milongas.getPerformer(req, res);
+	})
+
+	app.post('/stopAttending', function(req, res){
+		// console.log('made it to my /users/:id/update post route');
+		milongas.stopAttending(req, res);
+	})
+
+	app.post('/stopSaving', function(req, res){
+		// console.log('made it to my /users/:id/update post route');
+		milongas.stopSaving(req, res);
 	})
 }

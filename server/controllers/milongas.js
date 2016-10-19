@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Performer = mongoose.model('performer');
 var Milonga = mongoose.model('milonga');
 var Request = mongoose.model('request');
+var User = mongoose.model('user');
 var moment = require('moment');
 
 module.exports = (function() {
@@ -98,7 +99,6 @@ module.exports = (function() {
 			})
 		},
 		getMilonga: function(req, res){
-			// this should probably be findOne isntead of find
 			Milonga.findOne({_id: req.params.id}, function(err, result){
 				if(err){
 					console.log("error finding the milonga", err);
@@ -235,6 +235,168 @@ module.exports = (function() {
 			    });
 			});
 
+		},
+
+		createUser: function(req, res){
+			console.log(req.body, 'THIS IS REQ BODY');
+			user = new User(req.body);
+			user.save(function(err, result){
+				if(err){
+					console.log(err, 'error creating a new user');
+					User.findOne({fb_id: req.body.fb_id})
+					.populate('_favorites')
+					.populate('_attending')
+					.exec(function (erro, user) {
+					  if(erro){
+							console.log("error finding the User", erro);
+						} else {
+							console.log('this is our User',user);
+							res.json(user);
+						}
+					});
+				} else {
+					console.log('this is our new user',result);
+					res.json(result);
+
+				};
+			});
+		},
+
+		getUser: function(req, res){
+
+			User.findOne({fb_id: req.params.id})
+			.populate({ 
+			     path: '_favorites',
+			     populate: {
+			       path: '_performers',
+			       model: 'performer'
+			    } 
+			})
+			.populate({ 
+			     path: '_favorites',
+			     populate: {
+			       path: '_class_teachers',
+			       model: 'performer'
+			    } 
+			})
+			.populate({ 
+			     path: '_attending',
+			     populate: {
+			       path: '_performers',
+			       model: 'performer'
+			    } 
+			}) 
+			.populate({ 
+			     path: '_attending',
+			     populate: {
+			       path: '_class_teachers',
+			       model: 'performer'
+			    } 
+			}) 
+			.exec(function (err, user) {
+			  if(err){
+					console.log("error finding the User", err);
+				} else {
+					console.log('this is our User',user);
+					res.json(user);
+				}
+			});
+		},
+
+		likeEvent: function(req, res){
+
+			User.findOne({fb_id: req.params.id}, function (err, user){
+				console.log('GOT TO THE BACKEND CONTROLLER', req.body)
+				var check = false;
+				for(var i = 0; i < user._favorites.length; i++){
+					if(user._favorites[i] == req.body.eventId){
+						check = true;
+					}
+				}
+				if(check == false) {
+					user._favorites.push(req.body.eventId);
+					console.log('THIS IS THE user',user);
+				    user.save(function (erro) {
+				        if(erro) {
+				            console.error('ERROR ADDING EVENT TO user!', erro);
+				        }
+				        else{
+				        	res.json({status:'ok!'});
+				        };
+				    });
+				}
+				else{
+					console.log('EVENT ALREADY SAVED');
+				}
+			});
+		},
+
+		attendEvent: function(req, res){
+
+			User.findOne({fb_id: req.params.id}, function (err, user){
+				console.log('GOT TO THE BACKEND CONTROLLER', req.body)
+				var check = false;
+				for(var i = 0; i < user._attending.length; i++){
+					if(user._attending[i] == req.body.eventId){
+						check = true;
+					}
+				}
+				if(check == false) {
+					user._attending.push(req.body.eventId);
+					console.log('THIS IS THE user',user);
+				    user.save(function (erro) {
+				        if(erro) {
+				            console.error('ERROR ADDING EVENT TO user!', erro);
+				        }
+				        else{
+				        	res.json({status:'ok!'});
+				        };
+				    });
+				}
+				else{
+					console.log('ALREADY ATTENDING THIS EVENT');
+				}
+			});
+		},
+		stopAttending: function(req,res){
+			User.findOne({fb_id: req.body.userId}, function(err, user){
+				if(err){
+					console.log("error finding the user", err);
+				}
+				else {
+					// console.log('this is our user',user);
+					var index = user._attending.indexOf(req.body.eventId);
+					user._attending.splice(index, 1);
+					user.save(function(erro, use) {
+						if (erro) {
+							console.log('ERROR', erro)
+						}
+						else{
+							res.json(user);
+						}
+					})
+				}
+			})
+		},
+		stopSaving: function(req,res){
+			User.findOne({fb_id: req.body.userId}, function(err, user){
+				if(err){
+					console.log("error finding the user", err);
+				}
+				else {
+					// console.log('this is our user',user);
+					var index = user._favorites.indexOf(req.body.eventId);
+					user._favorites.splice(index, 1);
+					user.save(function(erro, use) {
+						if (erro) {
+							console.log('ERROR', erro)
+						}
+						else{
+							res.json(user);
+						}
+					})
+				}
+			})
 		},
 
 

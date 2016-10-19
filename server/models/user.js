@@ -13,13 +13,11 @@ var Userschema = new mongoose.Schema({
 	},
 	fb_id: {
 		type: String,
-		required: true
+		required: true,
+		index: {unique: true},
 	},
-	password: {
-		type: String,
-		required: true
-	},
-	_milongas_added: [{type: Schema.Types.ObjectId, ref: 'milonga'}],
+	_favorites: [{type: Schema.Types.ObjectId, ref: 'milonga'}],
+	_attending: [{type: Schema.Types.ObjectId, ref: 'milonga'}],
 },{timestamps:true});
 
 // Userschema.methods.generateHash = function(password) {

@@ -272,7 +272,6 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
             }
           }
           console.log('rootscope.user: ', $rootScope.user)
-          $window.history.back()
         });
       }
     });

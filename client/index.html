@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html ng-app = 'Myapp'>
+<html ng-app = 'Myapp' ng-controller="MainCtrl">
 <head>
 	<title>Que Milonga?</title>
      <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,7 +57,8 @@
     <script src = "/controllers/showController.js"></script>
     <script src = "/controllers/loginController.js"></script>
     <script src = "/controllers/adminController.js"></script>
-
+    <script src = "/controllers/profileController.js"></script>
+    
 	<!-- factories -->
     <script src = "/factories/eventsFactory.js"></script>
 
@@ -91,10 +92,11 @@
             </label>
             <input type="checkbox" name="" id="open">
             <nav>
-                <a href="#/" class="navLinks">My Events</a>
+                <a ng-if='!user' ng-click='login()' class="navLinks">Login</a>
+                <a ng-if='user' ng-click='logout()' class="navLinks">Logout</a>
+                <a href="#/profile" ng-if='user' class="navLinks">{{user.name}}</a>
                 <a id="newMilLink" class="navLinks" href="#/milongas/new">Post New Milonga</a>
                 <a href="#" class="navLinks">Find Performer's Schedule</a>
-                <a href="#" class="navLinks">About Us</a>
                 <a class="navLinks" ng-click='sendMail("qmilonga@gmail.com","Hey there, QueMilonga!","Please send us an Email, we will get back to you as soon as possible")'>Contact</a>
             </nav>
         </div>
@@ -106,6 +108,61 @@
 		
 		<div ng-view></div>
 	</div>
+
+
+    <!-- LOGIN MODAL -->
+    <div class="modal fade bd-example-modal-sm" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="container">
+                    <br><br><h5 class="noto">Please Login to continue</h5>
+                        <br>
+                        <button id="login-btn" ng-click="loginToggle()">
+<!--                            <span ng-if="status">Logout</span>
+                            <span ng-if="!status">Login</span> -->
+                        </button> <br><br><br>
+<!--                         <span ng-if="status" class="message">
+                            You are <strong>Logged in</strong> as <em>{{user.name}}</em>
+                        </span>
+                        <span ng-if="!status" class="message">
+                            You are <strong>not</strong> logged in.
+                        </span><br><br> -->
+                        <h6 style="color:gray;">This does not let the app post to Facebook.</h6>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- SEE FACEBOOK FRIENDS MODAL -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Your Facebook friends attending this event</h4>
+          </div>
+          <div class="modal-body">
+            Section under development. Thank you for your patience.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+        
 </body>
 
 </html>
