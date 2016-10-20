@@ -29,11 +29,6 @@
 	font-size: 60%;
 }
 
-.redBack{
-	display: none;
-}
-
-
 #mDate {
 	border-top: 4px solid #e64d00;
 	border-left: 1px solid #ff884d;
@@ -200,6 +195,24 @@ header{
 
 .foto {
 	background-image: url("milonga.jpg");
+	background-repeat: no-repeat;
+}
+
+.foto2 {
+	background-image: url("milonga.jpg");
+}
+
+#wrapper{
+	min-height:100%;
+	position:relative;
+}
+
+footer{
+	position:absolute;
+    bottom:0;
+    width:100%;
+    /*height:60px;    Height of the footer */
+    /*background:#6cf;*/
 }
 
 .closeIcon {
@@ -406,7 +419,7 @@ section{
 	box-shadow: inset 0 2px 0 rgba(0,0,0,.8);
 }
 #mainInfo{
-	margin-bottom: 6em;
+	padding-bottom: 15em;
 }
 
 /* Portrait tablet to landscape and desktop */
@@ -425,9 +438,6 @@ section{
 		clear: right;
 	}
 
-	.redBack{
-		display: none;
-	}
 }
 
 /* Small monitor */
@@ -455,9 +465,6 @@ section{
 	}
 	.learn-more{
 		margin: 0 auto;
-	}
-	.redBack{
-		display: none;
 	}
 }
  
@@ -512,9 +519,6 @@ section{
 	.learn-more{
 		margin: 0 auto;
 	}
-	.redBack{
-		display: none;
-	}
 }
  
 /* Landscape phones and down */
@@ -558,6 +562,8 @@ section{
 	.searchLine {
 		padding-left: 0;
 		padding-right: 0;
+		padding-top: 1em;
+		padding-bottom: 1em;
 	}
 
 	nav{
@@ -588,6 +594,12 @@ section{
 
 	}
 
+	.foto2 {
+		background-image: url("milonga.jpg");
+		background-repeat: no-repeat;
+		background-position:left bottom;
+	}		
+
 	h1{
 		padding: .5em 0;
 	}
@@ -611,17 +623,6 @@ section{
 		display: none;
 	}
 
-	.addMilongaMobile{
-		text-align: center;
-		padding: 2em 0;
-	}
-
-	.redBack{
-		display: block;
-		width: 100%;
-		height: auto;
-		background-image: -webkit-linear-gradient(#660000 0%, #b30000 100%);
-	}
 	.section-title{
 		font-size: 1.6em;
 		margin-bottom: 0;
