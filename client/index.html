@@ -96,7 +96,7 @@
                 <a ng-if='user' ng-click='logout()' class="navLinks">Logout</a>
                 <a href="#/profile" ng-if='user' class="navLinks">{{user.name}}</a>
                 <a id="newMilLink" class="navLinks" href="#/milongas/new">Post New Milonga</a>
-                <a href="#" class="navLinks">Find Performer's Schedule</a>
+                <a ng-click='findPerformerModal()' class="navLinks">Find Performer's Schedule</a>
                 <a class="navLinks" ng-click='sendMail("qmilonga@gmail.com","Hey there, QueMilonga!","Please send us an Email, we will get back to you as soon as possible")'>Contact</a>
             </nav>
         </div>
@@ -108,6 +108,124 @@
 		
 		<div ng-view></div>
 	</div>
+
+
+
+    <!-- SEE FACEBOOK FRIENDS MODAL -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Your Facebook friends attending this event</h4>
+          </div>
+          <div class="modal-body">
+            Section under development. Thank you for your patience.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ADD A TEACHER OR PERFORMER MODAL -->
+    <div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="container">
+                    <br><h4 class="noto">Add a Performer or Teacher</h4><br>
+
+
+                    <form name="form2">
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Performer's or teacher's full name: (e.g: "Osvaldo Zotto")</label>
+                            <input type="text" class="form-control" id="recipient-name" ng-model="dancer.name" name="dName" required="">
+                            <div class="errorMsgs" ng-show="form2.$submitted || form2.dName.$touched">
+                                <div ng-show="form2.dName.$error.required">Enter a full name</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="form-control-label">Where is he/she from?</label>
+                            <input type="text" class="form-control" id="recipient-name" ng-model="dancer.from" name="dFrom" required="">
+                            <div class="errorMsgs" ng-show="form2.$submitted || form2.dFrom.$touched">
+                                <div ng-show="form2.dFrom.$error.required">Enter a city</div>
+                            </div>
+                        </div>
+                    
+
+                    <div ng-if='matches.length > 0'>
+                        <h3 class="noto">Did you mean...</h3>
+                        <h4 ng-repeat='m in matches' class="body_links" style="cursor: pointer" ng-click='selectMatch(m)'>.. {{m.name}}?</h4>
+                        <br>
+                        <p>If we couldn't find a match, you can still put a request to add him/her.</p>
+                    </div>
+                    <div ng-if='matches && matches.length == 0'>
+                        <h5 style="color:red;" id="noMatchMessage">We couldn't find a match, you can still put a request to add him/her to our database.</h5>
+                    </div>
+                    <div ng-if='msg'>
+                        <h5 style="color:green;" >Thanks! Request succesfully submitted.</h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input ng-show='!matches' type="submit" class="btn btn-primary noto" ng-click="findMatches(1)" value="Find Match"/>
+                    <input ng-show='matches' type="submit" class="btn btn-primary noto" ng-click="addPerformer()" value="Request Permission to Add"/>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- FIND PERFORMER'S SCHEDULE MODAL -->
+    <div class="modal fade bd-example-modal-sm" id="findPerformerModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="container">
+                    <br><h4 class="noto">Find a Performer</h4><br>
+
+
+                    <form name="form2">
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Performer's full name: (e.g: "Osvaldo Zotto")</label>
+                            <input type="text" class="form-control" id="recipient-name" ng-model="dancer.name" name="dName" required="">
+                            <div class="errorMsgs" ng-show="form2.$submitted || form2.dName.$touched">
+                                <div ng-show="form2.dName.$error.required">Enter a full name</div>
+                            </div>
+                        </div>
+                    
+
+                    <div ng-if='matches.length > 0'>
+                        <h3 class="noto">Did you mean...</h3>
+                        <a ng-repeat='m in matches' class="body_links" style="cursor: pointer; display: block;" ng-click='viewPerformer(m._id)'>.. {{m.name}}?</a>
+                        <br>
+                        <p>If we couldn't find a match, you can still put a request to add him/her.</p>
+                    </div>
+                    <div ng-if='matches.length == 0'>
+                        <h5 style="color:red;" id="noMatchMessage">We couldn't find a match, you can still put a request to add him/her to our database.</h5>
+                    </div>
+                    <div ng-if='msg'>
+                        <h5 style="color:green;" >Thanks! Request succesfully submitted.</h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input ng-show='!matches' type="submit" class="btn btn-primary noto" ng-click="findMatches(2)" value="Find Match"/>
+                    <input ng-show='matches' type="submit" class="btn btn-primary noto" ng-click="addPerformer()" value="Request Permission to Add"/>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 
 
     <!-- LOGIN MODAL -->
@@ -136,34 +254,19 @@
         </div>
     </div>
 
-
-
-    <!-- SEE FACEBOOK FRIENDS MODAL -->
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 class="modal-title" id="myModalLabel">Your Facebook friends attending this event</h4>
-          </div>
-          <div class="modal-body">
-            Section under development. Thank you for your patience.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
         
 </body>
+<footer class="foto">
+
+        <ul class="container centered" id="footerNav">
+            <a href="#/">Request to Link Accounts</a>
+            <a href="#/">Provide Feedback</a>
+            <a ng-click=''>Translate to my Language</a>
+            <a ng-click='sendMail("qmilonga@gmail.com","Contact Developer","Are you interested in the developer of this website? Please send me an Email with your contact information and I will get back to you asap.")'>Developed by Ana Thomas <span class="body_links">Contact</span></a>
+        </ul>
+        <h6 style="color: white; margin: 0;" class="centered">© QueMilonga.com | All rights reserved.</h6>
+
+</footer>
 
 </html>
 

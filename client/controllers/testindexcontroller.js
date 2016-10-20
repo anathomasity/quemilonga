@@ -171,10 +171,6 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
      $window.open('https://www.facebook.com/' + added_by_id, '_blank');
   };
 
-  $scope.sendMail = function(emailId,subject,message){
-    $window.open("mailto:"+ emailId + "?subject=" + subject+"&body="+message,"_self");
-  };
-
   $scope.isSaved = function(mId){
     if($rootScope.user){
       for(var i = 0; i < $rootScope.user._favorites.length; i++){

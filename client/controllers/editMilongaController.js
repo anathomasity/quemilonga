@@ -56,43 +56,6 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 		}) //END OF GET PERFORMERS
 
 	});
-	
-	
-
-	// ADD A PERFORMER TO THE LIST OF PERFORMERS
-	$scope.findMatches = function(){
-	 	if(!$rootScope.user){
-	 		console.log('!Rosotscope user')
-	 		$('#loginModal').modal();
-	 	}
-	 	else {
-			$scope.matches = [];
-			for (var i = 0; i < $scope.performers.length; i++){
-				if(getEditDistance($scope.dancer.name, $scope.performers[i].name) < 7){
-					$scope.matches.push($scope.performers[i])
-				}			
-			}
-		}//END OF ELSE
-	}
-
-
-	$scope.selectMatch = function(match){
-		console.log('match:',match);
-		for (var i = 0; i < $scope.performers.length; i++){
-			if(match._id == $scope.performers[i]._id){
-				if ($scope.toggle == 'performers') {
-					$scope.performers[i].ticked = true;
-				}
-				else if ($scope.toggle == 'teachers') {
-					$scope.teachers[i].ticked = true;
-				}
-				
-				$('#exampleModal').modal('hide');
-				$scope.matches = false;
-				$scope.dancer = {};
-			}			
-		}
-	}
 
 	$scope.toggleList = function(list) {
 		if (list == 'p') {
@@ -101,24 +64,6 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 		else if (list == 't') {
 			$scope.toggle = 'teachers';
 		}
-	}
-
-	$scope.addPerformer = function(){
-		$('#noMatchMessage').html('Thanks! Request succesfully submitted');
-		setTimeout(function(){ 
-			console.log("Hello"); 
-			$('#exampleModal').modal('hide');
-		}, 3000);
-
-		var requestData = {
-			user: $rootScope.user,
-			dancer_name: $scope.dancer.name,
-			dancer_from: $scope.dancer.from
-		}
-
-		eventsFactory.addPerformerRequest(requestData, function(addedDancer){
-			console.log('succesfully requested, CONTROLLER')
-		});
 	}
 
 	$scope.updateMilonga = function(){
@@ -284,39 +229,5 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
         $('#loginModal').modal('hide');
       }
     };
-
-    var getEditDistance = function(a, b){
-	  if(a.length == 0) return b.length; 
-	  if(b.length == 0) return a.length; 
-
-	  var matrix = [];
-
-	  // increment along the first column of each row
-	  var i;
-	  for(i = 0; i <= b.length; i++){
-	    matrix[i] = [i];
-	  }
-
-	  // increment each column in the first row
-	  var j;
-	  for(j = 0; j <= a.length; j++){
-	    matrix[0][j] = j;
-	  }
-
-	  // Fill in the rest of the matrix
-	  for(i = 1; i <= b.length; i++){
-	    for(j = 1; j <= a.length; j++){
-	      if(b.charAt(i-1) == a.charAt(j-1)){
-	        matrix[i][j] = matrix[i-1][j-1];
-	      } else {
-	        matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
-	                                Math.min(matrix[i][j-1] + 1, // insertion
-	                                         matrix[i-1][j] + 1)); // deletion
-	      }
-	    }
-	  }
-
-	  return matrix[b.length][a.length];
-	};
 
 })

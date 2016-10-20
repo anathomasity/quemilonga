@@ -1,8 +1,14 @@
 <div class="container">
-<!-- {{performer}} -->
-	<h3>{{performer.name}}'s future events</h3>
-<!-- 	{{performer._id}} -->
 
+	<h3 class="noto inline">{{performer.name}}'s</h3> <h4 class="inline"> future events</h4><br>
+
+	<div ng-if='performer._milongas_attending.length < 1'>
+		<br><br>
+		<h5>Sorry, this performer doesn't have any milongas listed.</h5>
+		<h4>Do you know where he/she's going to be? <a href="#/milongas/new" class="body_links noto">Add the event and list him!</a></h4>
+		<br><br>
+	</div>
+	
 	<table class="table table-hover">
 	  <thead>
 	    <tr>

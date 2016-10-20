@@ -25,10 +25,10 @@
 
 <br>
 
-<div class="container">
+<div class="container" >
     
 
-    <div class="row">
+    <div class="row" id="mainInfo">
 
 
         <div ng-if="anyMilonga()" class="col-xs-12 col-md-8 wrap zeromargin">
@@ -103,7 +103,7 @@
 
 
                                 <a class="col-xs-4 col-sm-4 littlelinks" ng-click='openFaceProfile(m._added_by.id)'>
-                                    <h6>Last updated by:<span class="body_links noto">{{m._added_by.name}}</span></h6>
+                                    <h6>Last updated by: <span class="body_links noto">{{m._added_by.name}}</span></h6>
                                 </a>
 
                                 <a class="col-xs-4 col-sm-4 littlelinks" href="#/milongas/{{m._id}}/edit">
@@ -139,7 +139,7 @@
         <div ng-if="anyMilonga() == false" class="col-xs-12 col-md-8">
             <div>
                 <h3>Sorry, no milongas found.</h3>
-                <h5>- You can try searching other dates or cities, or creating a new event by yourself!</h5>
+                <h5>- You can try searching other dates or cities, or <a href="#/milongas/new" class="body_links">creating a new event</a>  by yourself!</h5>
             </div><br><hr><br>
         </div>
 
@@ -150,19 +150,17 @@
             </div><br>
         </div>
 
-        <!-- BUTTON FOR MOBILE VERSION -->
-        <div class="col-xs-8 col-md-4 redBack">
-            <div class="addMilongaMobile">
-                <a href="#/milongas/new"><button class="learn-more noto">Add Milonga</button></a>
-            </div>
-        </div>
-
     </div>
+    
 
 
+</div> <!--END OF CONTAINER -->
 
+<!-- BUTTON FOR MOBILE VERSION -->
+<div class="col-xs-8 col-md-4 redBack" style="border-bottom: 1px solid white;">
+    <div class="addMilongaMobile">
+        <a href="#/milongas/new"><button class="learn-more noto">Add Milonga</button></a>
+    </div>
 </div>
 
 </div>
-
-

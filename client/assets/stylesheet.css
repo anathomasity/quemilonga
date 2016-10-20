@@ -132,6 +132,7 @@ html{
 }
 body{
 	background: url('brushed_alu.png');
+
 }
 
 .clearfix:before,
@@ -289,6 +290,24 @@ nav>a:hover{
 	background: rgba(255,255,255,.9);
 	color: black;
 }
+
+#footerNav{
+	padding-top: 2em;
+	padding-bottom: 2em;
+}
+
+#footerNav>a{
+/*	padding: 1.5em;*/
+	line-height: 40px;
+	padding: 0 2em;
+}
+
+#footerNav>a:hover{
+	background: black;
+	color: white;
+	cursor: pointer;
+}
+
 .hidden-desktop{
 	display: none;
 }
@@ -307,8 +326,8 @@ section{
 }
 .searchLine {
 	color: white; 
-	padding: 1em; 
-	font-weight: lighter;
+	/*padding: 1em; */
+	/*font-weight: lighter;*/
 }
 
 .searchInputs {
@@ -343,8 +362,9 @@ section{
 	padding: 3em 0;
 }
 .section-right{
-	width: 30%;
+	/*width: 30%;*/
 	margin: 2em auto 1em auto;
+	float:left;
 }
 .section-title,
 .section-tagline{
@@ -384,6 +404,9 @@ section{
 }
 .learn-more:active{
 	box-shadow: inset 0 2px 0 rgba(0,0,0,.8);
+}
+#mainInfo{
+	margin-bottom: 6em;
 }
 
 /* Portrait tablet to landscape and desktop */
@@ -513,6 +536,7 @@ section{
 
 	.calendar {
 		margin: auto .5em auto 2em;
+
 	}
 
 	.container{
@@ -549,6 +573,21 @@ section{
 		display: block;
 		border-bottom: solid 1px rgba(255,255,255,.1);
 	}
+
+	#footerNav{
+		height: auto;
+		padding-top: 1em;
+		padding-bottom: 1em;
+		overflow: hidden;
+		text-align: left;
+	}
+
+	#footerNav>a{
+		display: block;
+		line-height: 2em;
+
+	}
+
 	h1{
 		padding: .5em 0;
 	}

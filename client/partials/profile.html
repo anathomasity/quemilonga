@@ -1,19 +1,18 @@
 <div class="container">
 
-	<div class="btn-group fav-attending" data-toggle="buttons">
+	<div class="btn-group fav-attending centered" data-toggle="buttons">
 	  <label class="btn btn-primary active noto" ng-click="choose('favorites')">
 	    <input type="radio" name="options" id="favorites" autocomplete="off" checked > Saved
 	  </label>
 	  <label class="btn btn-primary noto" ng-click="choose('attending')">
 	    <input type="radio" name="options" id="attending" autocomplete="off" > Attending
-	  </label>
+	  </label><br>
+      <h5 ng-if="choice == 'favorites'">Your saved for later Events</h5>
+      <h5 ng-if="choice == 'attending'">Events you are attending</h5>
 	</div>
 
 	<div ng-if="choice == 'favorites'">
 
-        <h2 class="noto centered">Your Saved Events</h2><br>
-
-            
             <div class="col-sm-4">
                 <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
             </div>
@@ -30,8 +29,7 @@
 
                           <h4 class="panel-title">
 
-                                <h3 class="inline m_name noto">{{m.title}}</h3>
-                                <h5 class="inline">,&nbsp;{{m.address.city}}</h5>
+                                <h3 class="inline m_name noto">{{m.title}}</h3><h5 class="inline">,&nbsp;{{m.address.city}}</h5>
                                 <div style="float: right;">
                                     <div class="closeIcon inline" ng-click='stopSaving(m._id)'></div>
                                 </div>
@@ -48,7 +46,7 @@
 
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-8">
-                                        <h5>Milonga <span class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</span></h5><br>
+                                        <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</h5><br>
                                     </div>
 
                                     <div class="col-xs-12 col-md-4 centered">
@@ -112,10 +110,6 @@
     <!-- FIX ZEROMARGIN FOR THE MOBILE VERSION -->
     <div ng-if="choice == 'attending'" class="zeromargin">
 
-        <h2 class="noto centered">Your Attending Events</h2><br>
-
-
-            
             <div class="col-sm-4">
                 <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
             </div>
@@ -148,7 +142,7 @@
 
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-8">
-                                        <h5>Milonga <span class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</span></h5><br>
+                                        <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</h5><br>
                                     </div>
 
                                     <div class="col-xs-12 col-md-4 centered">
