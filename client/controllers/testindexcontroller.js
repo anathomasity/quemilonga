@@ -2,11 +2,25 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
 
   var state;
   var range = 50;
-  var pos = {
-    lat: 37.7749295,
-    lng: -122.41941550000001,
+  $rootScope.search = {};
+
+  if(!$rootScope.user || !$rootScope.user.city_preference) {
+      var pos = {
+        lat: 37.7749295,
+        lng: -122.41941550000001,
+      }
+      var st = 'CA'
+      $rootScope.search.city = 'San Francisco, CA, USA';
   }
-  var st = 'CA'
+  else{
+      var pos = {
+        lat: $rootScope.user.city_preference.coordinates.lat,
+        lng: $rootScope.user.city_preference.coordinates.lng,
+      }
+      var st = $rootScope.user.city_preference.state;
+      $rootScope.search.city = $rootScope.user.city_preference.city;
+  }
+  
 
   $scope.milongas = {
     today: [],
@@ -14,14 +28,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
     day_after: [],
   };
 
-
-  $scope.search = {};
-  $scope.search.city = 'San Francisco, CA, USA';
-
   var info = {
       range: range,
       pos: pos,
-      state: {state: st}
+      state: {state: st},
   };
 
 
@@ -39,19 +49,50 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
     })
   });
 
-  $scope.$watch("search.city", function(newValue, oldValue) {
+  $rootScope.$watch("search.city", function(newValue, oldValue) {
     if(newValue != oldValue){
-      pos = {
-        lat: $scope.search.city.geometry.location.lat(),
-        lng: $scope.search.city.geometry.location.lng()
-      };
-      st = $scope.search.city.address_components[2].short_name;
-      info.pos = pos;
-      info.state = {state: st}
-      eventsFactory.getMilongas(info, function(data){
-          $scope.milongas = data;   
-      })
-    }
+
+        if ($rootScope.search.city.geometry) {
+            pos = {
+              lat: $rootScope.search.city.geometry.location.lat(),
+              lng: $rootScope.search.city.geometry.location.lng()
+            };
+            st = $rootScope.search.city.address_components[2].short_name;
+            info.pos = pos;
+            info.state = {state: st}
+            info.city = $rootScope.search.city.formatted_address
+
+            console.log('scopesearchcity:', info.city)
+
+
+            eventsFactory.getMilongas(info, function(data){
+                console.log('BACK WITH MILONGAS:', data)
+                $scope.milongas = data;
+
+                if($rootScope.user){
+                    console.log('Rosotscopeuser', $rootScope.user)
+
+                    info.userId = $rootScope.user.fb_id;
+                    eventsFactory.updateUsersCity(info, function(dat){
+                        console.log('UPDATED USERS CITY CONTROLLER', dat)
+                    });
+                };
+            });
+        }
+        else {
+            console.log('city_preference',$rootScope.city_preference)
+            pos = {
+              lat: $rootScope.city_preference.coordinates.lat,
+              lng: $rootScope.city_preference.coordinates.lng
+            };
+            st = $rootScope.city_preference.state;
+            info.pos = pos;
+            info.state = {state: st}
+            eventsFactory.getMilongas(info, function(data){
+                $scope.milongas = data;
+            });
+        };
+    };
     
   });
 
@@ -92,11 +133,11 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
       console.log('liking this event: ', eventId, 'user:', $rootScope.user.name)
       var datos = {
         eventId: eventId,
-        fb_id: $rootScope.user.id,
+        fb_id: $rootScope.user.fb_id,
       }
       eventsFactory.likeEvent(datos, function(data){
           console.log('back in frontend controller',data);   
-          eventsFactory.getUser($rootScope.user.id, function(data){
+          eventsFactory.getUser($rootScope.user.fb_id, function(data){
             console.log('get favorites controller,', data);
             $scope.favorites = data.data._favorites;
           }); 
@@ -115,11 +156,11 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
       console.log('attending this event: ', eventId, 'user:', $rootScope.user.name)
       var datos = {
         eventId: eventId,
-        fb_id: $rootScope.user.id,
+        fb_id: $rootScope.user.fb_id,
       }
       eventsFactory.attendEvent(datos, function(data){
           console.log('back in frontend controller',data);
-          eventsFactory.getUser($rootScope.user.id, function(data){
+          eventsFactory.getUser($rootScope.user.fb_id, function(data){
             console.log('get favorites controller,', data);
             $scope.attending = data.data._attending;
             console.log($scope.attending, 'attending')

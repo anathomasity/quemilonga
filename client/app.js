@@ -1,34 +1,31 @@
 var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'google.places', 'multipleDatePicker', "isteven-multi-select"]);
 
 (function(){
-	myApp.controller('MainCtrl', function ($scope, $rootScope, $facebook, eventsFactory, $location) {
+	myApp.controller('MainCtrl', function ($scope, $window, $rootScope, $facebook, eventsFactory, $location) {
     	$scope.$on('fb.auth.authResponseChange', function() {
 		    $scope.status = $facebook.isConnected();
 		    if($scope.status) {
 		        $facebook.api('/me').then(function(user) {
-		          $rootScope.user = user;
-		          for(var i = 0; i < $rootScope.user.name.length; i++){
-		            if($rootScope.user.name[i] == " "){
-		              $rootScope.user.first_name = $rootScope.user.name.slice(0,i);
-		              $rootScope.user.last_name = $rootScope.user.name.slice(i+1);
+		          	$rootScope.user = user;
+		            for(var i = 0; i < $rootScope.user.name.length; i++){
+		                if($rootScope.user.name[i] == " "){
+		                    $rootScope.user.first_name = $rootScope.user.name.slice(0,i);
+		                    $rootScope.user.last_name = $rootScope.user.name.slice(i+1);
+		                }
 		            }
-		          }
-		          var info = {
-		          	first_name: $rootScope.user.first_name,
-		          	last_name: $rootScope.user.last_name,
-		          	fb_id: $rootScope.user.id
-		          }
-		          eventsFactory.createUser(info, function(data){
-			          console.log('back in frontend controller',data);
-			          if(data.data._attending){
-			          	$rootScope.user._attending = data.data._attending;
-			          }
-			          if(data.data._favorites){
-			          	$rootScope.user._favorites = data.data._favorites;
-			          }
-		              console.log('rootscope.user: ', $rootScope.user)
+		            var info = {
+		          		first_name: $rootScope.user.first_name,
+		          		last_name: $rootScope.user.last_name,
+		          		fb_id: $rootScope.user.id
+		          	}
+		            eventsFactory.createUser(info, function(data){
+			            console.log('back in frontend controller',data);
+			            $rootScope.user = data.data;
+			            $rootScope.search.city = data.data.city_preference.city;
+		         	    $rootScope.city_preference = data.data.city_preference;
+		         	    console.log('$ROOTSSCOPE.USER:', $rootScope.user);
 
-			      });
+			        });
 		        });
 		    }
 	    });
@@ -173,9 +170,13 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 		};
 
 		$scope.sendMail = function(emailId,subject,message){
+			console.log('Opening mailto')
 		    $window.open("mailto:"+ emailId + "?subject=" + subject+"&body="+message,"_self");
 		};
 
+		$scope.openSurvey = function() {
+			$window.open("https://goo.gl/forms/89aqNF6Y1ekvfJgj1");
+		}
 
 
     });

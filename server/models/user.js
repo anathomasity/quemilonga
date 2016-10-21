@@ -16,6 +16,14 @@ var Userschema = new mongoose.Schema({
 		required: true,
 		index: {unique: true},
 	},
+	city_preference: {
+		city: String,
+		state: String,
+		coordinates: {
+			lat: String,
+			lng: String,
+		},
+	},
 	_favorites: [{type: Schema.Types.ObjectId, ref: 'milonga'}],
 	_attending: [{type: Schema.Types.ObjectId, ref: 'milonga'}],
 },{timestamps:true});

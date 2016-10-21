@@ -398,6 +398,31 @@ module.exports = (function() {
 				}
 			})
 		},
+		updateUsersCity: function(req, res){
+					console.log("THIS IS REQBODY", req.body);
+			User.findOne({fb_id: req.params.id}, function(err, user){
+				if(err){
+					console.log("error finding the user", err);
+				}
+				else {
+					// console.log('this is our user',user);
+					user.city_preference = {
+						city: req.body.city,
+						state: req.body.state.state,
+						coordinates: req.body.pos,
+					}
+					user.save(function(erro, use) {
+						if (erro) {
+							console.log('ERROR', erro)
+						}
+						else{
+							res.json(user);
+						}
+					})
+				}
+			})
+
+		},
 
 
 		

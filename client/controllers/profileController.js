@@ -6,7 +6,7 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
   else {
 
 
-  eventsFactory.getUser($rootScope.user.id, function(data){
+  eventsFactory.getUser($rootScope.user.fb_id, function(data){
     // console.log('BACK getUser profile controller,', data);
     $scope.favorites = data.data._favorites;
     $scope.attending = data.data._attending;
@@ -43,11 +43,11 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
       // console.log('attending this event: ', eventId, 'user:', $rootScope.user.name)
       var datos = {
         eventId: eventId,
-        fb_id: $rootScope.user.id,
+        fb_id: $rootScope.user.fb_id,
       }
       eventsFactory.attendEvent(datos, function(data){
           // console.log('back in frontend controller',data);
-          eventsFactory.getUser($rootScope.user.id, function(data){
+          eventsFactory.getUser($rootScope.user.fb_id, function(data){
             // console.log('get favorites controller,', data);
             $scope.favorites = data.data._favorites;
             $scope.attending = data.data._attending;
@@ -86,11 +86,11 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
   $scope.stopAttending = function(mId){
     var info = {
       eventId: mId,
-      userId: $rootScope.user.id
+      userId: $rootScope.user.fb_id
     }
     eventsFactory.stopAttending(info, function(data){
         // console.log('BACK stopAttending profile controller,', data);
-        eventsFactory.getUser($rootScope.user.id, function(dat){
+        eventsFactory.getUser($rootScope.user.fb_id, function(dat){
             // console.log('get favorites controller,', dat);
             $scope.attending = dat.data._attending;
             // console.log($scope.attending, 'attending')
@@ -101,11 +101,11 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
   $scope.stopSaving = function(mId){
     var info = {
       eventId: mId,
-      userId: $rootScope.user.id
+      userId: $rootScope.user.fb_id
     }
     eventsFactory.stopSaving(info, function(data){
         // console.log('BACK stopSaving profile controller,', data);
-        eventsFactory.getUser($rootScope.user.id, function(dat){
+        eventsFactory.getUser($rootScope.user.fb_id, function(dat){
             // console.log('get favorites controller,', dat);
             $scope.favorites = dat.data._favorites;
             // console.log($scope.favorites, 'favorites')

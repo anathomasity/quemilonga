@@ -188,6 +188,14 @@ myApp.factory('eventsFactory', function($http){
 		})
 	}
 
+	factory.updateUsersCity = function(info, callback){
+		console.log('THIS IS INFO, FACTORY', info)
+		$http.post('/users/' + info.userId + '/updatecity', info).then(function(data){
+			// console.log('updated milonga:', data.data);
+			callback(data.data);
+		})
+	}
+
 
 	return factory;
 })

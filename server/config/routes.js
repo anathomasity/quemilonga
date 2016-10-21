@@ -58,6 +58,11 @@ module.exports = function(app){
 		console.log('made it to my /users/:id get route');
 		milongas.getUser(req, res);
 	})
+
+	app.post('/users/:id/updatecity', function(req, res){
+		console.log('made it to my /users/:id/updatecity post route');
+		milongas.updateUsersCity(req, res);
+	})
 	
 	app.post('/users/:id/update', function(req, res){
 		console.log('made it to my /users/:id/update post route');
