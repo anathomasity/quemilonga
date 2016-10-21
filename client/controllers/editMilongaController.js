@@ -164,7 +164,10 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 
 
 			// console.log('scope edit milonga', $scope.editMilonga);
-			$scope.editMilonga._added_by = $rootScope.user;
+			$scope.editMilonga._added_by = {
+	        	name: $rootScope.user.first_name + ' ' + $rootScope.user.last_name,
+        		id: $rootScope.user.fb_id
+	        };
 			console.log($scope.editMilonga._added_by, 'ADDED BY')
 			eventsFactory.updateMilonga($scope.editMilonga, function(updatedMilonga){
 				console.log('UPDATED MILONGA:::', updatedMilonga)

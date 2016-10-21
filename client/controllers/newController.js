@@ -67,7 +67,10 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 		            lng: $scope.address.geometry.location.lng()
 	        };
 
-	        $scope.event._added_by = $rootScope.user;
+	        $scope.event._added_by = {
+	        	name: $rootScope.user.first_name + ' ' + $rootScope.user.last_name,
+        		id: $rootScope.user.fb_id
+	        };
 
 	        // IF ANY OF THE DATES IS BEFORE THE ORIGINAL DATE, POP IT OUT OF THE ARRAY
 	        for (var i = 0; i < $scope.repeatMilonga.length; i++) {
