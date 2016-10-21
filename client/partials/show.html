@@ -1,6 +1,6 @@
 <div class="container">
-	<br>
-	<h3 class="noto inline">{{performer.name}}'s</h3> <h4 class="inline"> future events</h4><br><br><br>
+
+	<h3 class="noto inline">{{performer.name}}'s</h3> <h4 class="inline"> future events</h4><br><br>
 
 	<div ng-if='performer._milongas_attending.length < 1'>
 		<br><br>
@@ -20,7 +20,7 @@
 	  <tbody>
 	    <tr ng-if="m.milonga[0].date >= now" ng-repeat='m in performer._milongas_attending | orderBy : !sortMilongas : true'>
 
-	      <th scope="row"><h4>{{m.milonga[0].title}}</h4>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</th>
+	      <th scope="row"><h3>{{m.milonga[0].title}}</h3>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</th>
 
 	      <td ng-if='m.action == "performance"'>{{m.milonga[0].date | date : fullDate}}
 	      	<h5>Performance</h5></td>

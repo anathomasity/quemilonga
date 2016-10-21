@@ -41,19 +41,19 @@
 
             <div ng-repeat='day in milongas' ng-if='day.length > 0' class="milonga">
             <div ng-init="parentIndex = $index">
-            <p id="mDate" class="inline noto">{{day[0].date | date : fullDate}}</p>
+            <h4 id="mDate" class="inline noto">{{day[0].date | date : fullDate}}</h4>
 
                 <div class="panel-group" id="accordion{{parentIndex}}">
                     <div ng-repeat='m in day | filter:filter_name' ng-init="childIndex = $index" class="panel panel-default">
                         <div class="panel-heading accordion-toggle collapsed pointer" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address)'>
 
-                          <h4 class="panel-title">
+                          <div class="panel-title">
 
-                                <h3 class="inline m_name noto">{{m.title}}</h3><h5 class="inline">,&nbsp;{{m.address.city}}</h5><br>
+                                <h2 class="inline m_name noto">{{m.title}}</h2><h4 class="inline">,&nbsp;{{m.address.city}}</h4><br>
 
-                                <h6 ng-if="m._performers[0]._id" class="inline">Performance by:&nbsp;</h6><h6 ng-repeat='p in m._performers' class="inline"><a class='body_links noto' href="#/performers/{{p._id}}"> {{p.name}}</a></h6>
+                                <h5 ng-if="m._performers[0]._id" class="inline">Performance by:&nbsp;</h5><h5 ng-repeat='p in m._performers' class="inline"><a class='body_links noto' href="#/performers/{{p._id}}"> {{p.name}}</a></h5>
                                 
-                          </h4>
+                          </div>
                         </div>
                         <div id="collapse{{parentIndex}}{{childIndex}}" class="panel-collapse collapse" >
 
@@ -61,7 +61,7 @@
 
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-8">
-                                        <h5><span class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</span></h5><br>
+                                        <h4 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</h4><br>
                                     </div>
 
                                     <div class="col-xs-6 col-md-4 centered">
@@ -81,17 +81,17 @@
                                     <div class="col-xs-12 col-sm-6 col-md-8">
 
                                         <div ng-if="m.class_start_time" class="clase">
-                                            <h5 class="noto">Class </h5><h6 ng-if='m._class_teachers' class="inline">by:</h6><h6 ng-repeat='t in m._class_teachers' class="inline"><a class='body_links noto' href="#/performers/{{t._id}}">{{t.name}}</a></h6>
-                                            <h5 class="inline" ng-if='m.class_start_time'>@ {{m.class_start_time | date:'shortTime'}} - {{m.class_end_time | date:'shortTime'}}</h5><br>
-                                            <h6 class="inline noto" ng-if='m.class_price'>Class: ${{m.class_price}}</h6>
-                                            <h6 class="inline noto" ng-if='m.class_combo_price'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Milonga & Class: ${{m.class_combo_price}}</h6>
+                                            <h4 class="noto">Class </h4><h5 ng-if='m._class_teachers' class="inline">by:</h5><h5 ng-repeat='t in m._class_teachers' class="inline"><a class='body_links noto' href="#/performers/{{t._id}}">{{t.name}}</a></h5>
+                                            <h4 class="inline" ng-if='m.class_start_time'>@ {{m.class_start_time | date:'shortTime'}} - {{m.class_end_time | date:'shortTime'}}</h4><br>
+                                            <h5 class="inline noto" ng-if='m.class_price'>Class: ${{m.class_price}}</h5>
+                                            <h5 class="inline noto" ng-if='m.class_combo_price'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Milonga & Class: ${{m.class_combo_price}}</h5>
                                         </div><br ng-if='m.details'>
-                                        <h5>{{m.details}}</h5><br ng-if='m.details'>
+                                        <h4>{{m.details}}</h4><br ng-if='m.details'>
 
                                     </div>
                                     <div class="col-xs-12 col-md-4 centered">
-                                        <h5 ng-if='m.address.st_number' class="noto">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h5>
-                                        <h5 ng-if='m.address.details'>({{m.address.details}})</h5>
+                                        <h4 ng-if='m.address.st_number' class="noto">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h4>
+                                        <h4 ng-if='m.address.details'>({{m.address.details}})</h4>
                                         <div id="map_canvas_{{m._id}}" class="mapa"></div>
 
                                         <button type="button" class="btn btn-info noto" ng-click='openInMaps(m.address)'>Open in maps</button>
@@ -103,15 +103,15 @@
 
 
                                 <a class="col-xs-4 col-sm-4 littlelinks" ng-click='openFaceProfile(m._added_by.id)'>
-                                    <h6>Last updated by: <span class="body_links noto">{{m._added_by.name}}</span></h6>
+                                    <h5>Last updated by: <span class="body_links noto">{{m._added_by.name}}</span></h5>
                                 </a>
 
                                 <a class="col-xs-4 col-sm-4 littlelinks" href="#/milongas/{{m._id}}/edit">
-                                    <h6>Not accurate? <span class="body_links noto">UPDATE</span></h6>
+                                    <h5>Not accurate? <span class="body_links noto">UPDATE</span></h5>
                                 </a>
 
                                 <a class="col-xs-4 col-sm-4 littlelinks" ng-click='sendMail("qmilonga@gmail.com","Something is Wrong","Tell us more about what is wrong with this milonga {{m._id}}")'>
-                                    <h6 class="body_links noto">Report a problem</h6>
+                                    <h5 class="body_links noto">Report a problem</h5>
                                 </a>
                             </div>
                             
@@ -139,7 +139,7 @@
         <div ng-if="anyMilonga() == false" class="col-xs-12 col-md-8">
             <div>
                 <h3>Sorry, no milongas found.</h3>
-                <h5>- You can try searching other dates or cities, or <a href="#/milongas/new" class="body_links">creating a new event</a>  by yourself!</h5>
+                <h4>- You can try searching other dates or cities, or <a href="#/milongas/new" class="body_links">creating a new event</a>  by yourself!</h4>
             </div><br><hr><br>
         </div>
 
