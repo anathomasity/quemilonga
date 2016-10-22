@@ -9,7 +9,7 @@ myApp.factory('eventsFactory', function($http){
 	var milongas = [];
 
 	factory.getMilongas = function(info, callback){
-			console.log('this is the get milongas AT FACTORY', info);
+			// console.log('this is the get milongas AT FACTORY', info);
 
 
 			// DIRTY FIX, HAVE TO SOLVE THIS AFTER SOLVING THE DEFAULT CITY OF THE USER
@@ -64,9 +64,9 @@ myApp.factory('eventsFactory', function($http){
 	}
 
 	factory.addPerformer = function(data, callback){
-		console.log('made it to my Add performer in the factory', data);
+		// console.log('made it to my Add performer in the factory', data);
 		$http.post('/performers', data).then(function(data){
-			console.log('made it back from backend this is our new performer', data);
+			// console.log('made it back from backend this is our new performer', data);
 			callback(data);
 		})
 	}
@@ -189,7 +189,7 @@ myApp.factory('eventsFactory', function($http){
 	}
 
 	factory.updateUsersCity = function(info, callback){
-		console.log('THIS IS INFO, FACTORY', info)
+		// console.log('THIS IS INFO, FACTORY', info)
 		$http.post('/users/' + info.userId + '/updatecity', info).then(function(data){
 			// console.log('updated milonga:', data.data);
 			callback(data.data);

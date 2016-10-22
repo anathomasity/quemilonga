@@ -125,10 +125,6 @@
 html{
 	font-size: 12px;
 }
-body{
-	background: url('brushed_alu.png');
-
-}
 
 .clearfix:before,
 .clearfix:after {
@@ -200,6 +196,39 @@ header{
 
 .foto2 {
 	background-image: url("milonga.jpg");
+}
+
+.attendButton{
+	background-color: black;
+	width: 2.3em;
+	height: 2.3em;
+	background:url('attend.png') no-repeat scroll 0 0 transparent;
+	background-size: 100%;
+	border-radius: 5px;
+	border: 1px solid black;
+	cursor: pointer;
+}
+
+.saveButton{
+	background-color: black;
+	width: 2.3em;
+	height: 2.3em;
+	background:url('save.png') no-repeat scroll 40% 40% transparent;
+	background-size: 80%;
+	border-radius: 5px;
+	border: 1px solid black;
+	cursor: pointer;
+}
+
+.friendsButton{
+	background-color: black;
+	width: 2.3em;
+	height: 2.3em;
+	background:url('friends.png') no-repeat scroll 40% 40% transparent;
+	background-size: 80%;
+	border-radius: 5px;
+	border: 1px solid black;
+	cursor: pointer;
 }
 
 #wrapper{
@@ -526,6 +555,10 @@ section{
 @media (max-width: 480px) {
 	body{
 		padding: 0;
+	}
+
+	#mainInfoPartial{
+		/*font-size: 60%;*/
 	}
 
 	#newMilLink {

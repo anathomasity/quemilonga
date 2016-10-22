@@ -21,6 +21,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
       $rootScope.search.city = $rootScope.user.city_preference.city;
   }
   
+  
 
   $scope.milongas = {
     today: [],
@@ -39,7 +40,17 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
       $scope.milongas = data;  
   })
 
-
+  $scope.$watch("user", function(newValue, oldValue) {
+      // console.log('hello')
+      for(var i = 0; i < $rootScope.user._attending.length; i++) {
+        var id = 'a' + $rootScope.user._attending[i]._id;
+        $('#' + id).css({'cursor': 'not-allowed', 'border': '0'});
+      }
+      for(var i = 0; i < $rootScope.user._favorites.length; i++) {
+        var id = 's' + $rootScope.user._favorites[i]._id;
+        $('#' + id).css({'cursor': 'not-allowed', 'border': '0'});
+      }
+  });
 
   $scope.$watch("search.range", function(newValue, oldValue) {
     range = newValue
@@ -62,25 +73,25 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
             info.state = {state: st}
             info.city = $rootScope.search.city.formatted_address
 
-            console.log('scopesearchcity:', info.city)
+            // console.log('scopesearchcity:', info.city)
 
 
             eventsFactory.getMilongas(info, function(data){
-                console.log('BACK WITH MILONGAS:', data)
+                // console.log('BACK WITH MILONGAS:', data)
                 $scope.milongas = data;
 
                 if($rootScope.user){
-                    console.log('Rosotscopeuser', $rootScope.user)
+                    // console.log('Rosotscopeuser', $rootScope.user)
 
                     info.userId = $rootScope.user.fb_id;
                     eventsFactory.updateUsersCity(info, function(dat){
-                        console.log('UPDATED USERS CITY CONTROLLER', dat)
+                        // console.log('UPDATED USERS CITY CONTROLLER', dat)
                     });
                 };
             });
         }
         else {
-            console.log('city_preference',$rootScope.city_preference)
+            // console.log('city_preference',$rootScope.city_preference)
             pos = {
               lat: $rootScope.city_preference.coordinates.lat,
               lng: $rootScope.city_preference.coordinates.lng
@@ -124,21 +135,22 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
 
   $scope.saveEvent = function(eventId) {
     if(!$rootScope.user){
-      console.log('!Rosotscope user')
+      // console.log('!Rosotscope user')
       $('#loginModal').modal();
     }
     else {
       var id = 's' + eventId;
-      $('#' + id).css({'cursor': 'not-allowed', 'background-color': '#7BA9D0', 'border': '0'});
-      console.log('liking this event: ', eventId, 'user:', $rootScope.user.name)
+      $('#' + id).css({'cursor': 'not-allowed', 'border': '0'});
+      // console.log('liking this event: ', eventId, 'user:', $rootScope.user.name)
       var datos = {
         eventId: eventId,
         fb_id: $rootScope.user.fb_id,
       }
       eventsFactory.likeEvent(datos, function(data){
-          console.log('back in frontend controller',data);   
+          // console.log('back in frontend controller',data);   
           eventsFactory.getUser($rootScope.user.fb_id, function(data){
-            console.log('get favorites controller,', data);
+            // console.log('get favorites controller,', data);
+            $rootScope.user = data.data;
             $scope.favorites = data.data._favorites;
           }); 
       });
@@ -147,23 +159,24 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
 
   $scope.attendEvent = function(eventId) {
     if(!$rootScope.user){
-      console.log('!Rosotscope user')
+      // console.log('!Rosotscope user')
       $('#loginModal').modal();
     }
     else {
       var id = 'a' + eventId;
-      $('#' + id).css({'cursor': 'not-allowed', 'background-color': '#7BA9D0', 'border': '0'});
-      console.log('attending this event: ', eventId, 'user:', $rootScope.user.name)
+      $('#' + id).css({'cursor': 'not-allowed', 'border': '0'});
+      // console.log('attending this event: ', eventId, 'user:', $rootScope.user.name)
       var datos = {
         eventId: eventId,
         fb_id: $rootScope.user.fb_id,
       }
       eventsFactory.attendEvent(datos, function(data){
-          console.log('back in frontend controller',data);
+          // console.log('back in frontend controller',data);
           eventsFactory.getUser($rootScope.user.fb_id, function(data){
-            console.log('get favorites controller,', data);
+            // console.log('get favorites controller,', data);
+            $rootScope.user = data.data;
             $scope.attending = data.data._attending;
-            console.log($scope.attending, 'attending')
+            // console.log($scope.attending, 'attending')
           });  
       });
     }//END OF ELSE

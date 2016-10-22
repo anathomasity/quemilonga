@@ -19,11 +19,11 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 		          		fb_id: $rootScope.user.id
 		          	}
 		            eventsFactory.createUser(info, function(data){
-			            console.log('back in frontend controller',data);
+			            // console.log('back in frontend controller',data);
 			            $rootScope.user = data.data;
 			            $rootScope.search.city = data.data.city_preference.city;
 		         	    $rootScope.city_preference = data.data.city_preference;
-		         	    console.log('$ROOTSSCOPE.USER:', $rootScope.user);
+		         	    // console.log('$ROOTSSCOPE.USER:', $rootScope.user);
 
 			        });
 		        });
@@ -53,7 +53,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 		$scope.findMatches = function(type){
 			if (type == 1){
 				if(!$rootScope.user){
-			 		console.log('!Rosotscope user')
+			 		// console.log('!Rosotscope user')
 			 		$('#loginModal').modal();
 			 	}
 			}
@@ -74,7 +74,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 
 
 		$scope.selectMatch = function(match){
-			console.log('match:',match);
+			// console.log('match:',match);
 			for (var i = 0; i < $scope.performers.length; i++){
 				if(match._id == $scope.performers[i]._id){
 					if ($scope.toggle == 'performers') {
@@ -112,7 +112,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 				}
 
 				eventsFactory.addPerformerRequest(requestData, function(addedDancer){
-					console.log('succesfully requested, CONTROLLER')
+					// console.log('succesfully requested, CONTROLLER')
 					$scope.dancer = false;
 					$scope.matches = false;
 				});
@@ -170,7 +170,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 		};
 
 		$scope.sendMail = function(emailId,subject,message){
-			console.log('Opening mailto')
+			// console.log('Opening mailto')
 		    $window.open("mailto:"+ emailId + "?subject=" + subject+"&body="+message,"_self");
 		};
 

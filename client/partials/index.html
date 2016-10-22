@@ -25,7 +25,7 @@
 
 <br>
 
-<div class="container" >
+<div class="container" id="mainInfoPartial" >
     
 
     <div class="row">
@@ -61,15 +61,14 @@
 
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6 col-md-8">
-                                        <h4 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</h4><br>
+                                        <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</h5><br>
                                     </div>
 
-                                    <div class="col-xs-6 col-md-4 centered">
+                                    <div class="col-xs-6 col-md-4 centered" style="padding-right: 0;">
                                         <div id="buttonsBox" class="centered">
-                                            <button type="button" class="btn btn-primary btn-sm noto inline" id='s{{m._id}}' ng-click='saveEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later" ng-disabled="isSaved(m._id)">S</button>
-                                            <button type="button" class="btn btn-primary btn-sm noto" id='a{{m._id}}' ng-click='attendEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event" ng-disabled="isAttending(m._id)">A</button>
-                                            <!-- <button type="button" class="btn btn-primary btn-sm noto" ng-click='seeFriends(m._id)' data-toggle="tooltip" data-placement="top" title="See your friends attending this event" data-toggle="modal" data-target="#myModal">F</button> -->
-                                            <button type="button" class="btn btn-primary btn-sm noto" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event">F</button>
+                                            <div class="saveButton inline" id='s{{m._id}}' ng-click='saveEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later" ng-disabled="isSaved(m._id)"></div>
+                                            <div class="attendButton inline" id='a{{m._id}}' ng-click='attendEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event" ng-disabled="isAttending(m._id)"></div>
+                                            <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
                                         </div>
                                     </div>
                                 </div>

@@ -4,7 +4,7 @@ myApp.controller('showController', function($scope, $routeParams, eventsFactory)
 
 	var performerId = $routeParams.id;
 	eventsFactory.getPerformer(performerId, function(data){
-		console.log('show controller,', data);
+		// console.log('show controller,', data);
 		$scope.performer = data.data;
 	})
 

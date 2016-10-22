@@ -12,7 +12,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 
 	eventsFactory.getMilonga(milongaId, function(data){
 		$scope.editMilonga = data.data;
-		console.log(data.data)
+		// console.log(data.data)
 		$scope.dt = new Date(data.data.date);
 		$scope.m_st = new Date(data.data.start_time);
 		$scope.m_et = new Date(data.data.end_time);
@@ -24,7 +24,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 				$scope.performers.push({name: dat[i].name, _id: dat[i]._id})
 				$scope.teachers.push({name: dat[i].name, _id: dat[i]._id})
 			}
-			console.log('performers:', $scope.performers);
+			// console.log('performers:', $scope.performers);
 
 
 
@@ -41,7 +41,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 					}
 				}//END OF FOR
 			}//END OF FOR
-			console.log('all teachers in db list', $scope.teachers)
+			// console.log('all teachers in db list', $scope.teachers)
 			for(var i = 0; i < $scope.teachers.length; i++){
 				for (var j = 0; j < data.data._class_teachers.length; j++) {
 					// console.log('_perf of this milonga list', data.data._performers[j])
@@ -68,7 +68,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 
 	$scope.updateMilonga = function(){
 		if(!$rootScope.user){
-	 		console.log('!Rosotscope user')
+	 		// console.log('!Rosotscope user')
 	 		$('#loginModal').modal();
 	 	}
 	 	else{
@@ -87,7 +87,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 						performerId: $scope.editMilonga._performers[i],
 					}
 					eventsFactory.removeMilongaFromPerformer(info, function(status){
-						console.log('REMOVED MILONGA FROM DANCER',status);
+						// console.log('REMOVED MILONGA FROM DANCER',status);
 					})
 				}
 			}
@@ -99,7 +99,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 						performerId: $scope.editMilonga._class_teachers[i],
 					}
 					eventsFactory.removeMilongaFromPerformer(info, function(status){
-						console.log('REMOVED MILONGA FROM DANCER',status);
+						// console.log('REMOVED MILONGA FROM DANCER',status);
 					})
 				}
 			}
@@ -168,18 +168,18 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 	        	name: $rootScope.user.first_name + ' ' + $rootScope.user.last_name,
         		id: $rootScope.user.fb_id
 	        };
-			console.log($scope.editMilonga._added_by, 'ADDED BY')
+			// console.log($scope.editMilonga._added_by, 'ADDED BY')
 			eventsFactory.updateMilonga($scope.editMilonga, function(updatedMilonga){
-				console.log('UPDATED MILONGA:::', updatedMilonga)
+				// console.log('UPDATED MILONGA:::', updatedMilonga)
 				for (var i = 0; i < $scope.performersList.length; i++){
 					info = {
 						performerId: $scope.performersList[i].perfId,
 						action: $scope.performersList[i].action,
 						milonga: updatedMilonga._id,
 					}
-					console.log('THIS IS THE INFO WE ARE PASSING',info);
+					// console.log('THIS IS THE INFO WE ARE PASSING',info);
 					eventsFactory.addMilongaToPerformer(info, function(result){
-						console.log(result);
+						// console.log(result);
 						info = {};
 					})
 				}
@@ -219,7 +219,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
               $rootScope.user.last_name = $rootScope.user.name.slice(i+1);
             }
           }
-          console.log('rootscope.user: ', $rootScope.user)
+          // console.log('rootscope.user: ', $rootScope.user)
         });
       }
     });

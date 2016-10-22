@@ -1,11 +1,11 @@
 myApp.controller('adminController', function($scope, eventsFactory, $location, $http, $rootScope, $facebook){
 
 	if(!$rootScope.user){
- 		console.log('!Rosotscope user')
+ 		// console.log('!Rosotscope user')
  		$location.url('/')
  	}
  	else if ($rootScope.user.fb_id != '10210732169205347') {
- 		console.log('Rosotscope userId not compatible')
+ 		// console.log('Rosotscope userId not compatible')
  		$location.url('/')
  	}
  	else{
@@ -18,8 +18,8 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
 
 
 		$scope.addPerformer = function(index){
-			console.log(index);
-			console.log('accepting request!!!');
+			// console.log(index);
+			// console.log('accepting request!!!');
 			var dancer = {
 				name: $scope.dancerRequests[index].dancer_name,
 				from: $scope.dancerRequests[index].dancer_from
@@ -31,10 +31,10 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
 		}
 
 		$scope.destroyRequest = function(index){
-			console.log('destroying request!!', index);
+			// console.log('destroying request!!', index);
 			var requestId = $scope.dancerRequests[index]._id;
 			eventsFactory.destroyRequest(requestId, function(destroyedRequest){
-				console.log(destroyedRequest, 'back at controller');
+				// console.log(destroyedRequest, 'back at controller');
 				$scope.dancerRequests.splice(index, 1);
 			})
 		}

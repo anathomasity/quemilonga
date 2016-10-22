@@ -7,7 +7,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	$scope.performersList = [];
 	$scope.toggle;
 
-	console.log('USER is: ',$rootScope.user);
+	// console.log('USER is: ',$rootScope.user);
 
 	eventsFactory.getPerformers(function(data){
 		// console.log('performers:',data);
@@ -30,12 +30,12 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	$scope.addMilonga = function(){
 
 	 	if(!$rootScope.user){
-	 		console.log('!Rosotscope user')
+	 		// console.log('!Rosotscope user')
 	 		$('#loginModal').modal();
 	 	}
 	 	else {
 
-		 	console.log('USER is: ',$rootScope.user);
+		 	// console.log('USER is: ',$rootScope.user);
 
 			$scope.performersList = [];
 			// MAKE SURE EACH COMPONENT OF THE ADDRESS IS IN THE CORRECT FIELD
@@ -181,7 +181,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
               $rootScope.user.last_name = $rootScope.user.name.slice(i+1);
             }
           }
-          console.log('rootscope.user: ', $rootScope.user)
+          // console.log('rootscope.user: ', $rootScope.user)
           // $window.history.back()
         });
       }
