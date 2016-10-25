@@ -40,59 +40,99 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
       $('#loginModal').modal();
     }
     else {
-      // console.log('attending this event: ', eventId, 'user:', $rootScope.user.name)
-      var datos = {
-        eventId: eventId,
-        fb_id: $rootScope.user.fb_id,
-      }
-      eventsFactory.attendEvent(datos, function(data){
-          // console.log('back in frontend controller',data);
-          eventsFactory.getUser($rootScope.user.fb_id, function(data){
-            // console.log('get favorites controller,', data);
-            $scope.favorites = data.data._favorites;
-            $scope.attending = data.data._attending;
-            // console.log($scope.attending, 'attending')
-          });  
-      });
+        var check = false;
+        var id = 'a' + eventId;
+        for(var i = 0; i < $rootScope.user._attending.length; i++){
+            if(eventId == $rootScope.user._attending[i]._id){
+                check = true;
+            };
+        };
+
+        if(check == false){
+            $('#' + id).css({'border': '0'});
+            // console.log('attending this event: ', eventId, 'user:', $rootScope.user.name)
+            var datos = {
+              eventId: eventId,
+              fb_id: $rootScope.user.fb_id,
+            }
+            eventsFactory.attendEvent(datos, function(data){
+                // console.log('back in frontend controller',data);
+                $scope.stopSaving(eventId); 
+            });
+        }
+        else if(check == true){
+            $('#' + id).css({'border': '1px solid black'});
+            var info = {
+              eventId: eventId,
+              userId: $rootScope.user.fb_id
+            }
+            eventsFactory.stopAttending(info, function(data){
+                eventsFactory.getUser($rootScope.user.fb_id, function(data){
+                    $rootScope.user = data.data;
+                    $scope.attending = data.data._attending;
+                });  
+            });
+        }//END OF ELSE IF
+
     }//END OF ELSE
   }
 
-  $scope.isSaved = function(mId){
-    if($rootScope.user){
-      for(var i = 0; i < $scope.favorites.length; i++){
-        if(mId == $scope.favorites[i]._id){
-          return true;
-        }
-      }
+  $scope.saveEvent = function(eventId) {
+    if(!$rootScope.user){
+      // console.log('!Rosotscope user')
+      $('#loginModal').modal();
     }
-    return false;
-  }
+    else {
+        var check = false;
+        var id = 's' + eventId;
+        for(var i = 0; i < $rootScope.user._favorites.length; i++){
+            if(eventId == $rootScope.user._favorites[i]._id){
+                check = true;
+            };
+        };
 
-  $scope.isAttending = function(mId){
-    // console.log('checking milonga:', mId)
-    if($rootScope.user){
-      for(var i = 0; i < $scope.attending.length; i++){
-        // console.log('comparing:', mId, $scope.attending[i]._id)
-        if(mId == $scope.attending[i]._id){
-          // console.log('returning true')
-          return true;
+        if(check == false){
+            $('#' + id).css({'border': '0'});
+            var datos = {
+              eventId: eventId,
+              fb_id: $rootScope.user.fb_id,
+            }
+            eventsFactory.likeEvent(datos, function(data){
+                // console.log('back in frontend controller',data);   
+                $scope.stopAttending(eventId);
+            });
         }
-      }
-    }
-    // console.log('returning FALSE')
-    return false;
+        else if(check == true){
+            $('#' + id).css({'border': '1px solid black'});
+            var info = {
+                eventId: eventId,
+                userId: $rootScope.user.fb_id
+            }
+            eventsFactory.stopSaving(info, function(data){
+                // console.log('BACK stopSaving profile controller,', data);
+                eventsFactory.getUser($rootScope.user.fb_id, function(dat){
+                    // console.log('get favorites controller,', dat);
+                    $scope.favorites = dat.data._favorites;
+                    $rootScope.user = dat.data;
+                }); 
+            });
+        }//END OF ELSE IF
+
+    }//END OF ELSE
   }
 
   $scope.stopAttending = function(mId){
     var info = {
       eventId: mId,
-      userId: $rootScope.user.fb_id
+      fb_id: $rootScope.user.fb_id
     }
     eventsFactory.stopAttending(info, function(data){
         // console.log('BACK stopAttending profile controller,', data);
         eventsFactory.getUser($rootScope.user.fb_id, function(dat){
             // console.log('get favorites controller,', dat);
             $scope.attending = dat.data._attending;
+            $scope.favorites = dat.data._favorites;
+            $rootScope.user = dat.data;
             // console.log($scope.attending, 'attending')
         });  
     });
@@ -101,14 +141,15 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
   $scope.stopSaving = function(mId){
     var info = {
       eventId: mId,
-      userId: $rootScope.user.fb_id
+      fb_id: $rootScope.user.fb_id
     }
     eventsFactory.stopSaving(info, function(data){
         // console.log('BACK stopSaving profile controller,', data);
         eventsFactory.getUser($rootScope.user.fb_id, function(dat){
             // console.log('get favorites controller,', dat);
             $scope.favorites = dat.data._favorites;
-            // console.log($scope.favorites, 'favorites')
+            $scope.attending = dat.data._attending;
+            $rootScope.user = dat.data;
         }); 
     });
   };

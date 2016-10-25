@@ -293,7 +293,18 @@ a{
 .body_links{
 	color: #EAAF00;
 	text-decoration: underline;
-	padding: 3px;
+	padding-right: 4px;
+}
+
+.milongaOpen{
+	padding-bottom: 0;
+}
+
+.datesBorder{
+	border-top: 1px solid #d9d9d9;
+	border-bottom: 1px solid #999999;
+	border-radius: 5px;
+	padding: 1em 0.2em 1em 0.2em;
 }
 
 .clase {
@@ -301,6 +312,11 @@ a{
 	border-left: 1px solid #ff884d;
 	border-right: 1px solid #ff884d;
 	padding: 1em 1em 0 1em ;
+}
+
+.redBorder {
+	border: 1px solid red;
+	padding: .5em 2em;
 }
 
 .centered {

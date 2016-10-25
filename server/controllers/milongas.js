@@ -359,7 +359,7 @@ module.exports = (function() {
 			});
 		},
 		stopAttending: function(req,res){
-			User.findOne({fb_id: req.body.userId}, function(err, user){
+			User.findOne({fb_id: req.body.fb_id}, function(err, user){
 				if(err){
 					console.log("error finding the user", err);
 				}
@@ -379,7 +379,7 @@ module.exports = (function() {
 			})
 		},
 		stopSaving: function(req,res){
-			User.findOne({fb_id: req.body.userId}, function(err, user){
+			User.findOne({fb_id: req.body.fb_id}, function(err, user){
 				if(err){
 					console.log("error finding the user", err);
 				}

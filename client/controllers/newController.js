@@ -35,7 +35,9 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	 	}
 	 	else {
 
-		 	// console.log('USER is: ',$rootScope.user);
+	 		if(!$scope.hasStNumber()){
+	 			return;
+	 		}
 
 			$scope.performersList = [];
 			// MAKE SURE EACH COMPONENT OF THE ADDRESS IS IN THE CORRECT FIELD
@@ -199,6 +201,20 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
     $scope.showClass = function(){
     	$('#newClassForm').css('display', 'block');
     }
+
+    $scope.hasStNumber = function() {
+  		if(!$scope.address.address_components){
+  			return false;
+  		}
+    	for(var i = 0; i < $scope.address.address_components.length; i++){
+    		if ($scope.address.address_components[i].types[0] == 'street_number') {
+    			// console.log('returning true')
+    			return true;
+    		}
+    	}
+    	// console.log('returning false')
+    	return false;
+  	};
 
 
 });

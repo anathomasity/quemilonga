@@ -25,7 +25,7 @@
                     <div ng-repeat="m in favorites | filter:filter_name | orderBy: 'date'" ng-init="childIndex = $index" ng-if="m.date >= now" class="panel panel-default">
                     <h6 id="mDate" class="inline">{{m.date | date : fullDate}}</h6>
                     
-                        <div class="panel-heading accordion-toggle collapsed pointer" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}">
+                        <div class="panel-heading accordion-toggle collapsed pointer milongaOpen" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}">
 
                           <h4 class="panel-title">
 
@@ -36,7 +36,7 @@
                                 
                                 <br>
 
-                                <h6 ng-if="m._performers[0]._id" class="inline">Performance by:&nbsp;</h6><h6 ng-repeat='p in m._performers' class="inline"><a class='body_links noto' href="#/performers/{{p._id}}"> {{p.name}}</a></h6>
+                                <h6 ng-if="m._performers[0]._id" style="margin: 0;">Performance by:</h6><h5 ng-repeat='p in m._performers' class="inline"><a class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a></h5>
                                 
                           </h4>
                         </div>
@@ -45,21 +45,19 @@
                             <div class="panel-body">
 
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-8">
-                                        <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</h5><br>
+                                    <div class="col-xs-6 col-sm-6 col-md-8">
+                                        <h5 class="noto">Milonga: ${{m.price}}</h5>
+                                        <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h5>
                                     </div>
 
-                                    <div class="col-xs-12 col-md-4 centered">
-                                        <div id="buttonsBox">
-                                            <button type="button" class="btn btn-primary btn-sm noto" ng-click='attendEvent(m._id)' ng-show="!isAttending(m._id)">Attend</button>
-                                            <button type="button" class="btn btn-primary btn-sm noto" ng-click='attendEvent(m._id)' ng-show="isAttending(m._id)" disabled>Attending</button>
-                                            <button type="button" class="btn btn-primary btn-sm noto" data-toggle="modal" data-target="#myModal">Friends</button>
+                                    <div class="col-xs-6 col-md-4 centered" style="padding-right: 0;">
+                                        <div id="buttonsBox" class="centered">
+                                            <div class="attendButton inline" id='a{{m._id}}' ng-click='attendEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
+                                            <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
                                         </div>
                                     </div>
-                                </div>
+                                </div><br>
                                 
-
-                            
 
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-8">
@@ -122,7 +120,7 @@
                     <div ng-repeat="m in attending | filter:filter_name | orderBy: 'date'" ng-init="childIndex = $index" ng-if="m.date >= now" class="panel panel-default">
                     <h6 id="mDate" class="inline">{{m.date | date : fullDate}}</h6>
                     
-                        <div class="panel-heading accordion-toggle collapsed pointer" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}">
+                        <div class="panel-heading accordion-toggle collapsed pointer milongaOpen" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}">
 
                           <h4 class="panel-title">
 
@@ -132,7 +130,7 @@
                                 </div>
                                 <br>
 
-                                <h6 ng-if="m._performers[0]._id" class="inline">Performance by:&nbsp;</h6><h6 ng-repeat='p in m._performers' class="inline"><a class='body_links noto' href="#/performers/{{p._id}}"> {{p.name}}</a></h6>
+                                <h6 ng-if="m._performers[0]._id" style="margin: 0;">Performance by:</h6><h5 ng-repeat='p in m._performers' class="inline"><a class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a></h5>
                                 
                           </h4>
                         </div>
@@ -141,16 +139,18 @@
                             <div class="panel-body">
 
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-8">
-                                        <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}} | ${{m.price}}</h5><br>
+                                    <div class="col-xs-6 col-sm-6 col-md-8">
+                                        <h5 class="noto">Milonga: ${{m.price}}</h5>
+                                        <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h5>
                                     </div>
 
-                                    <div class="col-xs-12 col-md-4 centered">
-                                        <div id="buttonsBox">
-                                            <button type="button" class="btn btn-primary btn-sm noto" data-toggle="modal" data-target="#myModal">Friends</button>
+                                    <div class="col-xs-6 col-md-4 centered" style="padding-right: 0;">
+                                        <div id="buttonsBox" class="centered">
+                                            <div class="saveButton inline" id='s{{m._id}}' ng-click='saveEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
+                                            <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
                                         </div>
                                     </div>
-                                </div>
+                                </div><br>
                                 
 
                             

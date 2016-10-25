@@ -71,14 +71,17 @@
 	  <div class="col-md-8">
 	    <input class="form-control" type="number" min="1" id="example-number-input" ng-model='editMilonga.price' name="mPrice" required="">
 	    <div class="errorMsgs" ng-show="form.$submitted || form.mPrice.$touched">
-      		<div ng-show="form.mPrice.$error.required">Enter a price</div>
+      		<div ng-show="form.mPrice.$error.required">Enter a numeric value in your currency</div>
       	</div>
 	  </div>
 	</div>
 	<div class="form-group row">
 	  <label for="example-text-input" class="col-md-4 col-form-label">Address * <a class="body_links" ng-click='editAddress()'>Edit</a></label>
 	  <div class="col-md-8" ng-show='addressForm'>
-	    <input class="form-control" type="text" g-places-autocomplete ng-model='address' options="autocompleteOptions" placeholder="Start typing and choose from options" />
+	    <input class="form-control" type="text" g-places-autocomplete ng-model='address' options="autocompleteOptions" placeholder="Start typing and choose from options" name="mAddress"/>
+	    <div class="errorMsgs" ng-show="form.$submitted || form.mAddress.$touched">
+      		<div ng-show="form.mAddress.$error.required || !address.address_components || !hasStNumber()" class="redBorder">Invalid format. Start typing an address and choose from Google results.</div>
+      	</div>
 	  </div>
 	  <div class="col-md-8" ng-show='!addressForm'>
 	    <p>{{editMilonga.address.st_number}} {{editMilonga.address.st_name}}, {{editMilonga.address.city}}, {{editMilonga.address.state}}, {{editMilonga.address.country}}. {{editMilonga.address.zip_code}}</p>
@@ -87,7 +90,7 @@
 	<div class="form-group row">
 	  <label for="example-text-input" class="col-md-4 col-form-label" >Address Details</label>
 	  <div class="col-md-8">
-	    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input" ng-model="editMilonga.address.details" max="20" placeholder="Additional address details">
+	    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input" ng-model="editMilonga.address.details" maxlength="60" placeholder="Additional address details">
 	  </div>
 	</div>
 

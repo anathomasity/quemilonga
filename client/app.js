@@ -6,18 +6,19 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 		    $scope.status = $facebook.isConnected();
 		    if($scope.status) {
 		        $facebook.api('/me').then(function(user) {
-		          	$rootScope.user = user;
-		            for(var i = 0; i < $rootScope.user.name.length; i++){
-		                if($rootScope.user.name[i] == " "){
-		                    $rootScope.user.first_name = $rootScope.user.name.slice(0,i);
-		                    $rootScope.user.last_name = $rootScope.user.name.slice(i+1);
+		          	$scope.user = user;
+		            for(var i = 0; i < $scope.user.name.length; i++){
+		                if($scope.user.name[i] == " "){
+		                    $scope.user.first_name = $scope.user.name.slice(0,i);
+		                    $scope.user.last_name = $scope.user.name.slice(i+1);
 		                }
 		            }
 		            var info = {
-		          		first_name: $rootScope.user.first_name,
-		          		last_name: $rootScope.user.last_name,
-		          		fb_id: $rootScope.user.id
+		          		first_name: $scope.user.first_name,
+		          		last_name: $scope.user.last_name,
+		          		fb_id: $scope.user.id
 		          	}
+		          	$rootScope.search={};
 		            eventsFactory.createUser(info, function(data){
 			            // console.log('back in frontend controller',data);
 			            $rootScope.user = data.data;

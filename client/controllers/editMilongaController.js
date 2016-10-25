@@ -72,6 +72,11 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 	 		$('#loginModal').modal();
 	 	}
 	 	else{
+
+	 		if(!$scope.hasStNumber()){
+	 			return;
+	 		}
+
 	 		$scope.editMilonga.date = $scope.dt;
 	 		$scope.editMilonga.start_time = $scope.m_st;
 	 		$scope.editMilonga.end_time = $scope.m_et;
@@ -104,7 +109,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 				}
 			}
 
-			if($scope.address){
+			if($scope.address && $scope.address.address_components){
 
 				for (var i=0; i < $scope.address.address_components.length; i++){
 
@@ -208,29 +213,18 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
     	showWeeks: false,
   	};
 
-    $scope.$on('fb.auth.authResponseChange', function() {
-      $scope.status = $facebook.isConnected();
-      if($scope.status) {
-        $facebook.api('/me').then(function(user) {
-          $rootScope.user = user;
-          for(var i = 0; i < $rootScope.user.name.length; i++){
-            if($rootScope.user.name[i] == " "){
-              $rootScope.user.first_name = $rootScope.user.name.slice(0,i);
-              $rootScope.user.last_name = $rootScope.user.name.slice(i+1);
-            }
-          }
-          // console.log('rootscope.user: ', $rootScope.user)
-        });
-      }
-    });
-
-    $scope.loginToggle = function() {
-      if($scope.status) {
-        $facebook.logout();
-      } else {
-        $facebook.login();
-        $('#loginModal').modal('hide');
-      }
-    };
+  	$scope.hasStNumber = function() {
+  		if(!$scope.address.address_components){
+  			return false;
+  		}
+    	for(var i = 0; i < $scope.address.address_components.length; i++){
+    		if ($scope.address.address_components[i].types[0] == 'street_number') {
+    			// console.log('returning true')
+    			return true;
+    		}
+    	}
+    	// console.log('returning false')
+    	return false;
+  	};
 
 })
