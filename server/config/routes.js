@@ -45,7 +45,7 @@ module.exports = function(app){
 		milongas.updateMilonga(req, res);
 	})
 	app.post('/performers/:id/update', function(req, res){
-		console.log('made it to my /performers/:id/update post route');
+		console.log('addMilongaToPerformer ROUTE', req.body);
 		milongas.addMilongaToPerformer(req, res);
 	})
 

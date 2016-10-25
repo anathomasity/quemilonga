@@ -101,13 +101,14 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 				});
 	        }
 
-	        // PUSH EACH TEACHER AND EACH PERFORMER TO THEIR ARRAY
-	        // PUSH TEACHERS AND PERFORMERS TO PERFORMERSLIST ARRAY
+	        // PUSH EACH TEACHER AND EACH PERFORMER TO THE CORRESPONDING EVENT ARRAY
+	        // PUSH TEACHERS AND PERFORMERS TO PERFORMERSLIST ARRAY TO EDIT PERFORMER'S PROFILE
 			$scope.event._performers = [];
 			for (var i in $scope.outputPerformers){
 				$scope.event._performers.push($scope.outputPerformers[i]._id);
 				$scope.performersList.push({perfId: $scope.outputPerformers[i]._id, action: 'performance'});
 			}
+
 			$scope.event._class_teachers = [];
 			for (var i in $scope.outputTeachers){
 				$scope.event._class_teachers.push($scope.outputTeachers[i]._id)
@@ -121,16 +122,16 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 					if($scope.performersList[i].perfId == $scope.performersList[j].perfId){
 						$scope.performersList[i].action = 'both';
 						$scope.performersList.splice(j, 1);
-						i--;
 						j--;
 					}
 				}
 			}
 
+
 	        // CREATE THE ORIGINAL MILONGA WITH ALL THE INFO
 			eventsFactory.addMilonga($scope.event, function(addedMilonga){
-				// console.log("THIS IS THE PERFORMERSLIST", $scope.performersList)
-				// console.log('ADDED MILONGA', addedMilonga);
+
+				console.log('ADDED MILONGA:', addedMilonga)
 				
 				for (var i = 0; i < $scope.performersList.length; i++){
 					var info = {
@@ -138,9 +139,9 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 						action: $scope.performersList[i].action,
 						milonga: addedMilonga._id,
 					}
-					// console.log('THIS IS THE INFO WE ARE PASSING',info);
+
 					eventsFactory.addMilongaToPerformer(info, function(result){
-						// console.log(result);
+						console.log('ADD MILONGA TO PERFORMER RESULT:',result);
 					});
 				}
 

@@ -66,7 +66,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
   $rootScope.$watch("search.city", function(newValue, oldValue) {
     if(newValue != oldValue){
 
-        if ($rootScope.search.city.geometry) {
+        if ($rootScope.search.city && $rootScope.search.city.geometry) {
             pos = {
               lat: $rootScope.search.city.geometry.location.lat(),
               lng: $rootScope.search.city.geometry.location.lng()
@@ -120,9 +120,9 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
   $scope.getMapInfo = function(mId, addr) {
     // console.log('inside get map info', addr);
     var address = 
-          addr.st_number 
-        + addr.st_name
-        + addr.city
+          addr.st_number + '+'
+        + addr.st_name + '+'
+        + addr.city + '+'
         + addr.state;
     // console.log('ADDRESS', address)
     $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
@@ -270,10 +270,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
 
   $scope.openInMaps = function(addr) {
     var address = 
-          addr.st_number 
-        + addr.st_name
-        + addr.city
-        + addr.state;
+          addr.st_number + '+'
+        + addr.st_name + '+'
+        + addr.city + '+'
+        + addr.state; 
     $window.open("http://maps.google.com/?q=" + address);
   }
 

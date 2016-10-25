@@ -198,7 +198,10 @@ module.exports = (function() {
 				console.log('THIS IS THE PERFORMER',performer);
 			    performer.save(function (err) {
 			        if(err) {
-			            console.error('ERROR ADDING EVENT TO PERFORMER!');
+			            console.log('ERROR ADDING EVENT TO PERFORMER!');
+			        }
+			        else{
+			        	res.json(performer);
 			        }
 			    });
 			});

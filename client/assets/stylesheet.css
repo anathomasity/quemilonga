@@ -596,6 +596,10 @@ section{
 		background-color: black;
 	}
 
+	.mobileAddress{
+		font-size: small;
+	}
+
 	.calendar {
 		margin: auto .5em auto 2em;
 

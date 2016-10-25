@@ -92,12 +92,12 @@
             </label>
             <input type="checkbox" name="" id="open">
             <nav>
-                <a ng-if='!user' ng-click='login()' class="navLinks">Login</a>
-                <a ng-if='user' ng-click='logout()' class="navLinks">Logout</a>
-                <a href="#/profile" ng-if='user' class="navLinks">{{user.first_name}} {{user.last_name}}</a>
-                <a id="newMilLink" class="navLinks" href="#/milongas/new">Post New Milonga</a>
-                <a ng-click='findPerformerModal()' class="navLinks">Find Performer's Schedule</a>
-                <a class="navLinks" ng-click='sendMail("qmilonga@gmail.com","Hey there, QueMilonga!","Please send us an Email, we will get back to you as soon as possible")'>Contact</a>
+                <a ng-if='!user' ng-click='login(); closeNav()' class="navLinks">Login</a>
+                <a ng-if='user' ng-click='logout(); closeNav()' class="navLinks">Logout</a>
+                <a href="#/profile" ng-if='user' class="navLinks" ng-click='closeNav()'>{{user.first_name}} {{user.last_name}}</a>
+                <a id="newMilLink" class="navLinks" href="#/milongas/new" ng-click='closeNav()'>Post New Milonga</a>
+                <a ng-click='findPerformerModal(); closeNav()' class="navLinks">Find Performer's Schedule</a>
+                <a class="navLinks" ng-click='sendMail("qmilonga@gmail.com","Hey there, QueMilonga!","Please send us an Email, we will get back to you as soon as possible"); closeNav()'>Contact</a>
             </nav>
         </div>
     </div>

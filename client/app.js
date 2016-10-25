@@ -179,6 +179,10 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 			$window.open("https://goo.gl/forms/89aqNF6Y1ekvfJgj1");
 		}
 
+		$scope.closeNav = function(){
+			$('.hidden-desktop').click();
+		}
+
 
     });
 	myApp.config(function($routeProvider){

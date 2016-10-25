@@ -91,8 +91,8 @@
 
                                     </div>
                                     <div class="col-xs-12 col-md-4 centered">
-                                        <h4 ng-if='m.address.st_number' class="noto">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h4>
-                                        <h4 ng-if='m.address.details'>({{m.address.details}})</h4>
+                                        <h4 ng-if='m.address.st_number' class="noto mobileAddress">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h4>
+                                        <h4 ng-if='m.address.details' class="mobileAddress">({{m.address.details}})</h4>
                                         <div id="map_canvas_{{m._id}}" class="mapa"></div>
 
                                         <button type="button" class="btn btn-info noto" ng-click='openInMaps(m.address)'>Open in maps</button>

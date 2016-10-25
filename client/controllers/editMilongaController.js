@@ -12,7 +12,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 
 	eventsFactory.getMilonga(milongaId, function(data){
 		$scope.editMilonga = data.data;
-		// console.log(data.data)
+		// console.log('$scope.editMilonga:', $scope.editMilonga)
 		$scope.dt = new Date(data.data.date);
 		$scope.m_st = new Date(data.data.start_time);
 		$scope.m_et = new Date(data.data.end_time);
@@ -141,26 +141,27 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 
 
 
-	        // PUSH EACH TEACHER AND EACH PERFORMER TO THEIR ARRAY
+	         // PUSH EACH TEACHER AND EACH PERFORMER TO THE CORRESPONDING EVENT ARRAY
+	        // PUSH TEACHERS AND PERFORMERS TO PERFORMERSLIST ARRAY TO EDIT PERFORMER'S PROFILE
 			$scope.editMilonga._performers = [];
 			for (var i in $scope.outputPerformers){
-				$scope.editMilonga._performers.push($scope.outputPerformers[i]._id)
-				$scope.performersList.push({perfId: $scope.outputPerformers[i]._id, action: 'performance'})
-
+				$scope.editMilonga._performers.push($scope.outputPerformers[i]._id);
+				$scope.performersList.push({perfId: $scope.outputPerformers[i]._id, action: 'performance'});
 			}
+
 			$scope.editMilonga._class_teachers = [];
 			for (var i in $scope.outputTeachers){
 				$scope.editMilonga._class_teachers.push($scope.outputTeachers[i]._id)
-				$scope.performersList.push({perfId: $scope.outputTeachers[i]._id, action: 'class'})
+				$scope.performersList.push({perfId: $scope.outputTeachers[i]._id, action: 'class'});
+				
 			}
-			
-			// DELETE DUPLICATES FROM PERFORMERSLIST
+
+			// DELETE DUPLICATES FROM PERFORMERSLIST AND CHANGE ACTION TO BOTH
 			for(var i = 0; i < $scope.performersList.length; i++){
 				for (var j = i+1; j < $scope.performersList.length; j++){
-					if($scope.performersList[i] == $scope.performersList[j]){
+					if($scope.performersList[i].perfId == $scope.performersList[j].perfId){
 						$scope.performersList[i].action = 'both';
 						$scope.performersList.splice(j, 1);
-						i--;
 						j--;
 					}
 				}
@@ -184,7 +185,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 					}
 					// console.log('THIS IS THE INFO WE ARE PASSING',info);
 					eventsFactory.addMilongaToPerformer(info, function(result){
-						// console.log(result);
+						// console.log("ADDED MILONGA TO PERF: ", result);
 						info = {};
 					})
 				}
@@ -214,8 +215,11 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
   	};
 
   	$scope.hasStNumber = function() {
-  		if(!$scope.address.address_components){
+  		if($scope.address && !$scope.address.address_components){
   			return false;
+  		}
+  		else if(!$scope.address){
+  			return true;
   		}
     	for(var i = 0; i < $scope.address.address_components.length; i++){
     		if ($scope.address.address_components[i].types[0] == 'street_number') {

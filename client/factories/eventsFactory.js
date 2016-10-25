@@ -54,6 +54,14 @@ myApp.factory('eventsFactory', function($http){
 			})
 		};
 
+	
+	factory.addMilongaToPerformer = function(info, callback){
+		$http.post('/performers/' + info.performerId + '/update', info).then(function(performer){
+			// console.log('made it back from backend eddited this performer', performer);
+			callback(performer);
+		})
+	}
+
 	factory.addMilonga = function(data, callback){
 		// console.log('made it to my Add Milonga in the factory');
 		$http.post('/milongas', data).then(function(data){
@@ -122,13 +130,6 @@ myApp.factory('eventsFactory', function($http){
 	factory.getPerformer = function(performerId, callback){
 		$http.get('/performers/' + performerId).then(function(performer){
 			// console.log('made it back from backend this one performer', performer);
-			callback(performer);
-		})
-	}
-
-	factory.addMilongaToPerformer = function(info, callback){
-		$http.post('/performers/' + info.performerId + '/update', info).then(function(performer){
-			// console.log('made it back from backend eddited this performer', performer);
 			callback(performer);
 		})
 	}
