@@ -69,7 +69,7 @@
 	<div class="form-group row">
 	  <label for="example-number-input" class="col-md-4 col-form-label">Milonga Price *</label>
 	  <div class="col-md-8">
-	    <input class="form-control" type="number" min="1" id="example-number-input" ng-model='editMilonga.price' name="mPrice" required="">
+	    <input class="form-control" type="number" min="0" id="example-number-input" ng-model='editMilonga.price' name="mPrice" required="">
 	    <div class="errorMsgs" ng-show="form.$submitted || form.mPrice.$touched">
       		<div ng-show="form.mPrice.$error.required">Enter a numeric value in your currency</div>
       	</div>
@@ -127,13 +127,13 @@
 	<div class="form-group row">
 	  <label for="example-number-input" class="col-md-4 col-form-label">Class Price</label>
 	  <div class="col-md-8">
-	    <input class="form-control" type="number" min="1" id="example-number-input" ng-model='editMilonga.class_price'>
+	    <input class="form-control" type="number" min="0" id="example-number-input" ng-model='editMilonga.class_price'>
 	  </div>
 	</div>
 	<div class="form-group row">
 	  <label for="example-number-input" class="col-md-4 col-form-label">Class + Milonga combo price (optional):</label>
 	  <div class="col-md-8">
-	    <input class="form-control" type="number" min="1" id="example-number-input" ng-model='editMilonga.class_combo_price'>
+	    <input class="form-control" type="number" min="0" id="example-number-input" ng-model='editMilonga.class_combo_price'>
 	  </div>
 	</div><br><hr><br>
 	<div class="form-group row">

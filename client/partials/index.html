@@ -48,8 +48,9 @@
                         <div class="panel-heading accordion-toggle collapsed pointer milongaOpen" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)'>
 
                           <div class="panel-title">
-
-                                <h2 class="inline m_name noto">{{m.title}}</h2><h4 class="inline">, {{m.address.city}}</h4><br>
+                                <div class="smallerTittle">
+                                    <h2 class="inline m_name noto">{{m.title}}</h2><h4 class="inline">, {{m.address.city}}</h4><br>
+                                </div>
 
                                 <h6 ng-if="m._performers[0]._id" style="margin: 0;">Performance by:</h6><h5 ng-repeat='p in m._performers' class="inline"><a class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a></h5>
                                 

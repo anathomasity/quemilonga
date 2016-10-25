@@ -304,7 +304,7 @@ a{
 	border-top: 1px solid #d9d9d9;
 	border-bottom: 1px solid #999999;
 	border-radius: 5px;
-	padding: 1em 0.2em 1em 0.2em;
+	padding: 1em 0.7em 1em 0.7em;
 }
 
 .clase {
@@ -580,6 +580,14 @@ section{
 	#newMilLink {
 		background: #EAAF00;
 		background-image: -webkit-linear-gradient(#EAAF00 0%, #D78100 100%);
+	}
+
+	.smallerTittle h4{
+		font-size: small;
+	}
+
+	.smallerTittle h2{
+		font-size: large;
 	}
 
 	.navLinks {
