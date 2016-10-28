@@ -204,9 +204,9 @@ header{
 	height: 2.3em;
 	background:url('attend.png') no-repeat scroll 0 0 transparent;
 	background-size: 100%;
-	border-radius: 5px;
-	border: 1px solid black;
+	border-radius: 2px;
 	cursor: pointer;
+	box-shadow: .3em .3em .1em #888888;
 }
 
 .saveButton{
@@ -215,9 +215,9 @@ header{
 	height: 2.3em;
 	background:url('save.png') no-repeat scroll 40% 40% transparent;
 	background-size: 80%;
-	border-radius: 5px;
-	border: 1px solid black;
+	border-radius: 2px;
 	cursor: pointer;
+	box-shadow: .3em .3em .1em #888888;
 }
 
 .friendsButton{
@@ -226,9 +226,9 @@ header{
 	height: 2.3em;
 	background:url('friends.png') no-repeat scroll 40% 40% transparent;
 	background-size: 80%;
-	border-radius: 5px;
-	border: 1px solid black;
+	border-radius: 2px;
 	cursor: pointer;
+	box-shadow: .3em .3em .1em #888888;
 }
 
 #wrapper{
@@ -382,11 +382,15 @@ section{
 	border-top: 1px solid white;
 
 }
+.searchLine h4 {
+	color: white; 
+	font-size: x-large;
+}
 .searchLine {
 	color: white; 
-	/*padding: 1em; */
-	/*font-weight: lighter;*/
+	font-size: large;
 }
+
 
 .searchInputs {
 	background-color: transparent;
@@ -613,6 +617,15 @@ section{
 
 	.zeromargin {
 		padding: 0;
+	}
+
+	.searchLine h4 {
+		color: white; 
+		font-size: large;
+	}
+	.searchLine {
+		color: white; 
+		font-size: medium;
 	}
 
 	#mainInfo{

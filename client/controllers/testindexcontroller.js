@@ -42,17 +42,20 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
 
   $scope.$watch("user", function(newValue, oldValue) {
       // console.log('hello')
-      if(!$rootScope.user){
-        return;
-      }
-      for(var i = 0; i < $rootScope.user._attending.length; i++) {
-        var id = 'a' + $rootScope.user._attending[i]._id;
-        $('#' + id).css({'cursor': 'not-allowed', 'border': '0'});
-      }
-      for(var i = 0; i < $rootScope.user._favorites.length; i++) {
-        var id = 's' + $rootScope.user._favorites[i]._id;
-        $('#' + id).css({'cursor': 'not-allowed', 'border': '0'});
-      }
+      // if(!$rootScope.user){
+      //   return;
+      // }
+      // console.log('ABOUT TO ENTERE FOR')
+      // for(var i = 0; i < $rootScope.user._attending.length; i++) {
+      //   var id = 'a' + $rootScope.user._attending[i]._id;
+      //   $('#' + id).css({'cursor': 'not-allowed', 'border': '0'});
+      //   console.log('HERE AT ATTENDING')
+      // }
+      // for(var i = 0; i < $rootScope.user._favorites.length; i++) {
+      //   var id = 's' + $rootScope.user._favorites[i]._id;
+      //   $('#' + id).css({'cursor': 'not-allowed', 'border': '0'});
+      //   console.log('HERE AT SAVED')
+      // }
   });
 
   $scope.$watch("search.range", function(newValue, oldValue) {
@@ -151,7 +154,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
         };
 
         if(check == false){
-            $('#' + id).css({'border': '0'});
+            $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
             var datos = {
               eventId: eventId,
               fb_id: $rootScope.user.fb_id,
@@ -166,14 +169,14 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
                         $scope.favorites = dat.data._favorites;
                         $rootScope.user = dat.data;
                         var id = 'a' + eventId;
-                        $('#' + id).css({'border': '1px solid black'});
+                        $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                         // console.log($scope.attending, 'attending')
                     });  
                 }); 
             });
         }
         else if(check == true){
-            $('#' + id).css({'border': '1px solid black'});
+            $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
             var info = {
                 eventId: eventId,
                 fb_id: $rootScope.user.fb_id
@@ -206,7 +209,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
         };
 
         if(check == false){
-            $('#' + id).css({'border': '0'});
+            $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
             // console.log('attending this event: ', eventId, 'user:', $rootScope.user.name)
             var datos = {
               eventId: eventId,
@@ -222,14 +225,14 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
                         $scope.favorites = dat.data._favorites;
                         $rootScope.user = dat.data;
                         var id = 's' + eventId;
-                        $('#' + id).css({'border': '1px solid black'});
+                        $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                         // console.log($scope.attending, 'attending')
                     });  
                 }); 
             });
         }
         else if(check == true){
-            $('#' + id).css({'border': '1px solid black'});
+            $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
             var info = {
               eventId: eventId,
               fb_id: $rootScope.user.fb_id
@@ -293,13 +296,13 @@ myApp.controller('indexController', function($scope, eventsFactory, $location, $
           for(var i = 0; i < $rootScope.user._favorites.length; i++){
               if(mId == $rootScope.user._favorites[i]._id){
                   var id = 's' + mId;
-                  $('#' + id).css({'border': '0'});
+                  $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
               };
           };
           for(var i = 0; i < $rootScope.user._attending.length; i++){
               if(mId == $rootScope.user._attending[i]._id){
                   var id = 'a' + mId;
-                  $('#' + id).css({'border': '0'});
+                  $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
               };
           };
       };
