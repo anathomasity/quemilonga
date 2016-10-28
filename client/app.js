@@ -6,17 +6,17 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 		    $scope.status = $facebook.isConnected();
 		    if($scope.status) {
 		        $facebook.api('/me').then(function(user) {
-		          	$scope.user = user;
-		            for(var i = 0; i < $scope.user.name.length; i++){
-		                if($scope.user.name[i] == " "){
-		                    $scope.user.first_name = $scope.user.name.slice(0,i);
-		                    $scope.user.last_name = $scope.user.name.slice(i+1);
+		          	$scope.use = user;
+		            for(var i = 0; i < $scope.use.name.length; i++){
+		                if($scope.use.name[i] == " "){
+		                    $scope.use.first_name = $scope.use.name.slice(0,i);
+		                    $scope.use.last_name = $scope.use.name.slice(i+1);
 		                }
 		            }
 		            var info = {
-		          		first_name: $scope.user.first_name,
-		          		last_name: $scope.user.last_name,
-		          		fb_id: $scope.user.id
+		          		first_name: $scope.use.first_name,
+		          		last_name: $scope.use.last_name,
+		          		fb_id: $scope.use.id
 		          	}
 		          	$rootScope.search={};
 		            eventsFactory.createUser(info, function(data){
@@ -44,8 +44,10 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 	    	$('#loginModal').modal();
 	    }
 	    $scope.logout = function(){
+	    	console.log('inside logout')
 	    	$rootScope.user = false;
 	    	$scope.status = false;
+	    	$facebook.logout();
 	    	$location.url('/')
 	    }
 
