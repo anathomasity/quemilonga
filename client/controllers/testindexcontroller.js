@@ -1,8 +1,12 @@
-myApp.controller('indexController', function($scope, eventsFactory, $location, $http, $rootScope, $window){
+myApp.controller('indexController', function($scope, eventsFactory, $cookies, $location, $http, $rootScope, $window){
 
   var state;
   var range = 50;
   $rootScope.search = {};
+
+  var userCookie = $cookies.getAll();
+
+  console.log(userCookie)
 
   if(!$rootScope.user || !$rootScope.user.city_preference) {
       var pos = {

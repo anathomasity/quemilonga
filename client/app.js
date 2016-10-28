@@ -1,12 +1,34 @@
-var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'google.places', 'multipleDatePicker', "isteven-multi-select"]);
+var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'google.places', 'multipleDatePicker', "isteven-multi-select"]);
 
 (function(){
-	myApp.controller('MainCtrl', function ($scope, $window, $rootScope, $facebook, eventsFactory, $location) {
+	myApp.controller('MainCtrl', function ($scope, $window, $cookies, $rootScope, $facebook, eventsFactory, $location) {
+    	
+		$rootScope.search={};
+		$scope.userCookie = $cookies.getAll();
+
+		if($scope.userCookie.userFbId){
+			var info = {
+				first_name: 'a',
+          		last_name: 'b',
+          		fb_id: $scope.userCookie.userFbId
+			}
+			eventsFactory.createUser(info, function(data){
+
+	            $rootScope.user = data.data;
+	            $rootScope.search.city = data.data.city_preference.city;
+	     	    $rootScope.city_preference = data.data.city_preference;
+	     	    // console.log('$ROOTSSCOPE.USER:', $rootScope.user);
+
+	        });
+
+		}
+		
     	$scope.$on('fb.auth.authResponseChange', function() {
 		    $scope.status = $facebook.isConnected();
 		    if($scope.status) {
 		        $facebook.api('/me').then(function(user) {
 		          	$scope.use = user;
+		          	// console.log(user, 'FACEBOOK RESPONSE')
 		            for(var i = 0; i < $scope.use.name.length; i++){
 		                if($scope.use.name[i] == " "){
 		                    $scope.use.first_name = $scope.use.name.slice(0,i);
@@ -18,9 +40,11 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 		          		last_name: $scope.use.last_name,
 		          		fb_id: $scope.use.id
 		          	}
-		          	$rootScope.search={};
 		            eventsFactory.createUser(info, function(data){
 			            // console.log('back in frontend controller',data);
+			            $cookies.put('userFbId', data.data.fb_id);
+			            $scope.userCookie = $cookies.getAll();
+  						// console.log('AFTER LOGGIN IN:',$scope.userCookie)
 			            $rootScope.user = data.data;
 			            $rootScope.search.city = data.data.city_preference.city;
 		         	    $rootScope.city_preference = data.data.city_preference;
@@ -43,11 +67,16 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ui.bootstrap', 'ng
 	    $scope.login = function(){
 	    	$('#loginModal').modal();
 	    }
+	    
 	    $scope.logout = function(){
-	    	console.log('inside logout')
+	    	// console.log('inside logout')
 	    	$rootScope.user = false;
 	    	$scope.status = false;
 	    	$facebook.logout();
+
+	    	$cookies.remove('userFbId');
+	    	$scope.userCookie = $cookies.getAll();
+
 	    	$location.url('/')
 	    }
 
