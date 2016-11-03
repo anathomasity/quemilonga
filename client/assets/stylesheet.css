@@ -293,7 +293,11 @@ a{
 .body_links{
 	color: #EAAF00;
 	text-decoration: underline;
-	padding-right: 4px;
+	padding-right: 5px;
+}
+
+.pending {
+	color: #EAAF00;
 }
 
 .milongaOpen{

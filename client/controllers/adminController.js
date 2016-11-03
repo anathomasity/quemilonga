@@ -21,12 +21,14 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
 			// console.log(index);
 			// console.log('accepting request!!!');
 			var dancer = {
-				name: $scope.dancerRequests[index].dancer_name,
-				from: $scope.dancerRequests[index].dancer_from
+				perfId: $scope.dancerRequests[index]._id,
+				pending: false,
 			}
 			eventsFactory.addPerformer(dancer, function(addedDancer){
 				$scope.dancers.push(addedDancer.data);
-				$scope.destroyRequest(index);
+				eventsFactory.getRequests(function(data){
+					$scope.dancerRequests = data;
+				})
 			});
 		}
 

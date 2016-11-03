@@ -1,7 +1,6 @@
-myApp.controller('newController', function($scope, eventsFactory, $location, $http, $rootScope, $facebook){
+myApp.controller('newClassController', function($scope, eventsFactory, $location, $http, $rootScope, $facebook){
 
 	$scope.event = {};
-	$rootScope.performers = [];
 	$rootScope.teachers = [];
 	$scope.event.address = {};
 	$scope.performersList = [];
@@ -10,32 +9,18 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	// console.log('USER is: ',$rootScope.user);
 
 	eventsFactory.getPerformers(function(dat){
-		// console.log('performers:',dat);
-
+		// console.log('performers:',data);
 		for ( var i = 0; i < dat.length; i++){
-
 			if(dat[i].pending && dat[i].pending == true){
 				var pending = dat[i].name + ' ' + '(PENDING)';
-				$rootScope.teachers.push({name: pending, _id: dat[i]._id});
-				$rootScope.performers.push({name: pending, _id: dat[i]._id});
+				$rootScope.teachers.push({name: pending, _id: dat[i]._id})
 			}
 			else{
-				$rootScope.teachers.push({name: dat[i].name, _id: dat[i]._id});
-				$rootScope.performers.push({name: dat[i].name, _id: dat[i]._id});
+				$rootScope.teachers.push({name: dat[i].name, _id: dat[i]._id})
 			}
 		}
-		// console.log($rootScope.teachers, $rootScope.performers)
 
 	})
-
-	$scope.toggleList = function(list) {
-		if (list == 'p') {
-			$scope.toggle = 'performers';
-		}
-		else if (list == 't') {
-			$scope.toggle = 'teachers';
-		}
-	}
 
 	$scope.addMilonga = function(){
 
@@ -49,7 +34,10 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	 			return;
 	 		}
 
-			$scope.performersList = [];
+	 		if($scope.outputTeachers.length < 1){
+	 			return;
+	 		}
+
 			// MAKE SURE EACH COMPONENT OF THE ADDRESS IS IN THE CORRECT FIELD
 			for (var i=0; i < $scope.address.address_components.length; i++){
 
@@ -93,31 +81,10 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	        	}
 	        }
 
-	        // CREATE A DUPLICATE EVENT FOR EACH OF THE DATES IN THE ARRAY, WITH ONLY BASIC INFO
-	        for (var i = 0; i < $scope.repeatMilonga.length; i++) {
-
-	            var simpleVersion = {
-	            	date: $scope.repeatMilonga[i]._d,
-	            	title: $scope.event.title,
-	            	start_time: $scope.event.start_time,
-	            	end_time: $scope.event.end_time,
-	            	price: $scope.event.price,
-	            	address: $scope.event.address,
-	            	_added_by: $rootScope.user.fb_id,
-	        	}
-
-				eventsFactory.addMilonga(simpleVersion, function(addedMilonga){
-					// console.log('MILOGA ADDED:', addedMilonga)
-				});
-	        }
+	        
 
 	        // PUSH EACH TEACHER AND EACH PERFORMER TO THE CORRESPONDING EVENT ARRAY
 	        // PUSH TEACHERS AND PERFORMERS TO PERFORMERSLIST ARRAY TO EDIT PERFORMER'S PROFILE
-			$scope.event._performers = [];
-			for (var i in $scope.outputPerformers){
-				$scope.event._performers.push($scope.outputPerformers[i]._id);
-				$scope.performersList.push({perfId: $scope.outputPerformers[i]._id, action: 'performance'});
-			}
 
 			$scope.event._class_teachers = [];
 			for (var i in $scope.outputTeachers){
@@ -126,32 +93,51 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 				
 			}
 
-			// DELETE DUPLICATES FROM PERFORMERSLIST AND CHANGE ACTION TO BOTH
-			for(var i = 0; i < $scope.performersList.length; i++){
-				for (var j = i+1; j < $scope.performersList.length; j++){
-					if($scope.performersList[i].perfId == $scope.performersList[j].perfId){
-						$scope.performersList[i].action = 'both';
-						$scope.performersList.splice(j, 1);
-						j--;
+			// CREATE A DUPLICATE EVENT FOR EACH OF THE DATES IN THE ARRAY, WITH ONLY BASIC INFO
+	        for (var i = 0; i < $scope.repeatMilonga.length; i++) {
+
+	            var simpleVersion = {
+	            	date: $scope.repeatMilonga[i]._d,
+	            	start_time: $scope.event.start_time,
+	            	end_time: $scope.event.end_time,
+	            	class_price: $scope.event.price,
+	            	address: $scope.event.address,
+	            	details: $scope.event.details,
+	            	_class_teachers: $scope.event._class_teachers,
+	            	_added_by: $rootScope.user.fb_id,
+	        	}
+
+				eventsFactory.addClass(simpleVersion, function(addedClass){
+					console.log('CLASS ADDED:', addedClass)
+
+					for (var j = 0; j < $scope.performersList.length; j++){
+						var info = {
+							performerId: $scope.performersList[j].perfId,
+							action: $scope.performersList[j].action,
+							class: addedClass._id,
+						}
+						eventsFactory.addMilongaToPerformer(info, function(result){
+							console.log('ADD MILONGA TO PERFORMER RESULT:',result);
+						});
 					}
-				}
-			}
+				});
+	        }
 
+	        // CREATE THE ORIGINAL CLASS WITH ALL THE INFO
+			eventsFactory.addClass($scope.event, function(addedClass){
 
-	        // CREATE THE ORIGINAL MILONGA WITH ALL THE INFO
-			eventsFactory.addMilonga($scope.event, function(addedMilonga){
-
-				console.log('ADDED MILONGA:', addedMilonga)
+				console.log('ADDED CLASS:', addedClass)
 				
 				for (var i = 0; i < $scope.performersList.length; i++){
 					var info = {
 						performerId: $scope.performersList[i].perfId,
 						action: $scope.performersList[i].action,
-						milonga: addedMilonga._id,
+						class: addedClass._id,
 					}
+					console.log('THIS IS INFO:', info)
 
-					eventsFactory.addMilongaToPerformer(info, function(result){
-						console.log('ADD MILONGA TO PERFORMER RESULT:',result);
+					eventsFactory.addClassToPerformer(info, function(result){
+						console.log('ADD CLASS TO PERFORMER RESULT:',result);
 					});
 				}
 
@@ -183,12 +169,8 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
         types: ['address'],
     }
 
-    $scope.showClass = function(){
-    	$('#newClassForm').css('display', 'block');
-    }
-
     $scope.hasStNumber = function() {
-  		if(!$scope.address.address_components){
+  		if(!$scope.address || !$scope.address.address_components){
   			return false;
   		}
     	for(var i = 0; i < $scope.address.address_components.length; i++){
@@ -201,5 +183,8 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
     	return false;
   	};
 
+  	$scope.setTouch = function(){
+  		$scope.touched = true;
+  	}
 
 });

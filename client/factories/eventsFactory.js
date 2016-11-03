@@ -9,54 +9,107 @@ myApp.factory('eventsFactory', function($http){
 	var milongas = [];
 
 	factory.getMilongas = function(info, callback){
-			// console.log('this is the get milongas AT FACTORY', info);
+		// console.log('this is the get milongas AT FACTORY', info);
 
 
-			// DIRTY FIX, HAVE TO SOLVE THIS AFTER SOLVING THE DEFAULT CITY OF THE USER
-			if(!info.range){
-				info.range = 50;
-			}
+		// DIRTY FIX, HAVE TO SOLVE THIS AFTER SOLVING THE DEFAULT CITY OF THE USER
+		if(!info.range){
+			info.range = 50;
+		}
 
-			$http.post('/milongas/get', info.state).then(function(data){
+		$http.post('/milongas/get', info.state).then(function(data){
 
-				for(day in data.data){
+			for(day in data.data){
 
-					for(var milonga = 0; milonga < data.data[day].length; milonga++){
+				for(var milonga = 0; milonga < data.data[day].length; milonga++){
 
 
-							// CALCULATE THE DISTANCE BETWEEN THE TWO LAT/LNG POINTS
-							var radlat1 = Math.PI * data.data[day][milonga].address.coords.lat/180
-							var radlat2 = Math.PI * info.pos.lat/180
-							var theta = data.data[day][milonga].address.coords.lng-info.pos.lng
-							var radtheta = Math.PI * theta/180
-							var result = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-							result = Math.acos(result)
-							result = result * 180/Math.PI
-							result = result * 60 * 1.1515
-							// if (unit=="K") { result = result * 1.609344 }
-							// if (unit=="N") { result = result * 0.8684 }
+						// CALCULATE THE DISTANCE BETWEEN THE TWO LAT/LNG POINTS
+						var radlat1 = Math.PI * data.data[day][milonga].address.coords.lat/180
+						var radlat2 = Math.PI * info.pos.lat/180
+						var theta = data.data[day][milonga].address.coords.lng-info.pos.lng
+						var radtheta = Math.PI * theta/180
+						var result = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+						result = Math.acos(result)
+						result = result * 180/Math.PI
+						result = result * 60 * 1.1515
+						// if (unit=="K") { result = result * 1.609344 }
+						// if (unit=="N") { result = result * 0.8684 }
 
-						if(result > info.range){
-							// console.log('grater than', info.range);
-							// console.log('IT IS: ', result)
-							data.data[day].splice(milonga, 1);
-							milonga --;
-							// console.log('MILONGA', milonga);
-						}
-						else{
-							// console.log('not grater than',info.range);
-							// console.log('IT IS: ', result)
-							// console.log('MILONGA', milonga);
-						}
+					if(result > info.range){
+						// console.log('grater than', info.range);
+						// console.log('IT IS: ', result)
+						data.data[day].splice(milonga, 1);
+						milonga --;
+						// console.log('MILONGA', milonga);
+					}
+					else{
+						// console.log('not grater than',info.range);
+						// console.log('IT IS: ', result)
+						// console.log('MILONGA', milonga);
 					}
 				}
-				callback(data.data);
-			})
-		};
+			}
+			callback(data.data);
+		})
+	};
+
+	factory.getClasses = function(info, callback){
+		// console.log('this is the get classes AT FACTORY', info);
+
+
+		// DIRTY FIX, HAVE TO SOLVE THIS AFTER SOLVING THE DEFAULT CITY OF THE USER
+		if(!info.range){
+			info.range = 50;
+		}
+
+		$http.post('/classes/get', info.state).then(function(data){
+
+			for(day in data.data){
+
+				for(var milonga = 0; milonga < data.data[day].length; milonga++){
+
+
+						// CALCULATE THE DISTANCE BETWEEN THE TWO LAT/LNG POINTS
+						var radlat1 = Math.PI * data.data[day][milonga].address.coords.lat/180
+						var radlat2 = Math.PI * info.pos.lat/180
+						var theta = data.data[day][milonga].address.coords.lng-info.pos.lng
+						var radtheta = Math.PI * theta/180
+						var result = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+						result = Math.acos(result)
+						result = result * 180/Math.PI
+						result = result * 60 * 1.1515
+						// if (unit=="K") { result = result * 1.609344 }
+						// if (unit=="N") { result = result * 0.8684 }
+
+					if(result > info.range){
+						// console.log('grater than', info.range);
+						// console.log('IT IS: ', result)
+						data.data[day].splice(milonga, 1);
+						milonga --;
+						// console.log('MILONGA', milonga);
+					}
+					else{
+						// console.log('not grater than',info.range);
+						// console.log('IT IS: ', result)
+						// console.log('MILONGA', milonga);
+					}
+				}
+			}
+			callback(data.data);
+		})
+	};
 
 	
 	factory.addMilongaToPerformer = function(info, callback){
 		$http.post('/performers/' + info.performerId + '/update', info).then(function(performer){
+			// console.log('made it back from backend eddited this performer', performer);
+			callback(performer);
+		})
+	}
+
+	factory.addClassToPerformer = function(info, callback){
+		$http.post('/performers/' + info.performerId + '/addClass', info).then(function(performer){
 			// console.log('made it back from backend eddited this performer', performer);
 			callback(performer);
 		})
@@ -68,6 +121,22 @@ myApp.factory('eventsFactory', function($http){
 			// console.log('made it back from backend this is our new milonga', data.data);
 			// milongas.push(data.data);
 			callback(data.data);
+		})
+	}
+
+	factory.addClass = function(data, callback){
+		// console.log('made it to my Add Milonga in the factory');
+		$http.post('/classes', data).then(function(data){
+			// console.log('made it back from backend this is our new milonga', data.data);
+			// milongas.push(data.data);
+			callback(data.data);
+		})
+	}
+
+	factory.getClass = function(milongaId, callback){
+		$http.get('/classes/' + milongaId).then(function(milonga){
+			// console.log('made it back from backend this one milonga', milonga);
+			callback(milonga);
 		})
 	}
 
@@ -127,6 +196,13 @@ myApp.factory('eventsFactory', function($http){
 		})
 	}
 
+	factory.updateClass = function(updateMilonga, callback){
+		$http.post('/classes/' + updateMilonga._id + '/update', updateMilonga).then(function(data){
+			// console.log('updated milonga:', data.data);
+			callback(data.data);
+		})
+	}
+
 	factory.getPerformer = function(performerId, callback){
 		$http.get('/performers/' + performerId).then(function(performer){
 			// console.log('made it back from backend this one performer', performer);
@@ -137,6 +213,14 @@ myApp.factory('eventsFactory', function($http){
 	factory.removeMilongaFromPerformer = function(info, callback){
 		// console.log('INFO', info)
 		$http.post('/performers/' + info.performerId + '/removeMilonga', info).then(function(performer){
+			// console.log('made it back from backend eddited this performer', performer);
+			callback(performer);
+		})
+	}
+
+	factory.removeClassFromPerformer = function(info, callback){
+		// console.log('INFO', info)
+		$http.post('/performers/' + info.teacherId + '/removeClass', info).then(function(performer){
 			// console.log('made it back from backend eddited this performer', performer);
 			callback(performer);
 		})

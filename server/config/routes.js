@@ -21,6 +21,23 @@ module.exports = function(app){
 		milongas.createMilonga(req, res);
 
 	})
+
+	app.post('/classes', function(req, res){
+		console.log('made it to my post /classes route');
+		milongas.createClass(req, res);
+
+	})
+
+	app.post('/classes/get', function(req, res){
+		console.log(' made it to my /classes/get get route', req.body);
+		milongas.getClasses(req, res);
+	})
+
+	app.get('/classes/:id', function(req, res){
+		console.log('made it to my /classes/:id get route');
+		milongas.getClass(req, res);
+	})
+
 	app.post('/requests', function(req, res){
 		console.log('made it to my post /requests route');
 		milongas.createRequest(req, res);
@@ -44,9 +61,20 @@ module.exports = function(app){
 		console.log('made it to my /milongas/:id/update post route');
 		milongas.updateMilonga(req, res);
 	})
+
+	app.post('/classes/:id/update', function(req, res){
+		console.log('made it to my /classes/:id/update post route');
+		milongas.updateClass(req, res);
+	})
+
 	app.post('/performers/:id/update', function(req, res){
 		console.log('addMilongaToPerformer ROUTE', req.body);
 		milongas.addMilongaToPerformer(req, res);
+	})
+
+	app.post('/performers/:id/addClass', function(req, res){
+		console.log('addClassToPerformer ROUTE', req.body);
+		milongas.addClassToPerformer(req, res);
 	})
 
 	app.post('/users', function(req, res){
@@ -77,6 +105,11 @@ module.exports = function(app){
 	app.post('/performers/:id/removeMilonga', function(req,res) {
 		console.log('made it to my /performers/:id/update post route');
 		milongas.removeMilongaFromPerformer(req,res);
+	})
+
+	app.post('/performers/:id/removeClass', function(req,res) {
+		console.log('made it to my /performers/:id/update post route');
+		milongas.removeClassFromPerformer(req,res);
 	})
 
 	app.post('/requests/:id/destroy', function(req,res) {

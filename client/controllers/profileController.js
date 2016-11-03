@@ -15,7 +15,7 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
 
   $scope.now = moment().add(-1,'days').format();
 
-  $scope.choice = 'favorites';
+  $scope.choice = 'attending';
   $scope.choose = function(whichOne){
     $scope.choice = whichOne;
     // console.log('scope.choice', $scope.choice)

@@ -4,10 +4,6 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
   var range = 50;
   $rootScope.search = {};
 
-  var userCookie = $cookies.getAll();
-
-  console.log(userCookie)
-
   if(!$rootScope.user || !$rootScope.user.city_preference) {
       var pos = {
         lat: 37.7749295,
@@ -124,6 +120,44 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
     })
   });
 
+  $scope.$watch("search.what", function(newValue, oldValue) {
+    // console.log('inside watch', what)
+    //A WAY TO IMPROVE THIS QUERING FOR ALL OF THEM AND HAVE THEM 
+    //IN DIFFERENT VARIABLES SO WE ONLY PUT IN MILONGAS WHAT WE NEED
+    //IMPROVEMENT FOR LATER, TO NOT HAVE TO QUERY SO MUCH UNNESESARY
+    if (newValue == 'Classes') {
+      // console.log('new value is equal to classes')
+      eventsFactory.getClasses(info, function(data){
+          $scope.milongas = data;   
+      })
+    }
+    else if ( newValue == 'Milongas'){
+      // console.log('new value is equal to milongas')
+      eventsFactory.getMilongas(info, function(data){
+          $scope.milongas = data;   
+      })
+    }
+    else if ( newValue == 'All'){
+      // console.log('new value is equal to all')
+      eventsFactory.getMilongas(info, function(data){
+          $scope.milongas = data;   
+      })
+      eventsFactory.getClasses(info, function(data){
+          for (x in data.today){
+              $scope.milongas.today.push(data.today[x]);
+          }
+          for (x in data.tomorrow){
+              $scope.milongas.tomorrow.push(data.tomorrow[x]);
+          }
+          for (x in data.day_after){
+              $scope.milongas.day_after.push(data.day_after[x]);
+          }
+          // console.log($scope.milongas)
+      })
+    }
+
+  });
+
   $scope.getMapInfo = function(mId, addr) {
     // console.log('inside get map info', addr);
     var address = 
@@ -164,7 +198,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
               fb_id: $rootScope.user.fb_id,
             }
             eventsFactory.likeEvent(datos, function(data){
-                console.log('back in frontend controller',datos);   
+                // console.log('back in frontend controller',datos);   
                 eventsFactory.stopAttending(datos, function(data){
                     // console.log('BACK stopAttending profile controller,', data);
                     eventsFactory.getUser($rootScope.user.fb_id, function(dat){
@@ -220,7 +254,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
               fb_id: $rootScope.user.fb_id,
             }
             eventsFactory.attendEvent(datos, function(data){
-                console.log('back in frontend controller',datos);   
+                // console.log('back in frontend controller',datos);   
                 eventsFactory.stopSaving(datos, function(data){
                     // console.log('BACK stopAttending profile controller,', data);
                     eventsFactory.getUser($rootScope.user.fb_id, function(dat){

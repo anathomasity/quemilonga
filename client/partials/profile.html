@@ -1,22 +1,32 @@
 <div class="container">
 
-	<div class="btn-group fav-attending centered" data-toggle="buttons">
-	  <label class="btn btn-primary active noto" ng-click="choose('favorites')">
-	    <input type="radio" name="options" id="favorites" autocomplete="off" checked > Saved
-	  </label>
-	  <label class="btn btn-primary noto" ng-click="choose('attending')">
-	    <input type="radio" name="options" id="attending" autocomplete="off" > Attending
-	  </label><br>
-      <h5 ng-if="choice == 'favorites'">Your saved for later Events</h5>
-      <h5 ng-if="choice == 'attending'">Events you are attending</h5>
-	</div>
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="btn-group fav-attending centered" data-toggle="buttons">
+              <label class="btn btn-primary active noto" ng-click="choose('attending')">
+                <input type="radio" name="options" id="attending" autocomplete="off"> Attending
+              </label>
+              <label class="btn btn-primary noto" ng-click="choose('favorites')">
+                <input type="radio" name="options" id="favorites" autocomplete="off"> Saved
+              </label>
+              
+              <br><br>
+              <h4 ng-if="choice == 'favorites'">Your saved for later Events</h4>
+              <h4 ng-if="choice == 'attending'">Events you are attending</h4>
+            </div>
+        </div>
+
+        <div class="col-sm-4" style="padding-top: 3em;">
+            <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
+        </div>
+        <br>
+
+    	
+
+    </div>
 
 	<div ng-if="choice == 'favorites'">
-
-            <div class="col-sm-4">
-                <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
-            </div>
-            <br><br><br>
 
             <div ng-init="parentIndex = $index">
             
@@ -36,7 +46,11 @@
                                 
                                 <br>
 
-                                <h6 ng-if="m._performers[0]._id" style="margin: 0;">Performance by:</h6><h5 ng-repeat='p in m._performers' class="inline"><a class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a></h5>
+                                <h6 ng-if="m._performers[0]._id" style="margin: 0;">Performance by:</h6>
+                                <h5 ng-repeat='p in m._performers' class="inline">
+                                    <a ng-if='p.pending == false' class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a>
+                                    <p ng-if='p.pending == true' class="pending" style="padding-right: 5px;">{{p.name}}</p>
+                                </h5>
                                 
                           </h4>
                         </div>
@@ -108,11 +122,6 @@
     <!-- FIX ZEROMARGIN FOR THE MOBILE VERSION -->
     <div ng-if="choice == 'attending'" class="zeromargin">
 
-            <div class="col-sm-4">
-                <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
-            </div>
-            <br><br><br>
-
             <div ng-init="parentIndex = $index" >
             
 
@@ -130,7 +139,12 @@
                                 </div>
                                 <br>
 
-                                <h6 ng-if="m._performers[0]._id" style="margin: 0;">Performance by:</h6><h5 ng-repeat='p in m._performers' class="inline"><a class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a></h5>
+                                <h6 ng-if="m._performers[0]._id" style="margin: 0;">Performance by:</h6>
+                                <h5 ng-repeat='p in m._performers' class="inline">
+                                    <a ng-if='p.pending == false' class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a>
+                                    <p ng-if='p.pending == true' class="pending" style="padding-right: 5px;">{{p.name}}</p>
+                                </h5>
+                                
                                 
                           </h4>
                         </div>

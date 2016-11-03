@@ -2,14 +2,20 @@
     <div class="container">
         <div class="section-left">
             <div class="searchLine">
-                <h4 class="inline">Find milongas within</h4>
+                <h4 class="inline">Find</h4>
+                <select class="inline searchInputs" ng-model="search.what">
+                    <option ng-selected="search" style="color: black">Milongas</option> 
+                    <option style="color: black">Classes</option>
+                    <option style="color: black">All</option>
+                </select>
+                <h4 class="inline">within</h4>
                 <select class="inline searchInputs" ng-model="search.range">
-                    <option ng-value="10" style="color: black">10</option> 
-                    <option ng-value="25" style="color: black">25</option>
-                    <option ng-value="50" ng-selected="search" style="color: black">50</option>
-                    <option ng-value="75" style="color: black">75</option>
-                    <option ng-value="100" style="color: black">100</option>
-                    <option ng-value="200" style="color: black">200</option>
+                    <option style="color: black">10</option> 
+                    <option style="color: black">25</option>
+                    <option ng-selected="search" style="color: black">50</option>
+                    <option style="color: black">75</option>
+                    <option style="color: black">100</option>
+                    <option style="color: black">200</option>
                 </select>
                 <h4 class="inline">miles from</h4>
                 <input class="inline searchInputs cityInput" type="text" g-places-autocomplete ng-model="search.city" options="autocompleteOptions" placeholder="Enter a City" ng-value='search.city' ng-click="search.city = null"/>
@@ -19,6 +25,7 @@
         </div>
         <div class="section-right">
             <a href="#/milongas/new"><button class="learn-more noto">Add Milonga</button></a>
+            <a href="#/classes/new"><button class="learn-more noto">Add Class</button></a>
         </div>
     </div>
 </section>
@@ -42,86 +49,187 @@
             <div ng-repeat='day in milongas' ng-if='day.length > 0' class="milonga">
             <div ng-init="parentIndex = $index">
             <h4 id="mDate" class="inline noto">{{day[0].date | date : fullDate}}</h4>
-
                 <div class="panel-group datesBorder" id="accordion{{parentIndex}}">
+                    
                     <div ng-repeat='m in day | filter:filter_name' ng-init="childIndex = $index" class="panel panel-default">
-                        <div class="panel-heading accordion-toggle collapsed pointer milongaOpen" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)'>
 
-                          <div class="panel-title">
-                                <div class="smallerTittle">
-                                    <h2 class="inline m_name noto">{{m.title}}</h2><h4 class="inline">, {{m.address.city}}</h4><br>
-                                </div>
+                        <div ng-if='m.event_type == "class"'>
+                            <div class="panel-heading accordion-toggle collapsed pointer milongaOpen" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)' style="background-color: #fcf8f9;">
 
-                                <h6 ng-if="m._performers[0]._id" style="margin: 0;">Performance by:</h6><h5 ng-repeat='p in m._performers' class="inline"><a class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a></h5>
-                                
-                          </div>
-                        </div>
-                        <div id="collapse{{parentIndex}}{{childIndex}}" class="panel-collapse collapse" >
-
-                            <div class="panel-body">
-
-                                <div class="row">
-                                    <div class="col-xs-6 col-sm-6 col-md-8">
-                                        <h5 class="noto">Milonga: ${{m.price}}</h5>
-                                        <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h5>
+                                <div class="panel-title">
+                                    <div class="smallerTittle">
+                                    <!-- {{m._class_teachers}} -->
+                                        <h4 style="margin: 0;">Class @ {{m.start_time | date:'shortTime'}}</h4><h5 class="inline" ng-repeat='p in m._class_teachers'>
+                                            <a ng-if='p.pending == false' class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a>
+                                            <p ng-if='p.pending == true' class="pending" style="padding-right: 5px;">{{p.name}}</p>
+                                        </h5><br>
                                     </div>
 
-                                    <div class="col-xs-6 col-md-4 centered" style="padding-right: 0;">
-                                        <h6 style="margin: 0"></h6>
-                                        <div id="buttonsBox" class="centered">
-                                            <div class="saveButton inline" id='s{{m._id}}' ng-click='saveEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
-                                            <div class="attendButton inline" id='a{{m._id}}' ng-click='attendEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
-                                            <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
+                                    <div style="margin: 0;">
+
+                                        <h5 style="margin: 0;"ng-if="m.topic" class="inline" >Topic: </h5>
+                                        <h5 style="margin: 0;" ng-if="m.topic" class="inline noto"> {{m.topic}}, </h5>
+                                        <h5 style="margin: 0;"class="inline">{{m.address.city}}</h5>
+                                    </div>
+                                    
+
+                                    
+                                </div>
+                            </div>
+
+                            <div id="collapse{{parentIndex}}{{childIndex}}" class="panel-collapse collapse" >
+
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-8">
+                                            <h5 class="noto">Class: ${{m.class_price}}</h5>
+                                            <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h5>
+                                        </div>
+
+                                        <div class="col-xs-6 col-md-4 centered" style="padding-right: 0;">
+                                            <h6 style="margin: 0"></h6>
+                                            <div id="buttonsBox" class="centered">
+                                                <div class="saveButton inline" id='s{{m._id}}' ng-click='saveEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
+                                                <div class="attendButton inline" id='a{{m._id}}' ng-click='attendEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
+                                                <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    
+
+                                
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-8">
+
+                                            <h4>{{m.details}}</h4><br ng-if='m.details'>
+
+                                        </div>
+                                        <div class="col-xs-12 col-md-4 centered">
+                                            <h4 ng-if='m.address.st_number' class="noto mobileAddress">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h4>
+                                            <h4 ng-if='m.address.details' class="mobileAddress">({{m.address.details}})</h4>
+                                            <div id="map_canvas_{{m._id}}" class="mapa"></div>
+
+                                            <button type="button" class="btn btn-info noto" ng-click='openInMaps(m.address)'>Open in maps</button>
                                         </div>
                                     </div>
-                                </div><br>
+                                </div>
+
+                                <div class="row linksbackground">
+
+
+                                    <a class="col-xs-4 col-sm-4 littlelinks" ng-click='openFaceProfile(m._added_by.id)'>
+                                        <h5>Last updated by: <span class="body_links noto">{{m._added_by.name}}</span></h5>
+                                    </a>
+
+                                    <a class="col-xs-4 col-sm-4 littlelinks" href="#/classes/{{m._id}}/edit">
+                                        <h5>Not accurate? <span class="body_links noto">UPDATE</span></h5>
+                                    </a>
+
+                                    <a class="col-xs-4 col-sm-4 littlelinks" ng-click='sendMail("qmilonga@gmail.com","Something is Wrong","Tell us more about what is wrong with this milonga {{m._id}}")'>
+                                        <h5 class="body_links noto">Report a problem</h5>
+                                    </a>
+                                </div>
                                 
+                            </div>
+                        </div> <!-- END OF EVENT_TYPE = CLASS -->
 
-                            
 
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-8">
+                        <div ng-if='m.event_type == "milonga" || !m.event_type'>
+                            <div class="panel-heading accordion-toggle collapsed pointer milongaOpen" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)' style="background-color: #f8fcfb;">
 
-                                        <div ng-if="m.class_start_time" class="clase">
-                                            <h4 class="noto">Class </h4><h5 ng-if='m._class_teachers' class="inline">by:</h5><h5 ng-repeat='t in m._class_teachers' class="inline"><a class='body_links noto' href="#/performers/{{t._id}}">{{t.name}}</a></h5>
-                                            <h4 class="inline" ng-if='m.class_start_time'>@ {{m.class_start_time | date:'shortTime'}} - {{m.class_end_time | date:'shortTime'}}</h4><br>
-                                            <h5 class="inline noto" ng-if='m.class_price'>Class: ${{m.class_price}}</h5>
-                                            <h5 class="inline noto" ng-if='m.class_combo_price'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Milonga & Class: ${{m.class_combo_price}}</h5>
-                                        </div><br ng-if='m.details'>
-                                        <h4>{{m.details}}</h4><br ng-if='m.details'>
-
+                                <div class="panel-title">
+                                    <div class="smallerTittle">
+                                        <h2 class="inline m_name noto">{{m.title}}</h2><h4 class="inline">, {{m.address.city}}</h4><br>
                                     </div>
-                                    <div class="col-xs-12 col-md-4 centered">
-                                        <h4 ng-if='m.address.st_number' class="noto mobileAddress">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h4>
-                                        <h4 ng-if='m.address.details' class="mobileAddress">({{m.address.details}})</h4>
-                                        <div id="map_canvas_{{m._id}}" class="mapa"></div>
 
-                                        <button type="button" class="btn btn-info noto" ng-click='openInMaps(m.address)'>Open in maps</button>
-                                    </div>
+                                    <h6 ng-if="m._performers[0]._id" style="margin: 0;">Performance by:</h6>
+                                    <h5 ng-repeat='p in m._performers' class="inline">
+                                        <a ng-if='p.pending == false' class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a>
+                                        <p ng-if='p.pending == true' class="pending" style="padding-right: 5px;">{{p.name}}</p>
+                                    </h5>
+                                    
                                 </div>
                             </div>
 
-                            <div class="row linksbackground">
+                            <div id="collapse{{parentIndex}}{{childIndex}}" class="panel-collapse collapse" >
+
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-8">
+                                            <h5 class="noto">Milonga: ${{m.price}}</h5>
+                                            <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h5>
+                                        </div>
+
+                                        <div class="col-xs-6 col-md-4 centered" style="padding-right: 0;">
+                                            <h6 style="margin: 0"></h6>
+                                            <div id="buttonsBox" class="centered">
+                                                <div class="saveButton inline" id='s{{m._id}}' ng-click='saveEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
+                                                <div class="attendButton inline" id='a{{m._id}}' ng-click='attendEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
+                                                <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    
+
+                                
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-8">
+
+                                            <div ng-if="m._class_teachers" class="clase">
+                                                <h4 class="noto">Class </h4>
+                                                <h5 ng-if='m._class_teachers' class="inline">by:</h5>
+                                                <h5 ng-repeat='t in m._class_teachers' class="inline">
+                                                    <a ng-if='t.pending == false' class='body_links noto' href="#/performers/{{t._id}}">{{t.name}}</a>
+                                                    <p ng-if='t.pending == true' class="pending" style="padding-right: 5px;">{{t.name}}</p>
+                                                </h5>
+                                                <h4 class="inline" ng-if='m.class_start_time'>@ {{m.class_start_time | date:'shortTime'}} - {{m.class_end_time | date:'shortTime'}}</h4><br>
+                                                <h5 class="inline noto" ng-if='m.class_price'>Class: ${{m.class_price}}</h5>
+                                                <h5 class="inline noto" ng-if='m.class_combo_price'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Milonga & Class: ${{m.class_combo_price}}</h5>
+                                            </div><br ng-if='m.details'>
+                                            <h4>{{m.details}}</h4><br ng-if='m.details'>
+
+                                        </div>
+                                        <div class="col-xs-12 col-md-4 centered">
+                                            <h4 ng-if='m.address.st_number' class="noto mobileAddress">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h4>
+                                            <h4 ng-if='m.address.details' class="mobileAddress">({{m.address.details}})</h4>
+                                            <div id="map_canvas_{{m._id}}" class="mapa"></div>
+
+                                            <button type="button" class="btn btn-info noto" ng-click='openInMaps(m.address)'>Open in maps</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row linksbackground">
 
 
-                                <a class="col-xs-4 col-sm-4 littlelinks" ng-click='openFaceProfile(m._added_by.id)'>
-                                    <h5>Last updated by: <span class="body_links noto">{{m._added_by.name}}</span></h5>
-                                </a>
+                                    <a class="col-xs-4 col-sm-4 littlelinks" ng-click='openFaceProfile(m._added_by.id)'>
+                                        <h5>Last updated by: <span class="body_links noto">{{m._added_by.name}}</span></h5>
+                                    </a>
 
-                                <a class="col-xs-4 col-sm-4 littlelinks" href="#/milongas/{{m._id}}/edit">
-                                    <h5>Not accurate? <span class="body_links noto">UPDATE</span></h5>
-                                </a>
+                                    <a class="col-xs-4 col-sm-4 littlelinks" href="#/milongas/{{m._id}}/edit">
+                                        <h5>Not accurate? <span class="body_links noto">UPDATE</span></h5>
+                                    </a>
 
-                                <a class="col-xs-4 col-sm-4 littlelinks" ng-click='sendMail("qmilonga@gmail.com","Something is Wrong","Tell us more about what is wrong with this milonga {{m._id}}")'>
-                                    <h5 class="body_links noto">Report a problem</h5>
-                                </a>
+                                    <a class="col-xs-4 col-sm-4 littlelinks" ng-click='sendMail("qmilonga@gmail.com","Something is Wrong","Tell us more about what is wrong with this milonga {{m._id}}")'>
+                                        <h5 class="body_links noto">Report a problem</h5>
+                                    </a>
+                                </div>
+                                
                             </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>    
-            </div>
+                        </div> <!-- END OF EVENT_TYPE = MILONGA -->
+
+                        
+
+
+
+                    </div><!--  END OF FOR M IN DAY -->
+                </div> <!--  END OF PANEL GROUP -->
+            </div>    <!-- END OF INDEX -->
+            </div>  <!-- END OF FOR DAY IN MILONGAS -->
 
 
 

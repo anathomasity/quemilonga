@@ -1,7 +1,7 @@
 var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'google.places', 'multipleDatePicker', "isteven-multi-select"]);
 
 (function(){
-	myApp.controller('MainCtrl', function ($scope, $window, $cookies, $rootScope, $facebook, eventsFactory, $location) {
+	myApp.controller('MainCtrl', function ($scope, $window, $cookies, $rootScope, $facebook, eventsFactory, $location, $route) {
     	
 		$rootScope.search={};
 		$scope.userCookie = $cookies.getAll();
@@ -17,16 +17,18 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 	            $rootScope.user = data.data;
 	            $rootScope.search.city = data.data.city_preference.city;
 	     	    $rootScope.city_preference = data.data.city_preference;
-	     	    // console.log('$ROOTSSCOPE.USER:', $rootScope.user);
-
+	     	    $scope.loginToggle();
+	     	    // console.log('after loggin toggle,:', $scope.status)
 	        });
 
 		}
 		
     	$scope.$on('fb.auth.authResponseChange', function() {
 		    $scope.status = $facebook.isConnected();
+	     	// console.log('$setting status ON FB LOGIN:', $scope.status);
+
 		    if($scope.status) {
-		        $facebook.api('/me').then(function(user) {
+		        $facebook.api('/me', {fields: 'id, name, email, picture'}).then(function(user) {
 		          	$scope.use = user;
 		          	// console.log(user, 'FACEBOOK RESPONSE')
 		            for(var i = 0; i < $scope.use.name.length; i++){
@@ -56,32 +58,41 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 	    });
 
 	    $scope.loginToggle = function() {
-	      if($scope.status) {
-	        $facebook.logout();
-	      } else {
-	        $facebook.login();
-	        $('#loginModal').modal('hide');
-	      }
+	    	// console.log('inside loginToggle')
+		    if($scope.status) {
+		        $facebook.logout();
+		        $rootScope.user = false;
+		    	$cookies.remove('userFbId');
+		    	$location.url('/')
+		    } else {
+		    	// console.log('about to log in')
+		        $facebook.login();
+		        $('#loginModal').modal('hide');
+		    }
 	    };
+
+	    $scope.getFriends = function() {
+	   		// console.log($scope.status, "$scope.status")
+	      if(!$rootScope.user) return;
+	      $facebook.cachedApi('/me/friends').then(function(friends) {
+	        $scope.friends = friends.data;
+	        // console.log($scope.friends);
+	      });
+	    }
 
 	    $scope.login = function(){
 	    	$('#loginModal').modal();
 	    }
-	    
+
 	    $scope.logout = function(){
-	    	// console.log('inside logout')
 	    	$rootScope.user = false;
-	    	$scope.status = false;
 	    	$facebook.logout();
-
 	    	$cookies.remove('userFbId');
-	    	$scope.userCookie = $cookies.getAll();
-
 	    	$location.url('/')
 	    }
 
 		// FIND MATCHES TO HELP FINDING THE TEACHER
-		$scope.performers = [];
+		$rootScope.performers = [];
 		$scope.findMatches = function(type){
 			if (type == 1){
 				if(!$rootScope.user){
@@ -92,12 +103,9 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 			eventsFactory.getPerformers(function(data){
 				// console.log('performers:',data);
 				$scope.matches = [];
-				for ( var i = 0; i < data.length; i++){
-					$scope.performers.push({name: data[i].name, _id: data[i]._id})
-				}
-				for (var i = 0; i < $scope.performers.length; i++){
-					if(getEditDistance($scope.dancer.name, $scope.performers[i].name) < 7){
-						$scope.matches.push($scope.performers[i])
+				for (var i = 0; i < $rootScope.performers.length; i++){
+					if(getEditDistance($scope.dancer.name, $rootScope.performers[i].name) < 7){
+						$scope.matches.push($rootScope.performers[i])
 					}			
 				}
 			})
@@ -107,13 +115,13 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 
 		$scope.selectMatch = function(match){
 			// console.log('match:',match);
-			for (var i = 0; i < $scope.performers.length; i++){
-				if(match._id == $scope.performers[i]._id){
+			for (var i = 0; i < $rootScope.performers.length; i++){
+				if(match._id == $rootScope.performers[i]._id){
 					if ($scope.toggle == 'performers') {
-						$scope.performers[i].ticked = true;
+						$rootScope.performers[i].ticked = true;
 					}
 					else if ($scope.toggle == 'teachers') {
-						$scope.teachers[i].ticked = true;
+						$rootScope.teachers[i].ticked = true;
 					}
 					
 					$('#exampleModal').modal('hide');
@@ -124,6 +132,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		}
 
 
+		//MAKE A PERFORMER WITH PENDING STATUS
 		$scope.addPerformer = function(){
 			if(!$rootScope.user){
 		 		// console.log('!Rosotscope user')
@@ -138,15 +147,22 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 				}, 2000);
 
 				var requestData = {
-					user: $rootScope.user,
-					dancer_name: $scope.dancer.name,
-					dancer_from: $scope.dancer.from
+					requested_by: $rootScope.user,
+					name: $scope.dancer.name,
+					from: $scope.dancer.from
 				}
 
 				eventsFactory.addPerformerRequest(requestData, function(addedDancer){
 					// console.log('succesfully requested, CONTROLLER')
 					$scope.dancer = false;
 					$scope.matches = false;
+					
+					console.log('ADDED DANCER:', addedDancer)
+
+					var pending = addedDancer.data.name + ' ' + '(PENDING)';
+					$rootScope.teachers.push({name: pending, _id: addedDancer.data._id});
+					$rootScope.performers.push({name: pending, _id: addedDancer.data._id});
+
 				});
 		 	}
 			
@@ -260,10 +276,24 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 				controller: 'profileController', 
 				templateUrl: "partials/profile.html"
 			})
+			.when('/classes/new', 
+			{
+				controller: 'newClassController',
+				templateUrl: "partials/newClass.html",
+				// needAuth: true,
+			})
+			.when('/classes/:id/edit', 
+			{
+				controller: 'editClassController', 
+				templateUrl: "partials/editClass.html",
+				// needAuth: true,
+			})	
 
 	});
 	myApp.config(['$facebookProvider', function($facebookProvider) {
-    	$facebookProvider.setAppId('241982722868622').setPermissions(['email','public_profile']).setVersion("v2.6");
+    	$facebookProvider.setAppId('241982722868622')
+    	.setPermissions('email, user_friends, public_profile')
+    	.setVersion("v2.8");
 	}]);
     myApp.run(['$rootScope', '$window', function($rootScope, $window) {
 	    (function(d, s, id) {

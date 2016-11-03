@@ -1,6 +1,8 @@
 <div class="container"><br>
 
-	<h2 class="noto"> Edit Milonga {{editMilonga.title}} </h2>
+{{editMilonga}}
+
+	<h2> Edit Class of <span class="noto" ng-repeat='t in teachers' ng-if='t.ticked == true'> {{t.name}} </span></h2>
 	<h3> {{editMilonga.date | date : fullDate}} </h3>
 
 	<div class="alert alert-warning fade in">
@@ -9,6 +11,25 @@
   	</div>
 
   	<form name="form">
+
+	<div class="form-group row">
+	  <label for="example-time-input" class="col-md-4 col-form-label">Class Teachers</label>
+	  <div class="col-md-8">
+			<div
+			ng-click='setTouch()'
+		    isteven-multi-select
+		    input-model="teachers"
+		    output-model="outputTeachers"
+		    button-label="icon name"
+		    item-label="name"
+		    tick-property="ticked">
+			</div>
+			<div class="errorMsgs" ng-show="touched" >
+      			<div ng-if="outputTeachers.length < 1">Please select one or more teachers</div>
+      		</div>
+	  </div>
+	</div>
+
 	<div class="form-group row">
 	  <label for="example-date-input" class="col-md-4 col-form-label">Date * </label>
 	  <div class="col-md-8">
@@ -25,15 +46,7 @@
 
 	  </div>
 	</div>
-	<div class="form-group row">
-	  <label for="example-text-input" class="col-md-4 col-form-label" >Title *</label>
-	  <div class="col-md-8">
-	    <input class="form-control" type="text" ng-click='passDate()' value="Artisanal kale" id="example-text-input" ng-model="editMilonga.title" name="mTitle" required="" maxlength="25">
-	    <div class="errorMsgs" ng-show="form.$submitted || form.mTitle.$touched">
-      		<div ng-show="form.mTitle.$error.required">Enter a title</div>
-      	</div>
-	  </div>
-	</div>
+
 	<div class="form-group row">
 	  <label for="example-time-input" class="col-md-4 col-form-label">Start Time *</label>
 	  <div class="col-md-8">
@@ -52,29 +65,7 @@
       	</div>
 	  </div>
 	</div>
-	<div class="form-group row">
-	  <label for="example-time-input" class="col-md-4 col-form-label">Performers</label>
-	  <div class="col-md-8">
-			<div
-		    isteven-multi-select
-		    input-model="performers"
-		    output-model="outputPerformers"
-		    button-label="icon name"
-		    item-label="name"
-		    tick-property="ticked"
-		    ng-click="toggleList('p')">
-			</div>
-	  </div>
-	</div>
-	<div class="form-group row">
-	  <label for="example-number-input" class="col-md-4 col-form-label">Milonga Price *</label>
-	  <div class="col-md-8">
-	    <input class="form-control" type="number" min="0" id="example-number-input" ng-model='editMilonga.price' name="mPrice" required="">
-	    <div class="errorMsgs" ng-show="form.$submitted || form.mPrice.$touched">
-      		<div ng-show="form.mPrice.$error.required">Enter a numeric value in your currency. (E.g: '12')</div>
-      	</div>
-	  </div>
-	</div>
+
 	<div class="form-group row">
 	  <label for="example-text-input" class="col-md-4 col-form-label">Address * <a class="body_links" ng-click='editAddress()'>Edit</a></label>
 	  <div class="col-md-8" ng-show='addressForm'>
@@ -94,63 +85,37 @@
 	  </div>
 	</div>
 
-	<br><br>
-
-  	<h4 for="example-number-input" >Edit Class Details</h4><br>
-
-	<div class="form-group row">
-	  <label for="example-time-input" class="col-md-4 col-form-label">Class Start Time</label>
-	  <div class="col-md-8">
-	    <input class="form-control" type="time" ng-value='{{editMilonga.class_start_time}}' id="example-time-input" ng-model="m_cst">
-	  </div>
-	</div>
-	<div class="form-group row">
-	  <label for="example-time-input" class="col-md-4 col-form-label">Class End Time</label>
-	  <div class="col-md-8">
-	    <input class="form-control" type="time" value="13:45:00" id="example-time-input" ng-model="m_cet">
-	  </div>
-	</div>
-	<div class="form-group row">
-	  <label for="example-time-input" class="col-md-4 col-form-label">Class Teachers</label>
-	  <div class="col-md-8">
-			<div
-		    isteven-multi-select
-		    input-model="teachers"
-		    output-model="outputTeachers"
-		    button-label="icon name"
-		    item-label="name"
-		    tick-property="ticked"
-		    ng-click="toggleList('t')">
-			</div>
-	  </div>
-	</div>
 	<div class="form-group row">
 	  <label for="example-number-input" class="col-md-4 col-form-label">Class Price</label>
 	  <div class="col-md-8">
-	    <input class="form-control" type="number" min="0" id="example-number-input" ng-model='editMilonga.class_price'>
+	    <input class="form-control" type="number" min="0" id="example-number-input" ng-model='editMilonga.class_price' name="mPrice" required="">
+	    <div class="errorMsgs" ng-show="form.$submitted || form.mPrice.$touched">
+      		<div ng-show="form.mPrice.$error.required">Enter a numeric value in your currency. (E.g: '12')</div>
+      	</div>
 	  </div>
 	</div>
+
 	<div class="form-group row">
-	  <label for="example-number-input" class="col-md-4 col-form-label">Class + Milonga combo price (optional):</label>
+	  <label for="example-text-input" class="col-md-4 col-form-label">Class Topic</label>
 	  <div class="col-md-8">
-	    <input class="form-control" type="number" min="0" id="example-number-input" ng-model='editMilonga.class_combo_price'>
+	    <textarea class="form-control" id="exampleTextarea" maxlength="100" ng-model='editMilonga.topic' placeholder="Topic of the class. Max Length 100 characters."></textarea>
 	  </div>
-	</div><br><hr><br>
+	</div>
+
 	<div class="form-group row">
-	  <label for="example-text-input" class="col-md-4 col-form-label">Additional Milonga Details</label>
+	  <label for="example-text-input" class="col-md-4 col-form-label">Additional Class Details</label>
 	  <div class="col-md-8">
-	    <textarea class="form-control" id="exampleTextarea" maxlength="600" ng-model='editMilonga.details' placeholder="Max Length 600 characters."></textarea>
+	    <textarea class="form-control" id="exampleTextarea" maxlength="600" ng-model='editMilonga.details' placeholder="Details like teacher's contact info, combo prices, etc. Max Length 600 characters."></textarea>
 	  </div>
-	</div><br>
+	</div>
 	
 	<div class="form-group row">
 	  <label for="example-text-input" class="col-xs-6 col-form-label"></label>
 	  <div class="col-xs-2">
-	    <input type="submit" value="EDIT Milonga" ng-click='updateMilonga()' class="btn btn-primary noto"></input>
+	    <input type="submit" value="EDIT Class" ng-click='updateMilonga(); setTouch()' class="btn btn-primary noto"></input>
 	  </div>
 	</div>
 	</form>
 
-	<br><br><br><br>
 
 </div>

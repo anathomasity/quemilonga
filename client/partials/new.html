@@ -73,7 +73,7 @@
 	  <div class="col-md-8">
 	    <input class="form-control" type="number" min="0" id="example-number-input" ng-model='event.price' name="mPrice" required="">
 	    <div class="errorMsgs" ng-show="form.$submitted || form.mPrice.$touched">
-      		<div ng-show="form.mPrice.$error.required">Enter a numeric value in your currency</div>
+      		<div ng-show="form.mPrice.$error.required">Enter a numeric value in your currency. (E.g: '12')</div>
       	</div>
 	  </div>
 	</div>
@@ -148,7 +148,7 @@
 	<div class="form-group row">
 	  <label for="example-text-input" class="col-md-4 col-form-label">Event Description</label>
 	  <div class="col-md-8">
-	    <textarea class="form-control" id="exampleTextarea" maxlength="500" ng-model='event.details' placeholder="Details like organizer's contact info, etc. Max Length 500 characters."></textarea>
+	    <textarea class="form-control" id="exampleTextarea" maxlength="600" ng-model='event.details' placeholder="Details like organizer's contact info, etc. Max Length 600 characters."></textarea>
 	  </div>
 	</div><br><br>
 	<div class="form-group row">

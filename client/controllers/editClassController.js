@@ -1,18 +1,16 @@
-myApp.controller('editMilongaController', function($scope, $routeParams, $location, eventsFactory, $rootScope, $window, $facebook){
+myApp.controller('editClassController', function($scope, $routeParams, $location, eventsFactory, $rootScope, $window, $facebook){
 
-	var milongaId = $routeParams.id;
-	$rootScope.performers = [];
+	var classId = $routeParams.id;
 	$rootScope.teachers = [];
 	$scope.performersList = [];
-	$scope.outputPerformers = [];
 	$scope.outputTeachers = [];
 	$scope.toggle;
 
 
 
-	eventsFactory.getMilonga(milongaId, function(data){
+	eventsFactory.getClass(classId, function(data){
 		$scope.editMilonga = data.data;
-		// console.log('$scope.editMilonga:', $scope.editMilonga)
+		// console.log('$scope.editMilonga:', data.data)
 		$scope.dt = new Date(data.data.date);
 		$scope.m_st = new Date(data.data.start_time);
 		$scope.m_et = new Date(data.data.end_time);
@@ -25,38 +23,22 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 				if(dat[i].pending && dat[i].pending == true){
 					var pending = dat[i].name + ' ' + '(PENDING)';
 					$rootScope.teachers.push({name: pending, _id: dat[i]._id})
-					$rootScope.performers.push({name: pending, _id: dat[i]._id})
 				}
 				else{
 					$rootScope.teachers.push({name: dat[i].name, _id: dat[i]._id})
-					$rootScope.performers.push({name: dat[i].name, _id: dat[i]._id})
 				}
 			}
-			// console.log('performers:', $rootScope.performers);
 
 
-
-
-			// MARK AS TICKED , THE TEACHERS AND PERFORMERS OF THIS EVENT FOR THE MULTIPICKER
-			for(var i = 0; i < $rootScope.performers.length; i++){
-				// console.log('all performers in db list', $rootScope.performers[i].name)
-				for (var j = 0; j < data.data._performers.length; j++) {
-					// console.log('_perf of this milonga list', data.data._performers[j])
-					if(data.data._performers[j] == $rootScope.performers[i]._id){
-						// console.log('ticked performer!', data.data._performers[i], $rootScope.performers[j]._id )
-						$rootScope.performers[i].ticked = true;
-						// console.log($rootScope.performers);
-					}
-				}//END OF FOR
-			}//END OF FOR
+			// MARK AS TICKED , THE TEACHERS OF THIS EVENT FOR THE MULTIPICKER
 			// console.log('all teachers in db list', $rootScope.teachers)
 			for(var i = 0; i < $rootScope.teachers.length; i++){
 				for (var j = 0; j < data.data._class_teachers.length; j++) {
-					// console.log('_perf of this milonga list', data.data._performers[j])
+					// console.log('_teachers of this class list', data.data._class_teachers[j])
 					if(data.data._class_teachers[j] == $rootScope.teachers[i]._id){
 						// console.log('ticked teacher!', data.data._class_teachers[j], $rootScope.teachers[i]._id )
 						$rootScope.teachers[i].ticked = true;
-						// console.log($rootScope.performers);
+						// console.log($rootScope.teachers);
 					}
 				}//END OF FOR
 			} //END OF FOR
@@ -64,15 +46,6 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 		}) //END OF GET PERFORMERS
 
 	});
-
-	$scope.toggleList = function(list) {
-		if (list == 'p') {
-			$scope.toggle = 'performers';
-		}
-		else if (list == 't') {
-			$scope.toggle = 'teachers';
-		}
-	}
 
 	$scope.updateMilonga = function(){
 		if(!$rootScope.user){
@@ -85,34 +58,26 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 	 			return;
 	 		}
 
+	 		if($scope.outputTeachers.length < 1){
+	 			console.log('less than 1 teachers, returnin')
+	 			return;
+	 		}
+
 	 		$scope.editMilonga.date = $scope.dt;
 	 		$scope.editMilonga.start_time = $scope.m_st;
 	 		$scope.editMilonga.end_time = $scope.m_et;
 	 		$scope.editMilonga.class_start_time = $scope.m_cst;
 	 		$scope.editMilonga.class_end_time = $scope.m_cet;
 
-
-			if($scope.editMilonga._performers){
-
-				for(var i = 0; i < $scope.editMilonga._performers.length; i++){
-					var info = {
-						milongaId: $scope.editMilonga._id,
-						performerId: $scope.editMilonga._performers[i],
-					}
-					eventsFactory.removeMilongaFromPerformer(info, function(status){
-						// console.log('REMOVED MILONGA FROM DANCER',status);
-					})
-				}
-			}
 			if($scope.editMilonga._class_teachers){
 
 				for(var i = 0; i < $scope.editMilonga._class_teachers.length; i++){
 					var info = {
-						milongaId: $scope.editMilonga._id,
-						performerId: $scope.editMilonga._class_teachers[i],
+						classId: $scope.editMilonga._id,
+						teacherId: $scope.editMilonga._class_teachers[i],
 					}
-					eventsFactory.removeMilongaFromPerformer(info, function(status){
-						// console.log('REMOVED MILONGA FROM DANCER',status);
+					eventsFactory.removeClassFromPerformer(info, function(status){
+						console.log('REMOVED class FROM DANCER',status);
 					})
 				}
 			}
@@ -149,13 +114,8 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 
 
 
-	         // PUSH EACH TEACHER AND EACH PERFORMER TO THE CORRESPONDING EVENT ARRAY
-	        // PUSH TEACHERS AND PERFORMERS TO PERFORMERSLIST ARRAY TO EDIT PERFORMER'S PROFILE
-			$scope.editMilonga._performers = [];
-			for (var i in $scope.outputPerformers){
-				$scope.editMilonga._performers.push($scope.outputPerformers[i]._id);
-				$scope.performersList.push({perfId: $scope.outputPerformers[i]._id, action: 'performance'});
-			}
+	         // PUSH EACH TEACHER TO THE CORRESPONDING EVENT ARRAY
+	        // PUSH TEACHERS TO PERFORMERSLIST ARRAY TO EDIT PERFORMER'S PROFILE
 
 			$scope.editMilonga._class_teachers = [];
 			for (var i in $scope.outputTeachers){
@@ -164,41 +124,35 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 				
 			}
 
-			// DELETE DUPLICATES FROM PERFORMERSLIST AND CHANGE ACTION TO BOTH
-			for(var i = 0; i < $scope.performersList.length; i++){
-				for (var j = i+1; j < $scope.performersList.length; j++){
-					if($scope.performersList[i].perfId == $scope.performersList[j].perfId){
-						$scope.performersList[i].action = 'both';
-						$scope.performersList.splice(j, 1);
-						j--;
-					}
-				}
-			}
 
-
-
+			console.log($rootScope.user);
 			// console.log('scope edit milonga', $scope.editMilonga);
 			$scope.editMilonga._added_by = {
 	        	name: $rootScope.user.first_name + ' ' + $rootScope.user.last_name,
         		id: $rootScope.user.fb_id
 	        };
 			// console.log($scope.editMilonga._added_by, 'ADDED BY')
-			eventsFactory.updateMilonga($scope.editMilonga, function(updatedMilonga){
-				// console.log('UPDATED MILONGA:::', updatedMilonga)
+
+
+			eventsFactory.updateClass($scope.editMilonga, function(updatedClass){
+				console.log('UPDATED MILONGA:::', updatedClass)
 				for (var i = 0; i < $scope.performersList.length; i++){
 					info = {
 						performerId: $scope.performersList[i].perfId,
 						action: $scope.performersList[i].action,
-						milonga: updatedMilonga._id,
+						class: updatedClass._id,
 					}
-					// console.log('THIS IS THE INFO WE ARE PASSING',info);
-					eventsFactory.addMilongaToPerformer(info, function(result){
-						// console.log("ADDED MILONGA TO PERF: ", result);
+					console.log('THIS IS THE INFO WE ARE PASSING',info);
+					eventsFactory.addClassToPerformer(info, function(result){
+
+						console.log("ADDED MILONGA TO PERF: ", result);
 						info = {};
 					})
 				}
 				$location.path('/');
 			})
+
+
 		} //END OF ELSE
 	}
 
@@ -238,5 +192,9 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
     	// console.log('returning false')
     	return false;
   	};
+
+  	$scope.setTouch = function(){
+  		$scope.touched = true;
+  	}
 
 })

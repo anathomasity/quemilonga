@@ -32,6 +32,10 @@ var MilongaSchema = new mongoose.Schema({
         login_type: String,
         id: String,
     },
+    event_type : {
+      type : String,
+      default: 'milonga',
+    },
 },{timestamps:true});
 
 mongoose.model('milonga', MilongaSchema);

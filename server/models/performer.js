@@ -8,11 +8,24 @@ var PerformerSchema = new mongoose.Schema({
     	milonga: [
     	{	type: Schema.Types.ObjectId, 
     		ref: 'milonga',
-    		index: {unique: true},
     	}],
+        class: [
+        {   type: Schema.Types.ObjectId, 
+            ref: 'class',
+        }],
     	action: String,
     }],
-    _user: {type: Schema.Types.ObjectId, ref: 'user'}
+    _user: {type: Schema.Types.ObjectId, ref: 'user'},
+    pending : {
+        type : Boolean,
+        default: true,
+    },
+    requested_by: {
+        _id:String,
+        fb_id: String,
+        first_name: String,
+        last_name: String,
+    },
 },{timestamps:true});
 
 mongoose.model('performer', PerformerSchema);

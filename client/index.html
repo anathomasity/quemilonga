@@ -58,6 +58,10 @@
     <script src = "/controllers/loginController.js"></script>
     <script src = "/controllers/adminController.js"></script>
     <script src = "/controllers/profileController.js"></script>
+    <script src = "/controllers/newClassController.js"></script>
+    <script src = "/controllers/editClassController.js"></script>
+
+
     
 	<!-- factories -->
     <script src = "/factories/eventsFactory.js"></script>
@@ -132,6 +136,7 @@
                 <h4 class="modal-title" id="myModalLabel">Your Facebook friends attending this event</h4>
               </div>
               <div class="modal-body">
+                <button ng-click='getFriends()'>Get Friends</button>
                 Section under development. Thank you for your patience.
               </div>
               <div class="modal-footer">
