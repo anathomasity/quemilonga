@@ -23,10 +23,10 @@
 
             
         </div>
-        <div class="section-right">
-            <a href="#/milongas/new"><button class="learn-more noto">Add Milonga</button></a>
-            <a href="#/classes/new"><button class="learn-more noto">Add Class</button></a>
-        </div>
+<!--         <div class="section-right">
+            <a href="#/milongas/new" class="inline"><button class="learn-more noto">Add Milonga</button></a>
+            <a href="#/classes/new" class="inline"><button class="learn-more noto">Add Class</button></a>
+        </div> -->
     </div>
 </section>
 
@@ -52,6 +52,8 @@
                 <div class="panel-group datesBorder" id="accordion{{parentIndex}}">
                     
                     <div ng-repeat='m in day | filter:filter_name' ng-init="childIndex = $index" class="panel panel-default">
+
+                    <!-- START OF CLASS -->
 
                         <div ng-if='m.event_type == "class"'>
                             <div class="panel-heading accordion-toggle collapsed pointer milongaOpen" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)' style="background-color: #fcf8f9;">
@@ -90,8 +92,8 @@
                                         <div class="col-xs-6 col-md-4 centered" style="padding-right: 0;">
                                             <h6 style="margin: 0"></h6>
                                             <div id="buttonsBox" class="centered">
-                                                <div class="saveButton inline" id='s{{m._id}}' ng-click='saveEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
-                                                <div class="attendButton inline" id='a{{m._id}}' ng-click='attendEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
+                                                <div class="saveButton inline" id='sc{{m._id}}' ng-click='saveClass(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
+                                                <div class="attendButton inline" id='ac{{m._id}}' ng-click='attendEClass(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
                                                 <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
                                             </div>
                                         </div>
@@ -179,7 +181,7 @@
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-8">
 
-                                            <div ng-if="m._class_teachers" class="clase">
+                                            <div ng-if="m._class_teachers.length > 0" class="clase">
                                                 <h4 class="noto">Class </h4>
                                                 <h5 ng-if='m._class_teachers' class="inline">by:</h5>
                                                 <h5 ng-repeat='t in m._class_teachers' class="inline">
@@ -248,8 +250,11 @@
         <!-- IF THERE IS NO MILONGAS FOR THAT DATE -->
         <div ng-if="anyMilonga() == false" class="col-xs-12 col-md-8">
             <div>
-                <h3>Sorry, no milongas found.</h3>
-                <h4>- You can try searching other dates or cities, or <a href="#/milongas/new" class="body_links">creating a new event</a>  by yourself!</h4>
+                <h3>Sorry, no results found.</h3>
+                <h4>You can try searching other dates or cities, or: <br>
+                - <a href="#/milongas/new" class="body_links">creating a new Milonga</a><br>
+                - <a href="#/classes/new" class="body_links">creating a new Class</a><br>
+                by yourself!</h4>
             </div><br><hr><br>
         </div>
 

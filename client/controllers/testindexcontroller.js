@@ -120,8 +120,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
     })
   });
 
-  $scope.$watch("search.what", function(newValue, oldValue) {
-    // console.log('inside watch', what)
+
+  // $rootScope.what = 'Milongas'
+  $rootScope.$watch("search.what", function(newValue, oldValue) {
+    console.log('inside what', $rootScope.search.what)
     //A WAY TO IMPROVE THIS QUERING FOR ALL OF THEM AND HAVE THEM 
     //IN DIFFERENT VARIABLES SO WE ONLY PUT IN MILONGAS WHAT WE NEED
     //IMPROVEMENT FOR LATER, TO NOT HAVE TO QUERY SO MUCH UNNESESARY
@@ -205,6 +207,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
                         // console.log('get favorites controller,', dat);
                         $scope.attending = dat.data._attending;
                         $scope.favorites = dat.data._favorites;
+                        $scope.class_attending = dat.data._class_attending;
+                        $scope.class_favorites = dat.data._class_favorites;
                         $rootScope.user = dat.data;
                         var id = 'a' + eventId;
                         $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
@@ -224,6 +228,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
                 eventsFactory.getUser($rootScope.user.fb_id, function(dat){
                     $scope.attending = dat.data._attending;
                     $scope.favorites = dat.data._favorites;
+                    $scope.class_attending = dat.data._class_attending;
+                    $scope.class_favorites = dat.data._class_favorites;
                     $rootScope.user = dat.data;
                 });  
             });
@@ -261,6 +267,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
                         // console.log('get favorites controller,', dat);
                         $scope.attending = dat.data._attending;
                         $scope.favorites = dat.data._favorites;
+                        $scope.class_attending = dat.data._class_attending;
+                        $scope.class_favorites = dat.data._class_favorites;
                         $rootScope.user = dat.data;
                         var id = 's' + eventId;
                         $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
@@ -278,13 +286,137 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
             eventsFactory.stopAttending(info, function(data){
                 eventsFactory.getUser($rootScope.user.fb_id, function(data){
                     $rootScope.user = data.data;
-                    $scope.attending = data.data._attending;
+                    $scope.attending = dat.data._attending;
+                    $scope.favorites = dat.data._favorites;
+                    $scope.class_attending = dat.data._class_attending;
+                    $scope.class_favorites = dat.data._class_favorites;
                 });  
             });
         }//END OF ELSE IF
 
     }//END OF ELSE
   }
+
+  $scope.saveClass = function(eventId) {
+    console.log('INSIDE SAVE CLASS')
+    if(!$rootScope.user){
+      // console.log('!Rosotscope user')
+      $('#loginModal').modal();
+    }
+    else {
+        var check = false;
+        var id = 'sc' + eventId;
+        for(var i = 0; i < $rootScope.user._class_favorites.length; i++){
+            if(eventId == $rootScope.user._class_favorites[i]._id){
+                check = true;
+            };
+        };
+
+        if(check == false){
+            $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
+            var datos = {
+              eventId: eventId,
+              fb_id: $rootScope.user.fb_id,
+            }
+            eventsFactory.likeClass(datos, function(data){
+                // console.log('back in frontend controller',datos);   
+                eventsFactory.stopAttendingClass(datos, function(data){
+                    // console.log('BACK stopAttending profile controller,', data);
+                    eventsFactory.getUser($rootScope.user.fb_id, function(dat){
+                        // console.log('get favorites controller,', dat);
+                        $scope.attending = dat.data._attending;
+                        $scope.favorites = dat.data._favorites;
+                        $scope.class_attending = dat.data._class_attending;
+                        $scope.class_favorites = dat.data._class_favorites;
+                        $rootScope.user = dat.data;
+                        var id = 'ac' + eventId;
+                        $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
+                        // console.log($scope.attending, 'attending')
+                    });  
+                }); 
+            });
+        }
+        else if(check == true){
+            $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
+            var info = {
+                eventId: eventId,
+                fb_id: $rootScope.user.fb_id
+            }
+            eventsFactory.stopSavingClass(info, function(data){
+                console.log('BACK stopSaving profile controller,', data);
+                eventsFactory.getUser($rootScope.user.fb_id, function(dat){
+                    $scope.attending = dat.data._attending;
+                    $scope.favorites = dat.data._favorites;
+                    $scope.class_attending = dat.data._class_attending;
+                    $scope.class_favorites = dat.data._class_favorites;
+                    $rootScope.user = dat.data;
+                });  
+            });
+        }//END OF ELSE IF
+
+    }//END OF ELSE
+  }
+
+  $scope.attendClass = function(eventId) {
+    if(!$rootScope.user){
+      // console.log('!Rosotscope user')
+      $('#loginModal').modal();
+    }
+    else {
+        var check = false;
+        var id = 'ac' + eventId;
+        for(var i = 0; i < $rootScope.user._class_attending.length; i++){
+            if(eventId == $rootScope.user._class_attending[i]._id){
+                check = true;
+            };
+        };
+
+        if(check == false){
+            $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
+            // console.log('attending this event: ', eventId, 'user:', $rootScope.user.name)
+            var datos = {
+              eventId: eventId,
+              fb_id: $rootScope.user.fb_id,
+            }
+            eventsFactory.attendClass(datos, function(data){
+                // console.log('back in frontend controller',datos);   
+                eventsFactory.stopSavingClass(datos, function(data){
+                    // console.log('BACK stopAttending profile controller,', data);
+                    eventsFactory.getUser($rootScope.user.fb_id, function(dat){
+                        // console.log('get favorites controller,', dat);
+                        $scope.attending = dat.data._attending;
+                        $scope.favorites = dat.data._favorites;
+                        $scope.class_attending = dat.data._class_attending;
+                        $scope.class_favorites = dat.data._class_favorites;
+                        $rootScope.user = dat.data;
+                        var id = 'sc' + eventId;
+                        $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
+                        // console.log($scope.attending, 'attending')
+                    });  
+                }); 
+            });
+        }
+        else if(check == true){
+            $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
+            var info = {
+              eventId: eventId,
+              fb_id: $rootScope.user.fb_id
+            }
+            eventsFactory.stopAttendingClass(info, function(data){
+                eventsFactory.getUser($rootScope.user.fb_id, function(data){
+                    $rootScope.user = data.data;
+                    $scope.attending = data.data._attending;
+                    $scope._favorites = dat.data._favorites;
+                    $scope.class_attending = dat.data._class_attending;
+                    $scope.class_favorites = dat.data._class_favorites;
+                });  
+            });
+        }//END OF ELSE IF
+
+    }//END OF ELSE
+  }
+
+
 
   function initializeMap(response, mId) {
     // create the map
@@ -331,6 +463,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
   $scope.getButtonsInfo = function(mId){
       if($rootScope.user){
+        console.log($rootScope.user)
           for(var i = 0; i < $rootScope.user._favorites.length; i++){
               if(mId == $rootScope.user._favorites[i]._id){
                   var id = 's' + mId;
@@ -340,6 +473,18 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
           for(var i = 0; i < $rootScope.user._attending.length; i++){
               if(mId == $rootScope.user._attending[i]._id){
                   var id = 'a' + mId;
+                  $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
+              };
+          };
+          for(var i = 0; i < $rootScope.user._class_favorites.length; i++){
+              if(mId == $rootScope.user._class_favorites[i]._id){
+                  var id = 'sc' + mId;
+                  $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
+              };
+          };
+          for(var i = 0; i < $rootScope.user._class_attending.length; i++){
+              if(mId == $rootScope.user._class_attending[i]._id){
+                  var id = 'ac' + mId;
                   $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
               };
           };

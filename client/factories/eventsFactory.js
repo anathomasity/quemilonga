@@ -234,9 +234,25 @@ myApp.factory('eventsFactory', function($http){
 		})
 	}
 
+	factory.likeClass = function(info, callback){
+		// console.log('at factory', info.fb_id)
+		$http.post('/users/' + info.fb_id + '/saveClass', info).then(function(user){
+			// console.log('made it back from backend eddited this performer', performer);
+			callback(user);
+		})
+	}
+
 	factory.attendEvent = function(info, callback){
 		// console.log('at factory', info.fb_id)
 		$http.post('/users/' + info.fb_id + '/attend', info).then(function(user){
+			// console.log('made it back from backend eddited this performer', performer);
+			callback(user);
+		})
+	}
+
+	factory.attendClass = function(info, callback){
+		// console.log('at factory', info.fb_id)
+		$http.post('/users/' + info.fb_id + '/attendClass', info).then(function(user){
 			// console.log('made it back from backend eddited this performer', performer);
 			callback(user);
 		})
@@ -265,9 +281,25 @@ myApp.factory('eventsFactory', function($http){
 		})
 	}
 
+	factory.stopAttendingClass = function(info, callback){
+		// console.log('at factory', info)
+		$http.post('/stopAttendingClass', info).then(function(user){
+			// console.log('made it back from backend eddited this performer', performer);
+			callback(user);
+		})
+	}
+
 	factory.stopSaving = function(info, callback){
 		// console.log('at factory', info)
 		$http.post('/stopSaving', info).then(function(user){
+			// console.log('made it back from backend eddited this performer', performer);
+			callback(user);
+		})
+	}
+
+	factory.stopSavingClass = function(info, callback){
+		// console.log('at factory', info)
+		$http.post('/stopSavingClass', info).then(function(user){
 			// console.log('made it back from backend eddited this performer', performer);
 			callback(user);
 		})

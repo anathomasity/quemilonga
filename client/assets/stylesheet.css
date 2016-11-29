@@ -156,6 +156,11 @@ header{
 	font-family: 'La Belle Aurore', cursive;
 }
 
+#newMilLink {
+		/*background: #EAAF00;*/
+		/*background-image: -webkit-linear-gradient(#EAAF00 0%, #D78100 100%);*/
+}
+
 .panel-title{
 	padding: 0;
 }

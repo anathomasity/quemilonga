@@ -102,9 +102,9 @@
                 <a ng-if='!user' ng-click='login(); closeNav()' class="navLinks">Login</a>
                 <a ng-if='user' ng-click='logout(); closeNav()' class="navLinks">Logout</a>
                 <a href="#/profile" ng-if='user' class="navLinks" ng-click='closeNav()'>{{user.first_name}} {{user.last_name}}</a>
-                <a id="newMilLink" class="navLinks" href="#/milongas/new" ng-click='closeNav()'>Post New Milonga</a>
+                <a id="newMilLink" class="navLinks" href="#/milongas/new" ng-click='closeNav()'>POST NEW MILONGA</a>
+                <a id="newMilLink" class="navLinks" href="#/classes/new" ng-click='closeNav()'>POST NEW CLASS</a>
                 <a ng-click='findPerformerModal(); closeNav()' class="navLinks">Find Performer's Schedule</a>
-                <a class="navLinks" ng-click='sendMail("qmilonga@gmail.com","Hey there, QueMilonga!","Please send us an Email, we will get back to you as soon as possible"); closeNav()'>Contact</a>
             </nav>
         </div>
     </div>
@@ -275,7 +275,7 @@
                 <a href="#/">Performers Account Linking</a>
                 <a ng-click='openSurvey()'>Provide Feedback</a>
                 <a ng-click=''>Translate to my Language</a>
-                <a ng-click='sendMail("qmilonga@gmail.com","Contact Developer","Are you interested in the developer of this website? Please send me an Email with your contact information and I will get back to you asap.")'>Developed by Ana Thomas <span class="body_links">Contact</span></a>
+                <a ng-click='sendMail("qmilonga@gmail.com","Contact Developer","Do you need to contact the developer of this website? Please send an Email with your contact information and I will get back to you asap.")'>Developed by Ana Thomas <span class="body_links">Contact</span></a>
             </ul>
             <h6 style="color: white; margin: 0;" class="centered">© QueMilonga.com | All rights reserved.</h6>
 

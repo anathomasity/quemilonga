@@ -600,6 +600,34 @@ module.exports = (function() {
 			});
 		},
 
+		likeClass: function(req, res){
+
+			User.findOne({fb_id: req.params.id}, function (err, user){
+				console.log('GOT TO THE BACKEND CONTROLLER', req.body)
+				var check = false;
+				for(var i = 0; i < user._class_favorites.length; i++){
+					if(user._class_favorites[i] == req.body.eventId){
+						check = true;
+					}
+				}
+				if(check == false) {
+					user._class_favorites.push(req.body.eventId);
+					console.log('THIS IS THE user',user);
+				    user.save(function (erro) {
+				        if(erro) {
+				            console.error('ERROR ADDING EVENT TO user!', erro);
+				        }
+				        else{
+				        	res.json({status:'ok!'});
+				        };
+				    });
+				}
+				else{
+					console.log('EVENT ALREADY SAVED');
+				}
+			});
+		},
+
 		attendEvent: function(req, res){
 
 			User.findOne({fb_id: req.params.id}, function (err, user){
@@ -627,6 +655,53 @@ module.exports = (function() {
 				}
 			});
 		},
+		attendClass: function(req, res){
+
+			User.findOne({fb_id: req.params.id}, function (err, user){
+				console.log('GOT TO THE BACKEND CONTROLLER', req.body)
+				var check = false;
+				for(var i = 0; i < user._class_attending.length; i++){
+					if(user._class_attending[i] == req.body.eventId){
+						check = true;
+					}
+				}
+				if(check == false) {
+					user._class_attending.push(req.body.eventId);
+					console.log('THIS IS THE user',user);
+				    user.save(function (erro) {
+				        if(erro) {
+				            console.error('ERROR ADDING EVENT TO user!', erro);
+				        }
+				        else{
+				        	res.json({status:'ok!'});
+				        };
+				    });
+				}
+				else{
+					console.log('ALREADY ATTENDING THIS EVENT');
+				}
+			});
+		},
+		stopAttendingClass: function(req,res){
+			User.findOne({fb_id: req.body.fb_id}, function(err, user){
+				if(err){
+					console.log("error finding the user", err);
+				}
+				else {
+					// console.log('this is our user',user);
+					var index = user._class_attending.indexOf(req.body.eventId);
+					user._class_attending.splice(index, 1);
+					user.save(function(erro, use) {
+						if (erro) {
+							console.log('ERROR', erro)
+						}
+						else{
+							res.json(user);
+						}
+					})
+				}
+			})
+		},
 		stopAttending: function(req,res){
 			User.findOne({fb_id: req.body.fb_id}, function(err, user){
 				if(err){
@@ -636,6 +711,26 @@ module.exports = (function() {
 					// console.log('this is our user',user);
 					var index = user._attending.indexOf(req.body.eventId);
 					user._attending.splice(index, 1);
+					user.save(function(erro, use) {
+						if (erro) {
+							console.log('ERROR', erro)
+						}
+						else{
+							res.json(user);
+						}
+					})
+				}
+			})
+		},
+		stopSavingClass: function(req,res){
+			User.findOne({fb_id: req.body.fb_id}, function(err, user){
+				if(err){
+					console.log("error finding the user", err);
+				}
+				else {
+					// console.log('this is our user',user);
+					var index = user._class_favorites.indexOf(req.body.eventId);
+					user._class_favorites.splice(index, 1);
 					user.save(function(erro, use) {
 						if (erro) {
 							console.log('ERROR', erro)

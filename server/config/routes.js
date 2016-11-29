@@ -97,6 +97,16 @@ module.exports = function(app){
 		milongas.likeEvent(req, res);
 	})
 
+	app.post('/users/:id/saveClass', function(req, res){
+		console.log('made it to my /users/:id/saveClass post route');
+		milongas.likeClass(req, res);
+	})
+
+	app.post('/users/:id/attendClass', function(req, res){
+		console.log('made it to my /users/:id/attendClass post route');
+		milongas.attendClass(req, res);
+	})
+
 	app.post('/users/:id/attend', function(req, res){
 		console.log('made it to my /users/:id/attend post route');
 		milongas.attendEvent(req, res);
@@ -128,9 +138,19 @@ module.exports = function(app){
 		milongas.getPerformer(req, res);
 	})
 
+	app.post('/stopAttendingClass', function(req, res){
+		// console.log('made it to my /users/:id/update post route');
+		milongas.stopAttendingClass(req, res);
+	})
+
 	app.post('/stopAttending', function(req, res){
 		// console.log('made it to my /users/:id/update post route');
 		milongas.stopAttending(req, res);
+	})
+
+	app.post('/stopSavingClass', function(req, res){
+		// console.log('made it to my /users/:id/update post route');
+		milongas.stopSavingClass(req, res);
 	})
 
 	app.post('/stopSaving', function(req, res){
