@@ -157,8 +157,8 @@ header{
 }
 
 #newMilLink {
-		/*background: #EAAF00;*/
-		/*background-image: -webkit-linear-gradient(#EAAF00 0%, #D78100 100%);*/
+	font-weight: bolder;
+	color: #EAAF00;
 }
 
 .panel-title{
@@ -234,6 +234,14 @@ header{
 	border-radius: 2px;
 	cursor: pointer;
 	box-shadow: .3em .3em .1em #888888;
+}
+
+.classPanel{
+	background-color: #fcf8f9;
+}
+
+.milongaPanel{
+	background-color: #f8fcfb;
 }
 
 #wrapper{
@@ -593,6 +601,7 @@ section{
 	#newMilLink {
 		background: #EAAF00;
 		background-image: -webkit-linear-gradient(#EAAF00 0%, #D78100 100%);
+		color: white;
 	}
 
 	.smallerTittle h4{

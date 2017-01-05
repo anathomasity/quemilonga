@@ -6,14 +6,7 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
   else {
 
 
-  eventsFactory.getUser($rootScope.user.fb_id, function(data){
-    // console.log('BACK getUser profile controller,', data);
-    $scope.favorites = data.data._favorites;
-    $scope.attending = data.data._attending;
-    $scope.class_favorites = data.data._class_favorites;
-    $scope.class_attending = data.data._class_attending;
-    // console.log($scope.attending, 'attending')
-  })
+  refreshUser();
 
   $scope.now = moment().add(-1,'days').format();
 
@@ -69,10 +62,7 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
               userId: $rootScope.user.fb_id
             }
             eventsFactory.stopAttending(info, function(data){
-                eventsFactory.getUser($rootScope.user.fb_id, function(data){
-                    $rootScope.user = data.data;
-                    $scope.attending = data.data._attending;
-                });  
+                refreshUser();  
             });
         }//END OF ELSE IF
 
@@ -112,10 +102,7 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
               userId: $rootScope.user.fb_id
             }
             eventsFactory.stopAttendingClass(info, function(data){
-                eventsFactory.getUser($rootScope.user.fb_id, function(data){
-                    $rootScope.user = data.data;
-                    $scope.class_attending = data.data._class_attending;
-                });  
+                refreshUser();  
             });
         }//END OF ELSE IF
 
@@ -155,11 +142,7 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
             }
             eventsFactory.stopSaving(info, function(data){
                 // console.log('BACK stopSaving profile controller,', data);
-                eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-                    // console.log('get favorites controller,', dat);
-                    $scope.favorites = dat.data._favorites;
-                    $rootScope.user = dat.data;
-                }); 
+                refreshUser(); 
             });
         }//END OF ELSE IF
 
@@ -199,11 +182,7 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
             }
             eventsFactory.stopSavingClass(info, function(data){
                 // console.log('BACK stopSaving profile controller,', data);
-                eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-                    // console.log('get favorites controller,', dat);
-                    $scope.class_favorites = dat.data._class_favorites;
-                    $rootScope.user = dat.data;
-                }); 
+                refreshUser(); 
             });
         }//END OF ELSE IF
 
@@ -217,12 +196,8 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
     }
     eventsFactory.stopAttending(info, function(data){
         // console.log('BACK stopAttending profile controller,', data);
-        eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-            // console.log('get favorites controller,', dat);
-            $scope.attending = dat.data._attending;
-            $scope.favorites = dat.data._favorites;
-            $rootScope.user = dat.data;
-            // console.log($scope.attending, 'attending')
+        eventsFactory.getUser($rootScope.user.fb_id, function(data){
+            refreshUser();
         });  
     });
   };
@@ -234,14 +209,8 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
     }
     eventsFactory.stopAttendingClass(info, function(data){
         // console.log('BACK stopAttending profile controller,', data);
-        eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-            // console.log('get favorites controller,', dat);
-            $scope.attending = dat.data._attending;
-            $scope.favorites = dat.data._favorites;
-            $scope.class_attending = dat.data._class_attending;
-            $scope.class_favorites = dat.data._class_favorites;
-            $rootScope.user = dat.data;
-            // console.log($scope.attending, 'attending')
+        eventsFactory.getUser($rootScope.user.fb_id, function(data){
+            refreshUser();
         });  
     });
   };
@@ -253,11 +222,8 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
     }
     eventsFactory.stopSaving(info, function(data){
         // console.log('BACK stopSaving profile controller,', data);
-        eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-            // console.log('get favorites controller,', dat);
-            $scope.favorites = dat.data._favorites;
-            $scope.attending = dat.data._attending;
-            $rootScope.user = dat.data;
+        eventsFactory.getUser($rootScope.user.fb_id, function(data){
+            refreshUser();
         }); 
     });
   };
@@ -269,23 +235,24 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
     }
     eventsFactory.stopSavingClass(info, function(data){
         // console.log('BACK stopSaving profile controller,', data);
-        eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-            // console.log('get favorites controller,', dat);
-            $scope.attending = dat.data._attending;
-            $scope.favorites = dat.data._favorites;
-            $scope.class_attending = dat.data._class_attending;
-            $scope.class_favorites = dat.data._class_favorites;
-            $rootScope.user = dat.data;
-        }); 
+        refreshUser();
     });
   };
 
 
+  function refreshUser() {
+
+      eventsFactory.getUser($rootScope.user.fb_id, function(data){
+          $rootScope.user = data.data;
+          $scope.favorites = data.data._favorites;
+          $scope.attending = data.data._attending;
+          $scope.favorites = $scope.favorites.concat(data.data._class_favorites)
+          $scope.attending = $scope.attending.concat(data.data._class_attending)
+      }); 
+  }
 
 
 
-
-
-}
+} // END OF ELSE
 
 });

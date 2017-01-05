@@ -554,7 +554,21 @@ module.exports = (function() {
 			       path: '_class_teachers',
 			       model: 'performer'
 			    } 
-			}) 
+			})
+			.populate({ 
+			     path: '_class_attending',
+			     populate: {
+			       path: '_class_teachers',
+			       model: 'performer'
+			    } 
+			})
+			.populate({ 
+			     path: '_class_favorites',
+			     populate: {
+			       path: '_class_teachers',
+			       model: 'performer'
+			    } 
+			})
 			.exec(function (err, user) {
 			  if(err){
 					console.log("error finding the User", err);
@@ -603,7 +617,8 @@ module.exports = (function() {
 		likeClass: function(req, res){
 
 			User.findOne({fb_id: req.params.id}, function (err, user){
-				console.log('GOT TO THE BACKEND CONTROLLER', req.body)
+				console.log('***************THIS IS REQ.BODY', req.body)
+				console.log('****************THIS IS THE USER', user)
 				var check = false;
 				for(var i = 0; i < user._class_favorites.length; i++){
 					if(user._class_favorites[i] == req.body.eventId){
@@ -612,18 +627,19 @@ module.exports = (function() {
 				}
 				if(check == false) {
 					user._class_favorites.push(req.body.eventId);
-					console.log('THIS IS THE user',user);
+					// console.log('THIS IS THE user',user);
 				    user.save(function (erro) {
 				        if(erro) {
 				            console.error('ERROR ADDING EVENT TO user!', erro);
 				        }
 				        else{
+				        	console.log('ADDED CLASS TO USER', user)
 				        	res.json({status:'ok!'});
 				        };
 				    });
 				}
 				else{
-					console.log('EVENT ALREADY SAVED');
+					console.log('CLASS ALREADY SAVED');
 				}
 			});
 		},
@@ -667,7 +683,7 @@ module.exports = (function() {
 				}
 				if(check == false) {
 					user._class_attending.push(req.body.eventId);
-					console.log('THIS IS THE user',user);
+					// console.log('THIS IS THE user',user);
 				    user.save(function (erro) {
 				        if(erro) {
 				            console.error('ERROR ADDING EVENT TO user!', erro);
@@ -678,7 +694,7 @@ module.exports = (function() {
 				    });
 				}
 				else{
-					console.log('ALREADY ATTENDING THIS EVENT');
+					// console.log('ALREADY ATTENDING THIS EVENT');
 				}
 			});
 		},

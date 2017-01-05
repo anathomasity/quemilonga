@@ -1,8 +1,23 @@
+// fix pending request to add a teacher
+
+// fix teacher name link on class event
+
+// if no results for date chosen but yes for one or 2 days later
+//display message 'didn't find for that date but...'
+
+
+
+
 myApp.controller('indexController', function($scope, eventsFactory, $cookies, $location, $http, $rootScope, $window){
 
   var state;
   var range = 50;
   $rootScope.search = {};
+
+  if($rootScope.user){
+    refreshUser();
+  }
+  
 
   if(!$rootScope.user || !$rootScope.user.city_preference) {
       var pos = {
@@ -13,6 +28,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       $rootScope.search.city = 'San Francisco, CA, USA';
   }
   else{
+      // if ($rootScope.search.city && $rootScope.search.city !== 'San Francisco, CA, USA'){
+      //     alert('hello');
+      // }
+
       var pos = {
         lat: $rootScope.user.city_preference.coordinates.lat,
         lng: $rootScope.user.city_preference.coordinates.lng,
@@ -20,8 +39,6 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       var st = $rootScope.user.city_preference.state;
       $rootScope.search.city = $rootScope.user.city_preference.city;
   }
-  
-  
 
   $scope.milongas = {
     today: [],
@@ -61,13 +78,45 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
   $scope.$watch("search.range", function(newValue, oldValue) {
     range = newValue
     info.range = range;
-    eventsFactory.getMilongas(info, function(data){
-        $scope.milongas = data;   
-    })
+    // eventsFactory.getMilongas(info, function(data){
+    //     $scope.milongas = data;   
+    // })
+
+
+    if ($scope.search.what == 'Classes') {
+      // console.log('WE ARE SEARCHING WITHIN CLASSES')
+      eventsFactory.getClasses(info, function(data){
+          $scope.milongas = data;   
+      })
+    }
+    else if ( $scope.search.what == 'Milongas' || !$scope.search.what){
+      // console.log('WE ARE SEARCHING WITHIN MILONGAS')
+      eventsFactory.getMilongas(info, function(data){
+          $scope.milongas = data;   
+      })
+    }
+    else if ( $scope.search.what == 'All'){
+      // console.log('WE ARE SEARCHING ALL')
+      eventsFactory.getMilongas(info, function(data){
+          $scope.milongas = data;   
+      })
+      eventsFactory.getClasses(info, function(data){
+          for (x in data.today){
+              $scope.milongas.today.push(data.today[x]);
+          }
+          for (x in data.tomorrow){
+              $scope.milongas.tomorrow.push(data.tomorrow[x]);
+          }
+          for (x in data.day_after){
+              $scope.milongas.day_after.push(data.day_after[x]);
+          }
+          // console.log($scope.milongas)
+      })
+    }
   });
 
   $rootScope.$watch("search.city", function(newValue, oldValue) {
-    if(newValue != oldValue){
+    if(newValue != oldValue && newValue != null){
 
         if ($rootScope.search.city && $rootScope.search.city.geometry) {
             pos = {
@@ -115,15 +164,43 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
   $scope.$watch("search.date", function(newValue, oldValue) {
     info.state.date = newValue;
-    eventsFactory.getMilongas(info, function(data){
-        $scope.milongas = data;    
-    })
+
+    if ($scope.search.what == 'Classes') {
+      // console.log('WE ARE SEARCHING WITHIN CLASSES')
+      eventsFactory.getClasses(info, function(data){
+          $scope.milongas = data;   
+      })
+    }
+    else if ( $scope.search.what == 'Milongas' || !$scope.search.what){
+      // console.log('WE ARE SEARCHING WITHIN MILONGAS')
+      eventsFactory.getMilongas(info, function(data){
+          $scope.milongas = data;   
+      })
+    }
+    else if ( $scope.search.what == 'All'){
+      // console.log('WE ARE SEARCHING ALL')
+      eventsFactory.getMilongas(info, function(data){
+          $scope.milongas = data;   
+      })
+      eventsFactory.getClasses(info, function(data){
+          for (x in data.today){
+              $scope.milongas.today.push(data.today[x]);
+          }
+          for (x in data.tomorrow){
+              $scope.milongas.tomorrow.push(data.tomorrow[x]);
+          }
+          for (x in data.day_after){
+              $scope.milongas.day_after.push(data.day_after[x]);
+          }
+          // console.log($scope.milongas)
+      })
+    }
   });
 
 
   // $rootScope.what = 'Milongas'
   $rootScope.$watch("search.what", function(newValue, oldValue) {
-    console.log('inside what', $rootScope.search.what)
+    // console.log('inside what', $rootScope.search.what)
     //A WAY TO IMPROVE THIS QUERING FOR ALL OF THEM AND HAVE THEM 
     //IN DIFFERENT VARIABLES SO WE ONLY PUT IN MILONGAS WHAT WE NEED
     //IMPROVEMENT FOR LATER, TO NOT HAVE TO QUERY SO MUCH UNNESESARY
@@ -202,19 +279,11 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
             eventsFactory.likeEvent(datos, function(data){
                 // console.log('back in frontend controller',datos);   
                 eventsFactory.stopAttending(datos, function(data){
+                    var id = 'a' + eventId;
+                    $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                     // console.log('BACK stopAttending profile controller,', data);
-                    eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-                        // console.log('get favorites controller,', dat);
-                        $scope.attending = dat.data._attending;
-                        $scope.favorites = dat.data._favorites;
-                        $scope.class_attending = dat.data._class_attending;
-                        $scope.class_favorites = dat.data._class_favorites;
-                        $rootScope.user = dat.data;
-                        var id = 'a' + eventId;
-                        $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
-                        // console.log($scope.attending, 'attending')
-                    });  
-                }); 
+                    refreshUser();
+                });
             });
         }
         else if(check == true){
@@ -225,13 +294,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
             }
             eventsFactory.stopSaving(info, function(data){
                 // console.log('BACK stopSaving profile controller,', data);
-                eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-                    $scope.attending = dat.data._attending;
-                    $scope.favorites = dat.data._favorites;
-                    $scope.class_attending = dat.data._class_attending;
-                    $scope.class_favorites = dat.data._class_favorites;
-                    $rootScope.user = dat.data;
-                });  
+                refreshUser();   
             });
         }//END OF ELSE IF
 
@@ -262,18 +325,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
             eventsFactory.attendEvent(datos, function(data){
                 // console.log('back in frontend controller',datos);   
                 eventsFactory.stopSaving(datos, function(data){
+                    var id = 's' + eventId;
+                    $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                     // console.log('BACK stopAttending profile controller,', data);
-                    eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-                        // console.log('get favorites controller,', dat);
-                        $scope.attending = dat.data._attending;
-                        $scope.favorites = dat.data._favorites;
-                        $scope.class_attending = dat.data._class_attending;
-                        $scope.class_favorites = dat.data._class_favorites;
-                        $rootScope.user = dat.data;
-                        var id = 's' + eventId;
-                        $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
-                        // console.log($scope.attending, 'attending')
-                    });  
+                    refreshUser(); 
                 }); 
             });
         }
@@ -284,13 +339,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
               fb_id: $rootScope.user.fb_id
             }
             eventsFactory.stopAttending(info, function(data){
-                eventsFactory.getUser($rootScope.user.fb_id, function(data){
-                    $rootScope.user = data.data;
-                    $scope.attending = dat.data._attending;
-                    $scope.favorites = dat.data._favorites;
-                    $scope.class_attending = dat.data._class_attending;
-                    $scope.class_favorites = dat.data._class_favorites;
-                });  
+                refreshUser(); 
             });
         }//END OF ELSE IF
 
@@ -298,7 +347,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
   }
 
   $scope.saveClass = function(eventId) {
-    console.log('INSIDE SAVE CLASS')
+    // console.log('INSIDE SAVE CLASS')
     if(!$rootScope.user){
       // console.log('!Rosotscope user')
       $('#loginModal').modal();
@@ -306,13 +355,18 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
     else {
         var check = false;
         var id = 'sc' + eventId;
+
+        //if class already saved by the current user, say true
         for(var i = 0; i < $rootScope.user._class_favorites.length; i++){
             if(eventId == $rootScope.user._class_favorites[i]._id){
                 check = true;
+                // console.log("CLASS ALREADY SAVED")
             };
         };
 
+        //if not already saved by current user, save:
         if(check == false){
+
             $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
             var datos = {
               eventId: eventId,
@@ -321,18 +375,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
             eventsFactory.likeClass(datos, function(data){
                 // console.log('back in frontend controller',datos);   
                 eventsFactory.stopAttendingClass(datos, function(data){
+                    var id = 'ac' + eventId;
+                    $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                     // console.log('BACK stopAttending profile controller,', data);
-                    eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-                        // console.log('get favorites controller,', dat);
-                        $scope.attending = dat.data._attending;
-                        $scope.favorites = dat.data._favorites;
-                        $scope.class_attending = dat.data._class_attending;
-                        $scope.class_favorites = dat.data._class_favorites;
-                        $rootScope.user = dat.data;
-                        var id = 'ac' + eventId;
-                        $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
-                        // console.log($scope.attending, 'attending')
-                    });  
+                    refreshUser();
                 }); 
             });
         }
@@ -343,14 +389,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
                 fb_id: $rootScope.user.fb_id
             }
             eventsFactory.stopSavingClass(info, function(data){
-                console.log('BACK stopSaving profile controller,', data);
-                eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-                    $scope.attending = dat.data._attending;
-                    $scope.favorites = dat.data._favorites;
-                    $scope.class_attending = dat.data._class_attending;
-                    $scope.class_favorites = dat.data._class_favorites;
-                    $rootScope.user = dat.data;
-                });  
+                // console.log('BACK stopSaving profile controller,', data);
+                refreshUser();   
             });
         }//END OF ELSE IF
 
@@ -381,18 +421,9 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
             eventsFactory.attendClass(datos, function(data){
                 // console.log('back in frontend controller',datos);   
                 eventsFactory.stopSavingClass(datos, function(data){
-                    // console.log('BACK stopAttending profile controller,', data);
-                    eventsFactory.getUser($rootScope.user.fb_id, function(dat){
-                        // console.log('get favorites controller,', dat);
-                        $scope.attending = dat.data._attending;
-                        $scope.favorites = dat.data._favorites;
-                        $scope.class_attending = dat.data._class_attending;
-                        $scope.class_favorites = dat.data._class_favorites;
-                        $rootScope.user = dat.data;
-                        var id = 'sc' + eventId;
-                        $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
-                        // console.log($scope.attending, 'attending')
-                    });  
+                    var id = 'sc' + eventId;
+                    $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
+                    refreshUser(); 
                 }); 
             });
         }
@@ -403,13 +434,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
               fb_id: $rootScope.user.fb_id
             }
             eventsFactory.stopAttendingClass(info, function(data){
-                eventsFactory.getUser($rootScope.user.fb_id, function(data){
-                    $rootScope.user = data.data;
-                    $scope.attending = data.data._attending;
-                    $scope._favorites = dat.data._favorites;
-                    $scope.class_attending = dat.data._class_attending;
-                    $scope.class_favorites = dat.data._class_favorites;
-                });  
+                refreshUser(); 
             });
         }//END OF ELSE IF
 
@@ -463,7 +488,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
   $scope.getButtonsInfo = function(mId){
       if($rootScope.user){
-        console.log($rootScope.user)
+        // console.log($rootScope.user)
           for(var i = 0; i < $rootScope.user._favorites.length; i++){
               if(mId == $rootScope.user._favorites[i]._id){
                   var id = 's' + mId;
@@ -491,11 +516,28 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       };
   };
 
+  function refreshUser() {
+
+      eventsFactory.getUser($rootScope.user.fb_id, function(data){
+          $scope.attending = data.data._attending;
+          $scope.favorites = data.data._favorites;
+          $scope.class_attending = data.data._class_attending;
+          $scope.class_favorites = data.data._class_favorites;
+          $rootScope.user = data.data;
+      }); 
+  }
 
 
+    
+  // THIS IS INCOMPLETE CODE TO ATTACH DAY NAME BEFORE DATE.
+  // var weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+  
+  // var d = new Date();
 
-
-
+  // $scope.today = weekday[d.getDay()];
+  // $scope.tomorrow = weekday[d.getDay()+1];
+  // $scope.day_after = weekday[d.getDay()+2];
 
 
 })
+

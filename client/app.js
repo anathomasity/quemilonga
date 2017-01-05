@@ -6,22 +6,30 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		$rootScope.search={};
 		$scope.userCookie = $cookies.getAll();
 
+
 		if($scope.userCookie.userFbId){
-			var info = {
-				first_name: 'a',
-          		last_name: 'b',
-          		fb_id: $scope.userCookie.userFbId
-			}
-			eventsFactory.createUser(info, function(data){
-
-	            $rootScope.user = data.data;
-	            $rootScope.search.city = data.data.city_preference.city;
-	     	    $rootScope.city_preference = data.data.city_preference;
-	     	    $scope.loginToggle();
-	     	    // console.log('after loggin toggle,:', $scope.status)
-	        });
-
+			eventsFactory.getUser($scope.userCookie.userFbId, function(data){
+		        // console.log('GOT USER FROM COOKIE', data.data)
+		        $rootScope.user = data.data
+		    })
 		}
+
+		// if($scope.userCookie.userFbId){
+		// 	var info = {
+		// 		first_name: 'a',
+  //         		last_name: 'b',
+  //         		fb_id: $scope.userCookie.userFbId
+		// 	}
+		// 	eventsFactory.createUser(info, function(data){
+
+	 //            $rootScope.user = data.data;
+	 //            $rootScope.search.city = data.data.city_preference.city;
+	 //     	    $rootScope.city_preference = data.data.city_preference;
+	 //     	    $scope.loginToggle();
+	 //     	    // console.log('after loggin toggle,:', $scope.status)
+	 //        });
+
+		// }
 		
     	$scope.$on('fb.auth.authResponseChange', function() {
 		    $scope.status = $facebook.isConnected();
@@ -42,17 +50,28 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		          		last_name: $scope.use.last_name,
 		          		fb_id: $scope.use.id
 		          	}
-		            eventsFactory.createUser(info, function(data){
-			            // console.log('back in frontend controller',data);
-			            $cookies.put('userFbId', data.data.fb_id);
-			            $scope.userCookie = $cookies.getAll();
-  						// console.log('AFTER LOGGIN IN:',$scope.userCookie)
-			            $rootScope.user = data.data;
-			            $rootScope.search.city = data.data.city_preference.city;
-		         	    $rootScope.city_preference = data.data.city_preference;
-		         	    // console.log('$ROOTSSCOPE.USER:', $rootScope.user);
 
-			        });
+		          	eventsFactory.getUser($scope.use.id, function(data){
+				        if(data.data){
+				        	// console.log('USER ALREADY EXISTED')
+				        	$rootScope.user = data.data;
+					        $cookies.put('userFbId', $scope.use.id);
+				        	// $scope.loginToggle();
+				        }
+				        else{
+				        	eventsFactory.createUser(info, function(data){
+					            // console.log('CREATED A NEW USER',data);
+					            $cookies.put('userFbId', $scope.use.id);
+					            // $scope.userCookie = $cookies.getAll();
+		  						// console.log('AFTER LOGGIN IN:',$scope.userCookie)
+					            $rootScope.user = data.data;
+					            // $rootScope.search.city = data.data.city_preference.city;
+				         	   //  $rootScope.city_preference = data.data.city_preference;
+				         	    // $scope.loginToggle();
+				         	    // console.log('$ROOTSSCOPE.USER:', $rootScope.user);
+				        	});
+				        }
+				    })
 		        });
 		    }
 	    });
@@ -157,7 +176,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 					$scope.dancer = false;
 					$scope.matches = false;
 					
-					console.log('ADDED DANCER:', addedDancer)
+					// console.log('ADDED DANCER:', addedDancer)
 
 					var pending = addedDancer.data.name + ' ' + '(PENDING)';
 					$rootScope.teachers.push({name: pending, _id: addedDancer.data._id});

@@ -26,8 +26,8 @@ var Userschema = new mongoose.Schema({
 	},
 	_favorites: [{type: Schema.Types.ObjectId, ref: 'milonga'}],
 	_attending: [{type: Schema.Types.ObjectId, ref: 'milonga'}],
-	_class_favorites: [{type: Schema.Types.ObjectId, ref: 'milonga'}],
-	_class_attending: [{type: Schema.Types.ObjectId, ref: 'milonga'}],
+	_class_favorites: [{type: Schema.Types.ObjectId, ref: 'class'}],
+	_class_attending: [{type: Schema.Types.ObjectId, ref: 'class'}],
 },{timestamps:true});
 
 // Userschema.methods.generateHash = function(password) {

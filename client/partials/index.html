@@ -48,6 +48,7 @@
 
             <div ng-repeat='day in milongas' ng-if='day.length > 0' class="milonga">
             <div ng-init="parentIndex = $index">
+            
             <h4 id="mDate" class="inline noto">{{day[0].date | date : fullDate}}</h4>
                 <div class="panel-group datesBorder" id="accordion{{parentIndex}}">
                     
@@ -56,7 +57,7 @@
                     <!-- START OF CLASS -->
 
                         <div ng-if='m.event_type == "class"'>
-                            <div class="panel-heading accordion-toggle collapsed pointer milongaOpen" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)' style="background-color: #fcf8f9;">
+                            <div class="panel-heading accordion-toggle collapsed pointer milongaOpen classPanel" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)'>
 
                                 <div class="panel-title">
                                     <div class="smallerTittle">
@@ -93,7 +94,7 @@
                                             <h6 style="margin: 0"></h6>
                                             <div id="buttonsBox" class="centered">
                                                 <div class="saveButton inline" id='sc{{m._id}}' ng-click='saveClass(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
-                                                <div class="attendButton inline" id='ac{{m._id}}' ng-click='attendEClass(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
+                                                <div class="attendButton inline" id='ac{{m._id}}' ng-click='attendClass(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
                                                 <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
                                             </div>
                                         </div>
@@ -138,8 +139,8 @@
                         </div> <!-- END OF EVENT_TYPE = CLASS -->
 
 
-                        <div ng-if='m.event_type == "milonga" || !m.event_type'>
-                            <div class="panel-heading accordion-toggle collapsed pointer milongaOpen" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)' style="background-color: #f8fcfb;">
+                        <div ng-if='m.event_type == "milonga" || !m.event_type' >
+                            <div class="panel-heading accordion-toggle collapsed pointer milongaOpen milongaPanel" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)'>
 
                                 <div class="panel-title">
                                     <div class="smallerTittle">
