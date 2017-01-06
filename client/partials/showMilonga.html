@@ -1,0 +1,103 @@
+<div class="container" style="width: 55%">
+        <br>
+        <h4 class="noto">Share this milonga with your friends on FB:</h4>
+        <!-- {{milonga}} -->
+        <br>
+        <hr>
+        <br>
+
+
+                <h4 id="mDate" class="inline noto">{{milonga.date | date : fullDate}}</h4>
+                <div class="panel-group datesBorder" id="accordion">
+                    
+                    <div class="panel panel-default">
+
+                    <!-- START OF CLASS -->
+
+                        <div>
+                            <div class="panel-heading accordion-toggle pointer milongaOpen classPanel" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}">
+
+                                <div class="panel-title">
+                                    <div class="smallerTittle">
+                                        <h2 class="inline m_name noto">{{milonga.title}}</h2><h4 class="inline">, {{milonga.address.city}}</h4><br>
+                                    </div>
+
+                                    <h6 ng-if="milonga._performers[0]._id" style="margin: 0;">Performance by:</h6>
+                                    <h5 ng-repeat='p in milonga._performers' class="inline">
+                                        <a ng-if='p.pending == false' class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a>
+                                        <p ng-if='p.pending == true' class="pending" style="padding-right: 5px;">{{p.name}}</p>
+                                    </h5>
+                                    
+                                </div>
+                            </div>
+
+                            <div id="collapse{{parentIndex}}{{childIndex}}" class="panel-collapse collapse in" >
+
+                                <div class="panel-body">
+
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-8">
+                                            <h5 class="noto">Milonga: ${{milonga.price}}</h5>
+                                            <h5 class="noto">{{milonga.start_time | date:'shortTime'}} - {{milonga.end_time | date:'shortTime'}}</h5>
+                                        </div>
+
+                                        <div class="col-xs-6 col-md-4 centered" style="padding-right: 0;">
+                                            <h6 style="margin: 0"></h6>
+                                            <div id="buttonsBox" class="centered">
+                                                <div class="saveButton inline" id='s{{milonga._id}}' ng-click='saveEvent(milonga._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
+                                                <div class="attendButton inline" id='a{{milonga._id}}' ng-click='attendEvent(milonga._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
+                                                <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    
+
+                                
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-8">
+
+                                            <div ng-if="milonga._class_teachers.length > 0" class="clase">
+                                                <h4 class="noto">Class </h4>
+                                                <h5 ng-if='milonga._class_teachers' class="inline">by:</h5>
+                                                <h5 ng-repeat='t in milonga._class_teachers' class="inline">
+                                                    <a ng-if='t.pending == false' class='body_links noto' href="#/performers/{{t._id}}">{{t.name}}</a>
+                                                    <p ng-if='t.pending == true' class="pending" style="padding-right: 5px;">{{t.name}}</p>
+                                                </h5>
+                                                <h4 class="inline" ng-if='milonga.class_start_time'>@ {{milonga.class_start_time | date:'shortTime'}} - {{milonga.class_end_time | date:'shortTime'}}</h4><br>
+                                                <h5 class="inline noto" ng-if='milonga.class_price'>Class: ${{milonga.class_price}}</h5>
+                                                <h5 class="inline noto" ng-if='milonga.class_combo_price'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Milonga & Class: ${{milonga.class_combo_price}}</h5>
+                                            </div><br ng-if='milonga.details'>
+                                            <h4>{{milonga.details}}</h4><br ng-if='milonga.details'>
+
+                                        </div>
+                                        <div class="col-xs-12 col-md-4 centered">
+                                            <h4 ng-if='milonga.address.st_number' class="noto mobileAddress">{{milonga.address.st_number}} {{milonga.address.st_name}}, {{milonga.address.city}}, {{milonga.address.state}}</h4>
+                                            <h4 ng-if='milonga.address.details' class="mobileAddress">({{milonga.address.details}})</h4>
+                                            <div id="map_canvas_{{milonga._id}}" class="mapa"></div>
+
+                                            <button type="button" class="btn btn-info noto" ng-click='openInMaps(milonga.address)'>Open in maps</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row linksbackground">
+
+
+                                    <a class="col-xs-4 col-sm-4 littlelinks" ng-click='openFaceProfile(milonga._added_by.id)'>
+                                        <h5>Updated by: <span class="body_links noto">{{milonga._added_by.name}}</span></h5>
+                                    </a>
+
+                                    <a class="col-xs-4 col-sm-4 littlelinks" href="#/milongas/{{milonga._id}}/edit">
+                                        <h5>Not accurate? <span class="body_links noto">UPDATE</span></h5>
+                                    </a>
+
+                                    <a class="col-xs-4 col-sm-4 littlelinks" ng-click='sendMail("qmilonga@gmail.com","Something is Wrong","Tell us more about what is wrong with this milonga {{milonga._id}}")'>
+                                        <h5 class="body_links noto">Report a problem</h5>
+                                    </a>
+                                </div>
+                        </div> <!-- END OF EVENT_TYPE = CLASS -->
+                </div>
+        </div>
+
+</div>

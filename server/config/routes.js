@@ -11,6 +11,17 @@ module.exports = function(app){
 	// 	console.log(req.params.test)
 	// 	// mongooseController.getMongooses(req, res);
 	// })
+
+	app.post('/milongas/:id/update', function(req, res){
+		console.log('made it to my /milongas/:id/update post route');
+		milongas.updateMilonga(req, res);
+	})
+
+	app.post('/classes/:id/update', function(req, res){
+		console.log('made it to my /classes/:id/update post route');
+		milongas.updateClass(req, res);
+	})
+	
 	app.post('/milongas/get', function(req, res){
 		console.log(' made it to my /milongas/get get route', req.body);
 		milongas.getMilongas(req, res);
@@ -38,6 +49,11 @@ module.exports = function(app){
 		milongas.getClass(req, res);
 	})
 
+	app.get('/milongas/:id', function(req, res){
+		console.log('made it to my /milongas/:id get route');
+		milongas.getMilonga(req, res);
+	})
+
 	app.post('/requests', function(req, res){
 		console.log('made it to my post /requests route');
 		milongas.createRequest(req, res);
@@ -50,21 +66,6 @@ module.exports = function(app){
 	app.get('/requests', function(req, res){
 		console.log(' made it to my /requests get route');
 		milongas.getRequests(req, res);
-	})
-
-	app.get('/milongas/:id', function(req, res){
-		console.log('made it to my /milongas/:id get route');
-		milongas.getMilonga(req, res);
-	})
-
-	app.post('/milongas/:id/update', function(req, res){
-		console.log('made it to my /milongas/:id/update post route');
-		milongas.updateMilonga(req, res);
-	})
-
-	app.post('/classes/:id/update', function(req, res){
-		console.log('made it to my /classes/:id/update post route');
-		milongas.updateClass(req, res);
 	})
 
 	app.post('/performers/:id/update', function(req, res){

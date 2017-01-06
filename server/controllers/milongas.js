@@ -106,15 +106,21 @@ module.exports = (function() {
 				}
 			})
 		},
+		
 		getMilonga: function(req, res){
-			Milonga.findOne({_id: req.params.id}, function(err, result){
-				if(err){
+			console.log('************reqparamsID', req.params.id)
+			Milonga.findOne({_id: req.params.id})
+			.populate('_performers')
+			.populate('_class_teachers')
+			
+			.exec(function (err, milonga) {
+			  if(err){
 					console.log("error finding the milonga", err);
 				} else {
-					console.log('this is our milonga',result);
-					res.json(result);
+					console.log('this is our milonga',milonga);
+					res.json(milonga);
 				}
-			})
+			});
 		},
 		updateMilonga: function(req, res){
 			// HERE MAKE SURE WE SEND BACK IN RES.JSON THE UPDATED MILONGA
@@ -223,16 +229,24 @@ module.exports = (function() {
 				}
 			})
 		},
+
 		getClass: function(req, res){
-			Class.findOne({_id: req.params.id}, function(err, result){
-				if(err){
-					console.log("error finding the class", err);
+			console.log('************reqparamsID', req.params.id)
+			Class.findOne({_id: req.params.id})
+			.populate('_class_teachers')
+
+			
+			.exec(function (err, clas) {
+			  if(err){
+					console.log("error finding the clas", err);
 				} else {
-					console.log('this is our class',result);
-					res.json(result);
+					console.log('this is our clas',clas);
+					res.json(clas);
 				}
-			})
+			});
 		},
+
+
 		updateClass: function(req, res){
 			Class.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, result){
 			    if(err){
@@ -277,6 +291,8 @@ module.exports = (function() {
 			Performer.findOne({_id: req.params.id})
 			.populate('_milongas_attending.milonga')
 			.populate('_milongas_attending.class')
+
+			
 			.exec(function (err, milonga) {
 			  if(err){
 					console.log("error finding the performer", err);

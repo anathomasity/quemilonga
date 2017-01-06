@@ -10,9 +10,11 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
  	}
  	else{
 		eventsFactory.getPerformers(function(data){
+			console.log('Performers:', data)
 			$scope.dancers = data;
 		})
 		eventsFactory.getRequests(function(data){
+			console.log('Requests:', data)
 			$scope.dancerRequests = data;
 		})
 
@@ -39,6 +41,10 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
 				// console.log(destroyedRequest, 'back at controller');
 				$scope.dancerRequests.splice(index, 1);
 			})
+		}
+
+		$scope.exampleModal = function() {
+			$('#exampleModal').modal();
 		}
 	}//END OF ELSE
 

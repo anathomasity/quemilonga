@@ -121,6 +121,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 			}
 			eventsFactory.getPerformers(function(data){
 				// console.log('performers:',data);
+				$rootScope.performers = data;
 				$scope.matches = [];
 				for (var i = 0; i < $rootScope.performers.length; i++){
 					if(getEditDistance($scope.dancer.name, $rootScope.performers[i].name) < 7){
@@ -179,7 +180,9 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 					// console.log('ADDED DANCER:', addedDancer)
 
 					var pending = addedDancer.data.name + ' ' + '(PENDING)';
-					$rootScope.teachers.push({name: pending, _id: addedDancer.data._id});
+					if($rootScope.teachers){
+						$rootScope.teachers.push({name: pending, _id: addedDancer.data._id});
+					}
 					$rootScope.performers.push({name: pending, _id: addedDancer.data._id});
 
 				});
@@ -306,7 +309,19 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 				controller: 'editClassController', 
 				templateUrl: "partials/editClass.html",
 				// needAuth: true,
-			})	
+			})
+			.when('/classes/:id', 
+			{
+				controller: 'showClassController',
+				templateUrl: "partials/showClass.html",
+				// needAuth: true,
+			})
+			.when('/milongas/:id', 
+			{
+				controller: 'showMilongaController', 
+				templateUrl: "partials/showMilonga.html",
+				// needAuth: true,
+			})		
 
 	});
 	myApp.config(['$facebookProvider', function($facebookProvider) {

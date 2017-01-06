@@ -100,7 +100,7 @@ myApp.controller('newClassController', function($scope, eventsFactory, $location
 	            	date: $scope.repeatMilonga[i]._d,
 	            	start_time: $scope.event.start_time,
 	            	end_time: $scope.event.end_time,
-	            	class_price: $scope.event.price,
+	            	class_price: $scope.event.class_price,
 	            	address: $scope.event.address,
 	            	details: $scope.event.details,
 	            	_class_teachers: $scope.event._class_teachers,
@@ -116,7 +116,7 @@ myApp.controller('newClassController', function($scope, eventsFactory, $location
 							action: $scope.performersList[j].action,
 							class: addedClass._id,
 						}
-						eventsFactory.addMilongaToPerformer(info, function(result){
+						eventsFactory.addClassToPerformer(info, function(result){
 							console.log('ADD MILONGA TO PERFORMER RESULT:',result);
 						});
 					}

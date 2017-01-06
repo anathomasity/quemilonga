@@ -1,4 +1,4 @@
-// fix pending request to add a teacher
+// admin page, "edit" shouldnt destroy the request, but edit it, so that it works on previous tagged events
 
 // fix teacher name link on class event
 
@@ -6,7 +6,10 @@
 //display message 'didn't find for that date but...'
 
 
+// make each performer's events clickable to go to a SHOW page of the detailed event. Facebook share that page.
 
+//editClass partial, is not pre populating the class with the current teachers, and afer editting, is 
+//making a copy of the class into the teacher's attending events array
 
 myApp.controller('indexController', function($scope, eventsFactory, $cookies, $location, $http, $rootScope, $window){
 

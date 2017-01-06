@@ -31,5 +31,4 @@ var PerformerSchema = new mongoose.Schema({
 mongoose.model('performer', PerformerSchema);
 // Validations
 PerformerSchema.path('name').required(true, 'Names cannot be blank');
-PerformerSchema.path('from').required(true, 'Please enter the city of origin');
 
