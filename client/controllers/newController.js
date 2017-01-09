@@ -155,7 +155,8 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 					});
 				}
 
-				$location.url('/');
+				$location.url('/milongas/' + addedMilonga._id);
+				
 
 			});
 

@@ -44,6 +44,11 @@ module.exports = function(app){
 		milongas.getClasses(req, res);
 	})
 
+	app.get('/milongas/count', function(req, res){
+		console.log('made it to my /milongas count get route');
+		milongas.countMilongas(req, res);
+	})
+
 	app.get('/classes/:id', function(req, res){
 		console.log('made it to my /classes/:id get route');
 		milongas.getClass(req, res);
@@ -59,10 +64,20 @@ module.exports = function(app){
 		milongas.createRequest(req, res);
 
 	})
+
+	app.post('/requests/:id/edit', function(req, res){
+		console.log('made it to my post /requests EDIT route');
+		milongas.editRequest(req, res);
+
+	})
+
+	
+
 	app.get('/performers', function(req, res){
 		console.log(' made it to my /performers get route');
 		milongas.getPerformers(req, res);
 	})
+
 	app.get('/requests', function(req, res){
 		console.log(' made it to my /requests get route');
 		milongas.getRequests(req, res);

@@ -1,15 +1,28 @@
-// admin page, "edit" shouldnt destroy the request, but edit it, so that it works on previous tagged events
-
-// fix teacher name link on class event
-
 // if no results for date chosen but yes for one or 2 days later
 //display message 'didn't find for that date but...'
 
+//Facebook share button on SHOW event pages and general map pages
 
-// make each performer's events clickable to go to a SHOW page of the detailed event. Facebook share that page.
-
-//editClass partial, is not pre populating the class with the current teachers, and afer editting, is 
+//editClass and editMilonga partial, are not pre populating the class with the current teachers, and CLASSONLY afer editting, is 
 //making a copy of the class into the teacher's attending events array
+
+// IN SHOW MILONGA PAGE, MILONGA BACK COLOR SHOUld be green not pink
+
+//see how to get users facebook profile picture
+
+//fix mailto from browser -- contact and report
+
+
+//display messages of confirmation: NG FLASH
+// 'class succesfully saved, 
+// class now attending, 
+// class now saving
+// this is your new class on show class page
+// this is your new milonga // on show milonga page
+
+//after adding multiple milongas, redirect to a show page of a list of them
+
+
 
 myApp.controller('indexController', function($scope, eventsFactory, $cookies, $location, $http, $rootScope, $window){
 
@@ -529,6 +542,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
           $rootScope.user = data.data;
       }); 
   }
+
+
 
 
     

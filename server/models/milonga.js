@@ -14,7 +14,7 @@ var MilongaSchema = new mongoose.Schema({
     	st_name: String,
     	city: String,
     	state: String,
-    	zip_code: Number,
+    	zip_code: String,
     	country: String,
         coords: {
             lat: Number,

@@ -43,9 +43,41 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
 			})
 		}
 
-		$scope.exampleModal = function() {
-			$('#exampleModal').modal();
+		var editRequestId;
+		$scope.dancer = {};
+
+		$scope.editRequest = function(index){
+
+			// console.log(index)
+
+			editRequestId = $scope.dancerRequests[index]._id;
+
+			// console.log(editRequestId)
+			$scope.dancer.name = $scope.dancerRequests[index].name;
+			$scope.dancer.from = $scope.dancerRequests[index].from;
+			$('#editRequestModal').modal();
 		}
+
+		$scope.saveEditRequest = function() {
+
+			var info = $scope.dancer;
+			info.requestId = editRequestId;
+
+			eventsFactory.editRequest(info, function(editedRequest){
+				// console.log(editedRequest, 'back at controller');
+				eventsFactory.getRequests(function(data){
+					// console.log('Requests:', data)
+					$scope.dancerRequests = data;
+					$('#editRequestModal').modal('hide');
+					eventsFactory.getPerformers(function(data){
+						// console.log('Performers:', data)
+						$scope.dancers = data;
+					})
+				})
+			})
+		}
+
+		
 	}//END OF ELSE
 
 

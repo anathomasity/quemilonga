@@ -252,6 +252,15 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 			$('.hidden-desktop').click();
 		}
 
+		$scope.go = function ( path ) {
+			if(path){
+		    	$location.path( path );
+			}
+			else
+			{
+				$window.history.back();
+			}
+		};
 
     });
 	myApp.config(function($routeProvider){
@@ -320,6 +329,12 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 			{
 				controller: 'showMilongaController', 
 				templateUrl: "partials/showMilonga.html",
+				// needAuth: true,
+			})	
+			.when('/generalMap', 
+			{
+				controller: 'generalMapController', 
+				templateUrl: "partials/generalMap.html",
 				// needAuth: true,
 			})		
 

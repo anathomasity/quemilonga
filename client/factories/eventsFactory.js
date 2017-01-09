@@ -54,6 +54,12 @@ myApp.factory('eventsFactory', function($http){
 		})
 	};
 
+	factory.countMilongas = function(callback) {
+		$http.get('/milongas/count').then(function(data){
+			callback(data);
+		})
+	}
+
 	factory.getClasses = function(info, callback){
 		// console.log('this is the get classes AT FACTORY', info);
 
@@ -184,6 +190,14 @@ myApp.factory('eventsFactory', function($http){
 	factory.destroyRequest = function(requestId, callback){
 		// console.log('INFO', info)
 		$http.post('/requests/' + requestId + '/destroy').then(function(request){
+			// console.log('made it back from backend eddited this performer', performer);
+			callback(request);
+		})
+	}
+
+	factory.editRequest = function(info, callback){
+		// console.log('INFO', info)
+		$http.post('/requests/' + info.requestId + '/edit', info).then(function(request){
 			// console.log('made it back from backend eddited this performer', performer);
 			callback(request);
 		})

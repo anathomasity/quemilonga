@@ -106,6 +106,41 @@ module.exports = (function() {
 				}
 			})
 		},
+
+		countMilongas: function(req, res){
+
+			console.log('COUNT MILONGAS AT BACKEND');
+
+			Milonga.aggregate(
+		        {
+		            $group: {
+		                _id: '$address.country',
+		                count: {$sum: 1}
+		            }
+		        }
+		    , function (err, result) {
+		        if (err) {
+		            console.log('********************************************ERROR',err);
+		        } else {
+		            console.log('*******************************************RESULT', result);
+		            res.json(result)
+		        }
+		    });
+
+			// var data = [];
+
+			// Milonga.find({}, function(err, milongas){
+			// 	if(err){
+			// 		console.log(err);
+			// 		console.log('error finding milongas, count milongas at controller');
+			// 	} else {
+			// 		console.log('MILONGAS HERE **********', milongas)
+
+			// 	}
+			// })
+			
+			
+		},
 		
 		getMilonga: function(req, res){
 			console.log('************reqparamsID', req.params.id)
@@ -316,6 +351,11 @@ module.exports = (function() {
 		// 		}
 		// 	})
 		// },
+
+
+
+
+
 		createRequest: function(req, res){
 			console.log(req.body, 'THIS IS REQ BODY');
 			performer = new Performer(req.body);
@@ -350,6 +390,19 @@ module.exports = (function() {
 				}
 
 			})
+		},
+		editRequest: function(req,res){
+
+
+
+
+			Performer.findOneAndUpdate({ "_id": req.params.id }, { "$set": { "pending": false, "name": req.body.name, "from": req.body.from}}).exec(function(err, request){
+			   if(err) {
+			       console.log(err);
+			   } else {
+			       res.json(request)
+			   }
+			});
 		},
 
 

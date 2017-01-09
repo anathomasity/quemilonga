@@ -141,7 +141,7 @@ myApp.controller('newClassController', function($scope, eventsFactory, $location
 					});
 				}
 
-				$location.url('/');
+				$location.url('/classes/' + addedClass._id);
 
 			});
 
