@@ -1,17 +1,8 @@
-// if no results for date chosen but yes for one or 2 days later
-//display message 'didn't find for that date but...'
-
 //Facebook share button on SHOW event pages and general map pages
-
-//editClass and editMilonga partial, are not pre populating the class with the current teachers, and CLASSONLY afer editting, is 
-//making a copy of the class into the teacher's attending events array
-
-// IN SHOW MILONGA PAGE, MILONGA BACK COLOR SHOUld be green not pink
 
 //see how to get users facebook profile picture
 
 //fix mailto from browser -- contact and report
-
 
 //display messages of confirmation: NG FLASH
 // 'class succesfully saved, 
@@ -29,6 +20,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
   var state;
   var range = 50;
   $rootScope.search = {};
+  $rootScope.search.what = 'Milongas'
+  $rootScope.search.date = new Date()
 
   if($rootScope.user){
     refreshUser();
@@ -92,6 +85,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
   });
 
   $scope.$watch("search.range", function(newValue, oldValue) {
+    $scope.sorryMsg = false;
     range = newValue
     info.range = range;
     // eventsFactory.getMilongas(info, function(data){
@@ -132,6 +126,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
   });
 
   $rootScope.$watch("search.city", function(newValue, oldValue) {
+    $scope.sorryMsg = false;
     if(newValue != oldValue && newValue != null){
 
         if ($rootScope.search.city && $rootScope.search.city.geometry) {
@@ -180,17 +175,26 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
   $scope.$watch("search.date", function(newValue, oldValue) {
     info.state.date = newValue;
+    $scope.sorryMsg = false;
 
     if ($scope.search.what == 'Classes') {
       // console.log('WE ARE SEARCHING WITHIN CLASSES')
       eventsFactory.getClasses(info, function(data){
-          $scope.milongas = data;   
+          $scope.milongas = data;
+          if($scope.milongas.today.length == 0) {
+              console.log($scope.milongas.today.length)
+              $scope.sorryMsg = true;
+          }
       })
     }
     else if ( $scope.search.what == 'Milongas' || !$scope.search.what){
       // console.log('WE ARE SEARCHING WITHIN MILONGAS')
       eventsFactory.getMilongas(info, function(data){
-          $scope.milongas = data;   
+          $scope.milongas = data;
+          if($scope.milongas.today.length == 0) {
+              // console.log($scope.milongas.today.length)
+              $scope.sorryMsg = true;
+          } 
       })
     }
     else if ( $scope.search.what == 'All'){
@@ -208,7 +212,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
           for (x in data.day_after){
               $scope.milongas.day_after.push(data.day_after[x]);
           }
-          // console.log($scope.milongas)
+          if($scope.milongas.today.length == 0) {
+              console.log($scope.milongas.today.length)
+              $scope.sorryMsg = true;
+          }
       })
     }
   });
@@ -216,6 +223,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
   // $rootScope.what = 'Milongas'
   $rootScope.$watch("search.what", function(newValue, oldValue) {
+    $scope.sorryMsg = false;
     // console.log('inside what', $rootScope.search.what)
     //A WAY TO IMPROVE THIS QUERING FOR ALL OF THEM AND HAVE THEM 
     //IN DIFFERENT VARIABLES SO WE ONLY PUT IN MILONGAS WHAT WE NEED
@@ -253,24 +261,24 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
   });
 
-  $scope.getMapInfo = function(mId, addr) {
-    // console.log('inside get map info', addr);
-    var address = 
-          addr.st_number + '+'
-        + addr.st_name + '+'
-        + addr.city + '+'
-        + addr.state;
-    // console.log('ADDRESS', address)
-    $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
-    + address
-    + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+  // $scope.getMapInfo = function(mId, addr) {
+  //   console.log('inside get map info', addr);
+  //   var address = 
+  //         addr.st_number + '+'
+  //       + addr.st_name + '+'
+  //       + addr.city + '+'
+  //       + addr.state;
+  //   // console.log('ADDRESS', address)
+  //   $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
+  //   + address
+  //   + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
 
-    .then(function(response){ 
-      // console.log(response);
-      document.getElementById('map_canvas_' + mId).style.display="block";
-      initializeMap(response, mId);
-    });
-  }
+  //   .then(function(response){ 
+  //     // console.log(response);
+  //     document.getElementById('map_canvas_' + mId).style.display="block";
+  //     initializeMap(response, mId);
+  //   });
+  // }
 
   $scope.saveEvent = function(eventId) {
     if(!$rootScope.user){
@@ -492,6 +500,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
   }
 
   $scope.anyMilonga = function() {
+      
       if ($scope.milongas.today.length < 1 && $scope.milongas.tomorrow.length < 1 && $scope.milongas.day_after.length < 1){
           return false;
       }

@@ -12,7 +12,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 
 	eventsFactory.getMilonga(milongaId, function(data){
 		$scope.editMilonga = data.data;
-		// console.log('$scope.editMilonga:', $scope.editMilonga)
+		console.log('$scope.editMilonga:', $scope.editMilonga)
 		$scope.dt = new Date(data.data.date);
 		$scope.m_st = new Date(data.data.start_time);
 		$scope.m_et = new Date(data.data.end_time);
@@ -41,8 +41,8 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 			for(var i = 0; i < $rootScope.performers.length; i++){
 				// console.log('all performers in db list', $rootScope.performers[i].name)
 				for (var j = 0; j < data.data._performers.length; j++) {
-					// console.log('_perf of this milonga list', data.data._performers[j])
-					if(data.data._performers[j] == $rootScope.performers[i]._id){
+					console.log('_perf of this milonga list', data.data._performers[j])
+					if(data.data._performers[j]._id == $rootScope.performers[i]._id){
 						// console.log('ticked performer!', data.data._performers[i], $rootScope.performers[j]._id )
 						$rootScope.performers[i].ticked = true;
 						// console.log($rootScope.performers);
@@ -53,7 +53,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 			for(var i = 0; i < $rootScope.teachers.length; i++){
 				for (var j = 0; j < data.data._class_teachers.length; j++) {
 					// console.log('_perf of this milonga list', data.data._performers[j])
-					if(data.data._class_teachers[j] == $rootScope.teachers[i]._id){
+					if(data.data._class_teachers[j]._id == $rootScope.teachers[i]._id){
 						// console.log('ticked teacher!', data.data._class_teachers[j], $rootScope.teachers[i]._id )
 						$rootScope.teachers[i].ticked = true;
 						// console.log($rootScope.performers);
@@ -197,7 +197,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 						info = {};
 					})
 				}
-				$location.path('/');
+				$location.path('/milongas/' + updatedMilonga._id);
 			})
 		} //END OF ELSE
 	}

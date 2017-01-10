@@ -35,7 +35,7 @@ myApp.controller('editClassController', function($scope, $routeParams, $location
 			for(var i = 0; i < $rootScope.teachers.length; i++){
 				for (var j = 0; j < data.data._class_teachers.length; j++) {
 					// console.log('_teachers of this class list', data.data._class_teachers[j])
-					if(data.data._class_teachers[j] == $rootScope.teachers[i]._id){
+					if(data.data._class_teachers[j]._id == $rootScope.teachers[i]._id){
 						// console.log('ticked teacher!', data.data._class_teachers[j], $rootScope.teachers[i]._id )
 						$rootScope.teachers[i].ticked = true;
 						// console.log($rootScope.teachers);
@@ -58,8 +58,9 @@ myApp.controller('editClassController', function($scope, $routeParams, $location
 	 			return;
 	 		}
 
+	 		//if user didn't input any teachers, don't continue
 	 		if($scope.outputTeachers.length < 1){
-	 			console.log('less than 1 teachers, returnin')
+	 			// console.log('less than 1 teachers, returnin')
 	 			return;
 	 		}
 
@@ -69,15 +70,19 @@ myApp.controller('editClassController', function($scope, $routeParams, $location
 	 		$scope.editMilonga.class_start_time = $scope.m_cst;
 	 		$scope.editMilonga.class_end_time = $scope.m_cet;
 
+
+	 		//REMOVE CLASS FROM THE PERFORMER
+	 		// console.log('EDIT MILONGA CLASS TEACHERS', $scope.editMilonga)
 			if($scope.editMilonga._class_teachers){
 
 				for(var i = 0; i < $scope.editMilonga._class_teachers.length; i++){
 					var info = {
 						classId: $scope.editMilonga._id,
-						teacherId: $scope.editMilonga._class_teachers[i],
+						teacherId: $scope.editMilonga._class_teachers[i]._id,
 					}
+					// console.log('INFO', info)
 					eventsFactory.removeClassFromPerformer(info, function(status){
-						console.log('REMOVED class FROM DANCER',status);
+						// console.log('REMOVED class FROM DANCER',status);
 					})
 				}
 			}
@@ -125,7 +130,7 @@ myApp.controller('editClassController', function($scope, $routeParams, $location
 			}
 
 
-			console.log($rootScope.user);
+			// console.log($rootScope.user);
 			// console.log('scope edit milonga', $scope.editMilonga);
 			$scope.editMilonga._added_by = {
 	        	name: $rootScope.user.first_name + ' ' + $rootScope.user.last_name,
@@ -135,21 +140,21 @@ myApp.controller('editClassController', function($scope, $routeParams, $location
 
 
 			eventsFactory.updateClass($scope.editMilonga, function(updatedClass){
-				console.log('UPDATED MILONGA:::', updatedClass)
+				// console.log('UPDATED CLASS:::', updatedClass)
 				for (var i = 0; i < $scope.performersList.length; i++){
 					info = {
 						performerId: $scope.performersList[i].perfId,
 						action: $scope.performersList[i].action,
 						class: updatedClass._id,
 					}
-					console.log('THIS IS THE INFO WE ARE PASSING',info);
+					// console.log('THIS IS THE INFO WE ARE PASSING',info);
 					eventsFactory.addClassToPerformer(info, function(result){
 
-						console.log("ADDED MILONGA TO PERF: ", result);
+						// console.log("ADDED MILONGA TO PERF: ", result);
 						info = {};
 					})
 				}
-				$location.path('/');
+				$location.path('/classes/' + updatedClass._id);
 			})
 
 

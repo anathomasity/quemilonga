@@ -262,6 +262,16 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 			}
 		};
 
+		$scope.imageModal = function(url){
+
+			$rootScope.url = url;
+			$('#imageModal').modal();
+
+		}
+
+
+
+
     });
 	myApp.config(function($routeProvider){
 		$routeProvider

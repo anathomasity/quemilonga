@@ -38,15 +38,21 @@
     <div class="row">
 
 
-        <div ng-if="anyMilonga()" class="col-xs-12 col-md-8 wrap zeromargin">
-            
+        <div ng-if="anyMilonga()" class="col-xs-12 col-md-8 wrap zeromargin">   
 
             <div class="col-md-8">
                 <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
             </div>
-            <br><br>
+            
+
+            <div ng-if='sorryMsg'>
+            <br><br><br>
+                <h4 ng-if='search.what != "All"' style="color: #EAAF00; background-color: #f5f5f0; padding: .8em; border: 1px solid #EAAF00; border-radius: 5px;">Sorry, no {{search.what}} found for <strong>{{search.date | date : fullDate}}</strong>. See the next few days's results:</h4>
+                <h4 ng-if='search.what == "All"' style="color: #EAAF00; background-color: #f5f5f0; padding: .8em; border: 1px solid #EAAF00; border-radius: 5px;">Sorry, no events found for <strong>{{search.date | date : fullDate}}</strong>. See the next few days's results:</h4>
+            </div><br>
 
             <div ng-repeat='day in milongas' ng-if='day.length > 0' class="milonga">
+            <br>
             <div ng-init="parentIndex = $index">
             
             <h4 id="mDate" class="inline noto">{{day[0].date | date : fullDate}}</h4>
@@ -109,13 +115,19 @@
                                             <h4>{{m.details}}</h4><br ng-if='m.details'>
 
                                         </div>
+
+
+
                                         <div class="col-xs-12 col-md-4 centered">
+                                            <!-- <img src="https://scontent.fsnc1-2.fna.fbcdn.net/v/t31.0-8/s960x960/15875258_10211206070848884_4866808849013575843_o.jpg?oh=9f3675c3fd927ef6a2bc5045667b0c9a&oe=58DD16AD" alt="AAAA" class="img-thumbnail" ng-click='imageModal("https://scontent.fsnc1-2.fna.fbcdn.net/v/t31.0-8/s960x960/15875258_10211206070848884_4866808849013575843_o.jpg?oh=9f3675c3fd927ef6a2bc5045667b0c9a&oe=58DD16AD")'> -->
                                             <h4 ng-if='m.address.st_number' class="noto mobileAddress">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h4>
                                             <h4 ng-if='m.address.details' class="mobileAddress">({{m.address.details}})</h4>
-                                            <div id="map_canvas_{{m._id}}" class="mapa"></div>
+                                            <!-- <div id="map_canvas_{{m._id}}" class="mapa"></div> -->
 
                                             <button type="button" class="btn btn-info noto" ng-click='openInMaps(m.address)'>Open in maps</button>
                                         </div>
+
+                                        
                                     </div>
                                 </div>
 
@@ -199,7 +211,7 @@
                                         <div class="col-xs-12 col-md-4 centered">
                                             <h4 ng-if='m.address.st_number' class="noto mobileAddress">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h4>
                                             <h4 ng-if='m.address.details' class="mobileAddress">({{m.address.details}})</h4>
-                                            <div id="map_canvas_{{m._id}}" class="mapa"></div>
+                                            <!-- <div id="map_canvas_{{m._id}}" class="mapa"></div> -->
 
                                             <button type="button" class="btn btn-info noto" ng-click='openInMaps(m.address)'>Open in maps</button>
                                         </div>
@@ -250,13 +262,20 @@
 
         <!-- IF THERE IS NO MILONGAS FOR THAT DATE -->
         <div ng-if="anyMilonga() == false" class="col-xs-12 col-md-8">
-            <div>
-                <h3>Sorry, no results found.</h3>
-                <h4>You can try searching other dates or cities, or: <br>
-                - <a href="#/milongas/new" class="body_links">creating a new Milonga</a><br>
-                - <a href="#/classes/new" class="body_links">creating a new Class</a><br>
-                by yourself!</h4>
-            </div><br><hr><br>
+            <div style="color: #EAAF00; background-color: #f5f5f0; padding: .8em; border: 1px solid #EAAF00; border-radius: 5px;">
+                <h4>Sorry, no results found for <strong>{{search.date | date : fullDate}}</strong>.</h4>
+            </div><br>
+            <div style="text-align: center;">
+                <h4>You can try searching other dates or cities, or: </h4><br>
+                <button type="button" class="but btn" ng-click="go('/milongas/new')">POST NEW MILONGA</button>
+                <button type="button" class="but btn" ng-click="go('/classes/new')">POST NEW CLASS</button>
+                <br><hr>
+            </div>
+            
+<!-- 
+                <a href="#/milongas/new" class="body_links">POST NEW MILONGA</a>
+                <a href="#/classes/new" class="body_links">POST NEW CLASS</a> -->
+                
         </div>
 
         <!-- CALENDAR FOR OTHER DATES -->

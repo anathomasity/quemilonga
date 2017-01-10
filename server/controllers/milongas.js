@@ -283,6 +283,8 @@ module.exports = (function() {
 
 
 		updateClass: function(req, res){
+
+			console.log('********************************HERE', req.body)
 			Class.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, result){
 			    if(err){
 			        console.log("Something wrong when updating class!");
