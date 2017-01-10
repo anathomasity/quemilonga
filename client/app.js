@@ -269,6 +269,18 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 
 		}
 
+		$scope.getAttendees = function(eventId, eventType) {
+
+			var info = {
+				eventId : eventId,
+				eventType : eventType
+			}
+
+			eventsFactory.getAttendees(info, function(data){
+				$scope.attendees = data.data;
+			})
+		}
+
 
 
 

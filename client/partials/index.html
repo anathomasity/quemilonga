@@ -63,7 +63,7 @@
                     <!-- START OF CLASS -->
 
                         <div ng-if='m.event_type == "class"'>
-                            <div class="panel-heading accordion-toggle collapsed pointer milongaOpen classPanel" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)'>
+                            <div class="panel-heading accordion-toggle collapsed pointer milongaOpen classPanel" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id); '>
 
                                 <div class="panel-title">
                                     <div class="smallerTittle">
@@ -101,7 +101,7 @@
                                             <div id="buttonsBox" class="centered">
                                                 <div class="saveButton inline" id='sc{{m._id}}' ng-click='saveClass(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
                                                 <div class="attendButton inline" id='ac{{m._id}}' ng-click='attendClass(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
-                                                <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
+                                                <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See who is attending this event" ng-click='getAttendees(m._id, m.event_type)'></div>
                                             </div>
                                         </div>
                                     </div><br>
@@ -122,7 +122,7 @@
                                             <!-- <img src="https://scontent.fsnc1-2.fna.fbcdn.net/v/t31.0-8/s960x960/15875258_10211206070848884_4866808849013575843_o.jpg?oh=9f3675c3fd927ef6a2bc5045667b0c9a&oe=58DD16AD" alt="AAAA" class="img-thumbnail" ng-click='imageModal("https://scontent.fsnc1-2.fna.fbcdn.net/v/t31.0-8/s960x960/15875258_10211206070848884_4866808849013575843_o.jpg?oh=9f3675c3fd927ef6a2bc5045667b0c9a&oe=58DD16AD")'> -->
                                             <h4 ng-if='m.address.st_number' class="noto mobileAddress">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h4>
                                             <h4 ng-if='m.address.details' class="mobileAddress">({{m.address.details}})</h4>
-                                            <!-- <div id="map_canvas_{{m._id}}" class="mapa"></div> -->
+                                            <div id="map_canvas_{{m._id}}" class="mapa"></div>
 
                                             <button type="button" class="btn btn-info noto" ng-click='openInMaps(m.address)'>Open in maps</button>
                                         </div>
@@ -152,7 +152,7 @@
 
 
                         <div ng-if='m.event_type == "milonga" || !m.event_type' >
-                            <div class="panel-heading accordion-toggle collapsed pointer milongaOpen milongaPanel" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id)'>
+                            <div class="panel-heading accordion-toggle collapsed pointer milongaOpen milongaPanel" data-toggle="collapse" data-parent="#accordion1,#accordion2,#accordion3" data-target="#collapse{{parentIndex}}{{childIndex}}" ng-click='getMapInfo(m._id, m.address); getButtonsInfo(m._id); '>
 
                                 <div class="panel-title">
                                     <div class="smallerTittle">
@@ -183,7 +183,7 @@
                                             <div id="buttonsBox" class="centered">
                                                 <div class="saveButton inline" id='s{{m._id}}' ng-click='saveEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
                                                 <div class="attendButton inline" id='a{{m._id}}' ng-click='attendEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
-                                                <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
+                                                <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See who is attending this event" ng-click='getAttendees(m._id, m.event_type)'></div>
                                             </div>
                                         </div>
                                     </div><br>
@@ -211,7 +211,7 @@
                                         <div class="col-xs-12 col-md-4 centered">
                                             <h4 ng-if='m.address.st_number' class="noto mobileAddress">{{m.address.st_number}} {{m.address.st_name}}, {{m.address.city}}, {{m.address.state}}</h4>
                                             <h4 ng-if='m.address.details' class="mobileAddress">({{m.address.details}})</h4>
-                                            <!-- <div id="map_canvas_{{m._id}}" class="mapa"></div> -->
+                                            <div id="map_canvas_{{m._id}}" class="mapa"></div>
 
                                             <button type="button" class="btn btn-info noto" ng-click='openInMaps(m.address)'>Open in maps</button>
                                         </div>

@@ -1,11 +1,7 @@
 <!-- {{class}} -->
 
 <div class="container" style="width: 55%">
-        <br>
-        <h4 class="noto">Share this class with your friends on FB:</h4>
-        <br>
-        <hr>
-        <br>
+        <br><br><br>
 
 
                 <h4 id="mDate" class="inline noto">{{class.date | date : fullDate}}</h4>
@@ -54,7 +50,7 @@
                                             <div id="buttonsBox" class="centered">
                                                 <div class="saveButton inline" id='sc{{class._id}}' ng-click='saveClass(class._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
                                                 <div class="attendButton inline" id='ac{{class._id}}' ng-click='attendClass(class._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
-                                                <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See your friends attending this event"></div>
+                                                <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See who is attending this event" ng-click='getAttendees(class._id, class.event_type)'></div>
                                             </div>
                                         </div>
                                     </div><br>
@@ -97,6 +93,16 @@
                             </div>
                         </div> <!-- END OF EVENT_TYPE = CLASS -->
                 </div>
+        </div>
+
+        <hr><br>
+        <div id='shareDiv'>
+            <h4 class="noto inline">Share this class with your friends on FB:</h4>
+
+            <div class="fb-share-button inline" style='float: right;' data-href="http://www.quemilonga.com/#/classes/{{class._id}}" data-layout="button_count" data-size="large" data-mobile-iframe="true">
+                <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com/%2F&amp;src=sdkpreparse">Share</a>
+            </div>
+
         </div>
 
 <br><button type="button" class="but btn" ng-click="go('/')">HOME</button>

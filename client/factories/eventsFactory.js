@@ -334,6 +334,14 @@ myApp.factory('eventsFactory', function($http){
 		})
 	}
 
+	factory.getAttendees = function(info, callback){
+		// console.log('at factory', info)
+		$http.post('/attendees', info).then(function(attendees){
+			// console.log('attendees AT FACTORY,', attendees)
+			callback(attendees);
+		})
+	}
+
 
 	return factory;
 })

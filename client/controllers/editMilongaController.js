@@ -97,7 +97,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 				for(var i = 0; i < $scope.editMilonga._performers.length; i++){
 					var info = {
 						milongaId: $scope.editMilonga._id,
-						performerId: $scope.editMilonga._performers[i],
+						performerId: $scope.editMilonga._performers[i]._id,
 					}
 					eventsFactory.removeMilongaFromPerformer(info, function(status){
 						// console.log('REMOVED MILONGA FROM DANCER',status);
@@ -109,7 +109,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 				for(var i = 0; i < $scope.editMilonga._class_teachers.length; i++){
 					var info = {
 						milongaId: $scope.editMilonga._id,
-						performerId: $scope.editMilonga._class_teachers[i],
+						performerId: $scope.editMilonga._class_teachers[i]._id,
 					}
 					eventsFactory.removeMilongaFromPerformer(info, function(status){
 						// console.log('REMOVED MILONGA FROM DANCER',status);

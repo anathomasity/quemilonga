@@ -2,6 +2,7 @@ myApp.controller('generalMapController', function($scope, $routeParams, eventsFa
 
     var dat = [];
 
+
     eventsFactory.countMilongas(function(data){
         dat.push(['Country', 'Popularity '])
 
@@ -10,18 +11,21 @@ myApp.controller('generalMapController', function($scope, $routeParams, eventsFa
         } 
         
         google.charts.load('upcoming', {'packages':['geochart']});
-            google.charts.setOnLoadCallback(drawRegionsMap);
+        google.charts.setOnLoadCallback(drawRegionsMap);
 
-            function drawRegionsMap() {
+        function drawRegionsMap() {
 
-                var data = google.visualization.arrayToDataTable(dat);
+            var data = google.visualization.arrayToDataTable(dat);
 
-                var options = {};
+            var options = {};
 
-                var chart = new google.visualization.GeoChart(document.getElementById('map'));
+            var chart = new google.visualization.GeoChart(document.getElementById('map'));
 
-                chart.draw(data, options);
-            }
+            chart.draw(data, options);
+        }
+
+        FB.XFBML.parse();
+
     })
 
 });

@@ -1,11 +1,15 @@
 myApp.controller('showMilongaController', function($scope, $routeParams, eventsFactory, $location, $http, $rootScope, $facebook){
 
 	var milongaId = $routeParams.id;
+
 	eventsFactory.getMilonga(milongaId, function(data){
+
 		$scope.milonga = data.data;
 		$scope.getButtonsInfo(milongaId)
-	})
+    FB.XFBML.parse();
 
+    
+	})
 
 
 	$scope.saveEvent = function(eventId) {

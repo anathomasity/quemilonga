@@ -8,6 +8,38 @@ var moment = require('moment');
 
 module.exports = (function() {
 	return {
+
+		getAttendees: function(req,res) {
+
+			// console.log('GOT TO GET ATTENDEES BACKEND', req.body)
+
+			if(req.body.eventType == 'milonga') {
+				User.find({ _attending: { "$in" : [req.body.eventId]} }, function(err, attendees){
+					if(err){
+						// console.log(err);
+						// console.log('error finding ATTENDEES, milongas controller');
+					} else {
+						// console.log('ATTENDEES::::::::', attendees)
+						res.json(attendees);
+					} //END OF ELSE
+
+				});
+			}
+			else if(req.body.eventType == 'class') {
+				User.find({ _class_attending: { "$in" : [req.body.eventId]} }, function(err, attendees){
+					if(err){
+						// console.log(err);
+						// console.log('error finding ATTENDEES, milongas controller');
+					} else {
+						// console.log('ATTENDEES::::::::', attendees)
+						res.json(attendees);
+					} //END OF ELSE
+
+				});
+			}
+		},
+
+
 		getPerformers: function(req, res){
 
 			Performer.find({}, function(err, performers){

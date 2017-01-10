@@ -121,6 +121,16 @@
     
     <body>
 
+    <!-- FACEBOOK SHARE -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=241982722868622";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
         <div >
             
             <div ng-view id="mainInfo"></div>
@@ -139,11 +149,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Your Facebook friends attending this event</h4>
+                <h4 class="modal-title noto" id="myModalLabel" >People attending this event</h4>
               </div>
               <div class="modal-body">
-                <button ng-click='getFriends()'>Get Friends</button>
-                Section under development. Thank you for your patience.
+                    <h4 ng-if='attendees.length < 1'>Sorry, there is no people attending this event yet.</h4>
+                  <h4><a class='body_links' ng-repeat='a in attendees' href="https://www.facebook.com/{{a.fb_id}}">{{a.first_name}} {{a.last_name}}</a></h4>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -277,17 +287,17 @@
 
 
         <!-- OPEN IMAGE MODAL -->
-        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!--         <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 
-                <img src="{{url}}" id="imagepreview" style="width: 100%; height:auto;" >
+                <img ng-if='url' src="{{url}}" id="imagepreview" style="width: 100%; height:auto;" >
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
             
     </body>
     <footer class="foto2">

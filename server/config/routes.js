@@ -71,7 +71,10 @@ module.exports = function(app){
 
 	})
 
-	
+	app.post('/attendees', function(req, res){
+		console.log(' made it to my /attendees get route', req.body);
+		milongas.getAttendees(req, res);
+	})
 
 	app.get('/performers', function(req, res){
 		console.log(' made it to my /performers get route');

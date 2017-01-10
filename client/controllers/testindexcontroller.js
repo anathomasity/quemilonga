@@ -1,4 +1,6 @@
-//Facebook share button on SHOW event pages and general map pages
+//fix add and remove class from teacher. 
+
+//MAKE SHOW PAGES RESPONSIVE
 
 //see how to get users facebook profile picture
 
@@ -13,6 +15,8 @@
 
 //after adding multiple milongas, redirect to a show page of a list of them
 
+//AFTER google maps api IS REACHING 25000 a day, replace map by picture hosting.
+
 
 
 myApp.controller('indexController', function($scope, eventsFactory, $cookies, $location, $http, $rootScope, $window){
@@ -25,6 +29,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
   if($rootScope.user){
     refreshUser();
+    // console.log($rootScope.user)
   }
   
 
@@ -64,25 +69,11 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
   eventsFactory.getMilongas(info, function(data){
       $scope.milongas = data;  
+      if($scope.milongas.today.length == 0) {
+          // console.log($scope.milongas.today.length)
+          $scope.sorryMsg = true;
+      }
   })
-
-  $scope.$watch("user", function(newValue, oldValue) {
-      // console.log('hello')
-      // if(!$rootScope.user){
-      //   return;
-      // }
-      // console.log('ABOUT TO ENTERE FOR')
-      // for(var i = 0; i < $rootScope.user._attending.length; i++) {
-      //   var id = 'a' + $rootScope.user._attending[i]._id;
-      //   $('#' + id).css({'cursor': 'not-allowed', 'border': '0'});
-      //   console.log('HERE AT ATTENDING')
-      // }
-      // for(var i = 0; i < $rootScope.user._favorites.length; i++) {
-      //   var id = 's' + $rootScope.user._favorites[i]._id;
-      //   $('#' + id).css({'cursor': 'not-allowed', 'border': '0'});
-      //   console.log('HERE AT SAVED')
-      // }
-  });
 
   $scope.$watch("search.range", function(newValue, oldValue) {
     $scope.sorryMsg = false;
@@ -96,13 +87,21 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
     if ($scope.search.what == 'Classes') {
       // console.log('WE ARE SEARCHING WITHIN CLASSES')
       eventsFactory.getClasses(info, function(data){
-          $scope.milongas = data;   
+          $scope.milongas = data;
+          if($scope.milongas.today.length == 0) {
+              console.log($scope.milongas.today.length)
+              $scope.sorryMsg = true;
+          }   
       })
     }
     else if ( $scope.search.what == 'Milongas' || !$scope.search.what){
       // console.log('WE ARE SEARCHING WITHIN MILONGAS')
       eventsFactory.getMilongas(info, function(data){
-          $scope.milongas = data;   
+          $scope.milongas = data;  
+          if($scope.milongas.today.length == 0) {
+              // console.log($scope.milongas.today.length)
+              $scope.sorryMsg = true;
+          } 
       })
     }
     else if ( $scope.search.what == 'All'){
@@ -121,6 +120,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
               $scope.milongas.day_after.push(data.day_after[x]);
           }
           // console.log($scope.milongas)
+          if($scope.milongas.today.length == 0) {
+              console.log($scope.milongas.today.length)
+              $scope.sorryMsg = true;
+          }
       })
     }
   });
@@ -145,6 +148,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
             eventsFactory.getMilongas(info, function(data){
                 // console.log('BACK WITH MILONGAS:', data)
                 $scope.milongas = data;
+                if($scope.milongas.today.length == 0) {
+                    console.log($scope.milongas.today.length)
+                    $scope.sorryMsg = true;
+                }
 
                 if($rootScope.user){
                     // console.log('Rosotscopeuser', $rootScope.user)
@@ -167,6 +174,10 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
             info.state = {state: st}
             eventsFactory.getMilongas(info, function(data){
                 $scope.milongas = data;
+                if($scope.milongas.today.length == 0) {
+                    console.log($scope.milongas.today.length)
+                    $scope.sorryMsg = true;
+                }
             });
         };
     };
@@ -213,7 +224,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
               $scope.milongas.day_after.push(data.day_after[x]);
           }
           if($scope.milongas.today.length == 0) {
-              console.log($scope.milongas.today.length)
+              // console.log($scope.milongas.today.length)
               $scope.sorryMsg = true;
           }
       })
@@ -232,12 +243,20 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       // console.log('new value is equal to classes')
       eventsFactory.getClasses(info, function(data){
           $scope.milongas = data;   
+          if($scope.milongas.today.length == 0) {
+              console.log($scope.milongas.today.length)
+              $scope.sorryMsg = true;
+          }
       })
     }
     else if ( newValue == 'Milongas'){
       // console.log('new value is equal to milongas')
       eventsFactory.getMilongas(info, function(data){
           $scope.milongas = data;   
+          if($scope.milongas.today.length == 0) {
+              // console.log($scope.milongas.today.length)
+              $scope.sorryMsg = true;
+          }
       })
     }
     else if ( newValue == 'All'){
@@ -256,29 +275,45 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
               $scope.milongas.day_after.push(data.day_after[x]);
           }
           // console.log($scope.milongas)
+          if($scope.milongas.today.length == 0) {
+              console.log($scope.milongas.today.length)
+              $scope.sorryMsg = true;
+          }
       })
     }
 
   });
 
-  // $scope.getMapInfo = function(mId, addr) {
-  //   console.log('inside get map info', addr);
-  //   var address = 
-  //         addr.st_number + '+'
-  //       + addr.st_name + '+'
-  //       + addr.city + '+'
-  //       + addr.state;
-  //   // console.log('ADDRESS', address)
-  //   $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
-  //   + address
-  //   + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+var mapsInfo = [];
 
-  //   .then(function(response){ 
-  //     // console.log(response);
-  //     document.getElementById('map_canvas_' + mId).style.display="block";
-  //     initializeMap(response, mId);
-  //   });
-  // }
+  $scope.getMapInfo = function(mId, addr) {
+    // console.log('inside get map info', addr);
+
+    for(var i = 0; i < mapsInfo.length; i++){
+        if(mapsInfo[i] == mId) {
+            // console.log('INSIDE IF', mapsInfo[i])
+            return;
+        }
+    }
+
+    var address = 
+          addr.st_number + '+'
+        + addr.st_name + '+'
+        + addr.city + '+'
+        + addr.state;
+    // console.log('ADDRESS', address)
+    $http.get("https://maps.googleapis.com/maps/api/geocode/json?address="
+    + address
+    + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+
+    .then(function(response){ 
+        // console.log('RESPONSE',response);
+        document.getElementById('map_canvas_' + mId).style.display="block";
+        initializeMap(response, mId);
+        mapsInfo.push(mId);
+        // console.log(mapsInfo)
+    });
+  }
 
   $scope.saveEvent = function(eventId) {
     if(!$rootScope.user){
@@ -474,6 +509,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       center: new google.maps.LatLng(response.data.results[0].geometry.location.lat, response.data.results[0].geometry.location.lng),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
+    // console.log('MAP OPTIONS', myOptions)
     var map = new google.maps.Map(document.getElementById("map_canvas_" + mId),myOptions);
     var marker = new google.maps.Marker({
         position: myOptions.center,
@@ -551,6 +587,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
           $rootScope.user = data.data;
       }); 
   }
+
 
 
 
