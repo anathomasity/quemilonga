@@ -6,8 +6,11 @@ myApp.controller('showMilongaController', function($scope, $routeParams, eventsF
 
 		$scope.milonga = data.data;
 		$scope.getButtonsInfo(milongaId)
-    FB.XFBML.parse();
+    
+    setTimeout(function(){
+      FB.XFBML.parse();
 
+    }, 30)
     
 	})
 

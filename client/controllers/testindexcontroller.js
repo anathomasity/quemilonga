@@ -2,6 +2,8 @@
 
 //MAKE SHOW PAGES RESPONSIVE
 
+//order teacher's classes schedule by date.
+
 //see how to get users facebook profile picture
 
 //fix mailto from browser -- contact and report
@@ -244,7 +246,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       eventsFactory.getClasses(info, function(data){
           $scope.milongas = data;   
           if($scope.milongas.today.length == 0) {
-              console.log($scope.milongas.today.length)
+              // console.log($scope.milongas.today.length)
               $scope.sorryMsg = true;
           }
       })
@@ -288,6 +290,8 @@ var mapsInfo = [];
 
   $scope.getMapInfo = function(mId, addr) {
     // console.log('inside get map info', addr);
+    FB.XFBML.parse();
+    
 
     for(var i = 0; i < mapsInfo.length; i++){
         if(mapsInfo[i] == mId) {
@@ -548,6 +552,7 @@ var mapsInfo = [];
   };
 
   $scope.getButtonsInfo = function(mId){
+
       if($rootScope.user){
         // console.log($rootScope.user)
           for(var i = 0; i < $rootScope.user._favorites.length; i++){
@@ -587,6 +592,31 @@ var mapsInfo = [];
           $rootScope.user = data.data;
       }); 
   }
+
+    // $scope.share = function(event){
+    //   console.log('event',event)
+
+
+        // FB.ui({
+        //   method: 'share',
+        //   href: 'http://www.quemilonga.com/',
+        // }, function(response){});
+
+
+    //   FB.ui(
+    //   {
+    //       method: 'share',
+    //       name: 'This is the content of the "name" field.',
+    //       href: 'http://www.quemilonga.com/',
+    //       picture: 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-9/15873346_10212137624700856_8865192133712604207_n.jpg?oh=fbbb282788a79b96411405cb60f047a9&oe=5915EE84',
+    //       caption: event.title,
+    //       description: 'Finally I can find all tango related events at the same place.',
+    //       message: 'HELLO WORLD'
+      // });
+    // }
+
+
+
 
 
 

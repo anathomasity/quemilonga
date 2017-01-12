@@ -102,6 +102,9 @@
                                                 <div class="saveButton inline" id='sc{{m._id}}' ng-click='saveClass(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
                                                 <div class="attendButton inline" id='ac{{m._id}}' ng-click='attendClass(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
                                                 <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See who is attending this event" ng-click='getAttendees(m._id, m.event_type)'></div>
+                                                <!-- <button ng-click="share(m)">SHARE</button> -->
+                                                <div class="fb-share-button" data-href="http://www.quemilonga.com/#/classes/{{m._id}}" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fclasses%2F{{m._id}}&amp;src=sdkpreparse">Share</a></div>
+
                                             </div>
                                         </div>
                                     </div><br>
@@ -139,7 +142,7 @@
                                     </a>
 
                                     <a class="col-xs-4 col-sm-4 littlelinks" href="#/classes/{{m._id}}/edit">
-                                        <h5>Not accurate? <span class="body_links noto">UPDATE</span></h5>
+                                        <h5><span class="body_links noto">UPDATE DETAILS</span></h5>
                                     </a>
 
                                     <a class="col-xs-4 col-sm-4 littlelinks" ng-click='sendMail("qmilonga@gmail.com","Something is Wrong","Tell us more about what is wrong with this milonga {{m._id}}")'>
@@ -184,6 +187,9 @@
                                                 <div class="saveButton inline" id='s{{m._id}}' ng-click='saveEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
                                                 <div class="attendButton inline" id='a{{m._id}}' ng-click='attendEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
                                                 <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See who is attending this event" ng-click='getAttendees(m._id, m.event_type)'></div>
+                                                <!-- <button ng-click="share(m)">SHARE</button> -->
+                                                <div class="fb-share-button" data-href="http://www.quemilonga.com/#/milongas/{{m._id}}" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fmilongas%2F{{m._id}}&amp;src=sdkpreparse">Share</a></div>
+
                                             </div>
                                         </div>
                                     </div><br>
@@ -226,7 +232,7 @@
                                     </a>
 
                                     <a class="col-xs-4 col-sm-4 littlelinks" href="#/milongas/{{m._id}}/edit">
-                                        <h5>Not accurate? <span class="body_links noto">UPDATE</span></h5>
+                                        <h5><span class="body_links noto">UPDATE DETAILS</span></h5>
                                     </a>
 
                                     <a class="col-xs-4 col-sm-4 littlelinks" ng-click='sendMail("qmilonga@gmail.com","Something is Wrong","Tell us more about what is wrong with this milonga {{m._id}}")'>

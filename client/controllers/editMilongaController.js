@@ -12,7 +12,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 
 	eventsFactory.getMilonga(milongaId, function(data){
 		$scope.editMilonga = data.data;
-		console.log('$scope.editMilonga:', $scope.editMilonga)
+		// console.log('$scope.editMilonga:', $scope.editMilonga)
 		$scope.dt = new Date(data.data.date);
 		$scope.m_st = new Date(data.data.start_time);
 		$scope.m_et = new Date(data.data.end_time);
@@ -41,7 +41,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 			for(var i = 0; i < $rootScope.performers.length; i++){
 				// console.log('all performers in db list', $rootScope.performers[i].name)
 				for (var j = 0; j < data.data._performers.length; j++) {
-					console.log('_perf of this milonga list', data.data._performers[j])
+					// console.log('_perf of this milonga list', data.data._performers[j])
 					if(data.data._performers[j]._id == $rootScope.performers[i]._id){
 						// console.log('ticked performer!', data.data._performers[i], $rootScope.performers[j]._id )
 						$rootScope.performers[i].ticked = true;
@@ -100,7 +100,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 						performerId: $scope.editMilonga._performers[i]._id,
 					}
 					eventsFactory.removeMilongaFromPerformer(info, function(status){
-						// console.log('REMOVED MILONGA FROM DANCER',status);
+						console.log('REMOVED MILONGA FROM DANCER',status);
 					})
 				}
 			}

@@ -498,7 +498,7 @@ module.exports = (function() {
 					res.json({status: 'This is a PENDING performer'})
 					return;
 				}
-				console.log('GOT TO THE BACKEND CONTROLLER IN REMOVE MILONGA FROM PERFORMER', req.body)
+				console.log('************************REMOVE MILONGA FROM PERFORMER', req.body)
 
 				var searchTerm = req.body.milongaId;
 				var index = -1;
@@ -527,7 +527,7 @@ module.exports = (function() {
 
 		},
 		removeClassFromPerformer: function(req, res){
-			console.log('GOT TO THE BACKEND CONTROLLER', req.body)
+			console.log('**************************REMOVE CLASS FROM PERFORMER', req.body)
 
 			Performer.findOne({_id: req.params.id}, function (err, performer){
 				console.log('PERFORMER TO RMOVE CLASS', performer)
