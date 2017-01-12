@@ -225,6 +225,18 @@ header{
 	box-shadow: .3em .3em .1em #888888;
 }
 
+.shareButton {
+	background: url('../assets/share.png') no-repeat ; 
+	width: 5em; 
+	height: 1.7em;
+	background-size: 100%;
+	border-radius: 2px;
+	cursor: pointer;
+	box-shadow: .3em .3em .1em #888888;
+	/*background-color: black;*/
+
+}
+
 
 
 

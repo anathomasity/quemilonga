@@ -1,3 +1,5 @@
+
+
 <section class="clearfix">
     <div class="container">
         <div class="section-left">
@@ -99,11 +101,16 @@
                                         <div class="col-xs-6 col-md-4 centered" style="padding-right: 0;">
                                             <h6 style="margin: 0"></h6>
                                             <div id="buttonsBox" class="centered">
+
+
+                                                <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fclasses%2F{{m._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Flegswithlogo.png&title=Class+with+{{m._class_teachers[0].name}}+and+{{m._class_teachers[1].name}}{{m._class_teachers[2].name}}+%7C+{{m.date | date : fullDate}}%2C+{{m.address.city}}%2C+{{m.start_time | date:'shortTime'}}&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Who+else+is+going%3F+I+am%21&description={{m.topic}}%2C+{{m.details}}%2C+Join+us+for+a+great+class%21+"><div class='shareButton inline'></div><br></a>
+
+
                                                 <div class="saveButton inline" id='sc{{m._id}}' ng-click='saveClass(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
                                                 <div class="attendButton inline" id='ac{{m._id}}' ng-click='attendClass(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
                                                 <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See who is attending this event" ng-click='getAttendees(m._id, m.event_type)'></div>
                                                 <!-- <button ng-click="share(m)">SHARE</button> -->
-                                                <div class="fb-share-button" data-href="http://www.quemilonga.com/#/classes/{{m._id}}" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fclasses%2F{{m._id}}&amp;src=sdkpreparse">Share</a></div>
+                                                
 
                                             </div>
                                         </div>
@@ -184,11 +191,16 @@
                                         <div class="col-xs-6 col-md-4 centered" style="padding-right: 0;">
                                             <h6 style="margin: 0"></h6>
                                             <div id="buttonsBox" class="centered">
+
+                                                
+                                                <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fmilongas%2F{{m._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Flegswithlogo.png&title={{m.title}}+%7C+{{m.address.city}}%2C+{{m.start_time | date:'shortTime'}}&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Who+else+is+going%3F+I+am%21&description={{m.details}}+Join+us+at+{{m.title}}+for+a+great+night%21+"><div class='shareButton inline'></div><br></a>
+                                                
+
                                                 <div class="saveButton inline" id='s{{m._id}}' ng-click='saveEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Save event for later"></div>
                                                 <div class="attendButton inline" id='a{{m._id}}' ng-click='attendEvent(m._id)' data-toggle="tooltip" data-placement="top" title="Attend this event"></div>
                                                 <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See who is attending this event" ng-click='getAttendees(m._id, m.event_type)'></div>
                                                 <!-- <button ng-click="share(m)">SHARE</button> -->
-                                                <div class="fb-share-button" data-href="http://www.quemilonga.com/#/milongas/{{m._id}}" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fmilongas%2F{{m._id}}&amp;src=sdkpreparse">Share</a></div>
+                                                
 
                                             </div>
                                         </div>

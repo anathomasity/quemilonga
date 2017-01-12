@@ -4,11 +4,6 @@ myApp.controller('showClassController', function($scope, $routeParams, eventsFac
 	eventsFactory.getClass(classId, function(data){
 		$scope.class = data.data;
 		$scope.getButtonsInfo(classId)
-
-    setTimeout(function(){
-      FB.XFBML.parse();
-
-    }, 30)
     
 	})
 

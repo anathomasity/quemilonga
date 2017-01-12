@@ -290,8 +290,6 @@ var mapsInfo = [];
 
   $scope.getMapInfo = function(mId, addr) {
     // console.log('inside get map info', addr);
-    FB.XFBML.parse();
-    
 
     for(var i = 0; i < mapsInfo.length; i++){
         if(mapsInfo[i] == mId) {
@@ -592,33 +590,6 @@ var mapsInfo = [];
           $rootScope.user = data.data;
       }); 
   }
-
-    // $scope.share = function(event){
-    //   console.log('event',event)
-
-
-        // FB.ui({
-        //   method: 'share',
-        //   href: 'http://www.quemilonga.com/',
-        // }, function(response){});
-
-
-    //   FB.ui(
-    //   {
-    //       method: 'share',
-    //       name: 'This is the content of the "name" field.',
-    //       href: 'http://www.quemilonga.com/',
-    //       picture: 'https://scontent.fsnc1-1.fna.fbcdn.net/v/t1.0-9/15873346_10212137624700856_8865192133712604207_n.jpg?oh=fbbb282788a79b96411405cb60f047a9&oe=5915EE84',
-    //       caption: event.title,
-    //       description: 'Finally I can find all tango related events at the same place.',
-    //       message: 'HELLO WORLD'
-      // });
-    // }
-
-
-
-
-
 
 
 
