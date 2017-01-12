@@ -13,23 +13,6 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		        $rootScope.user = data.data
 		    })
 		}
-
-		// if($scope.userCookie.userFbId){
-		// 	var info = {
-		// 		first_name: 'a',
-  //         		last_name: 'b',
-  //         		fb_id: $scope.userCookie.userFbId
-		// 	}
-		// 	eventsFactory.createUser(info, function(data){
-
-	 //            $rootScope.user = data.data;
-	 //            $rootScope.search.city = data.data.city_preference.city;
-	 //     	    $rootScope.city_preference = data.data.city_preference;
-	 //     	    $scope.loginToggle();
-	 //     	    // console.log('after loggin toggle,:', $scope.status)
-	 //        });
-
-		// }
 		
     	$scope.$on('fb.auth.authResponseChange', function() {
 		    $scope.status = $facebook.isConnected();
@@ -65,8 +48,6 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 					            // $scope.userCookie = $cookies.getAll();
 		  						// console.log('AFTER LOGGIN IN:',$scope.userCookie)
 					            $rootScope.user = data.data;
-					            // $rootScope.search.city = data.data.city_preference.city;
-				         	   //  $rootScope.city_preference = data.data.city_preference;
 				         	    // $scope.loginToggle();
 				         	    // console.log('$ROOTSSCOPE.USER:', $rootScope.user);
 				        	});

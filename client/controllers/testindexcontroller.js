@@ -1,17 +1,10 @@
-//fix add and remove class from teacher. 
-
 //MAKE SHOW PAGES RESPONSIVE
-
-//order teacher's classes schedule by date.
 
 //see how to get users facebook profile picture
 
 //fix mailto from browser -- contact and report
 
 //display messages of confirmation: NG FLASH
-// 'class succesfully saved, 
-// class now attending, 
-// class now saving
 // this is your new class on show class page
 // this is your new milonga // on show milonga page
 
@@ -33,9 +26,11 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
     refreshUser();
     // console.log($rootScope.user)
   }
+
+  // console.log($scope.userCookie)
   
 
-  if(!$rootScope.user || !$rootScope.user.city_preference) {
+  if((!$rootScope.user || !$rootScope.user.city_preference) && !$scope.userCookie.cityPrefCity) {
       var pos = {
         lat: 37.7749295,
         lng: -122.41941550000001,
@@ -43,10 +38,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       var st = 'CA'
       $rootScope.search.city = 'San Francisco, CA, USA';
   }
-  else{
-      // if ($rootScope.search.city && $rootScope.search.city !== 'San Francisco, CA, USA'){
-      //     alert('hello');
-      // }
+  else if($rootScope.user && $rootScope.user.city_preference){
 
       var pos = {
         lat: $rootScope.user.city_preference.coordinates.lat,
@@ -54,6 +46,15 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       }
       var st = $rootScope.user.city_preference.state;
       $rootScope.search.city = $rootScope.user.city_preference.city;
+  }
+  else if($scope.userCookie.cityPrefCity){
+    // console.log('city from cookie')
+      var pos = {
+        lat: $scope.userCookie.cityPrefLat,
+        lng: $scope.userCookie.cityPrefLng,
+      }
+      var st = $scope.userCookie.cityPrefState;
+      $rootScope.search.city = $scope.userCookie.cityPrefCity;
   }
 
   $scope.milongas = {
@@ -91,7 +92,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       eventsFactory.getClasses(info, function(data){
           $scope.milongas = data;
           if($scope.milongas.today.length == 0) {
-              console.log($scope.milongas.today.length)
+              // console.log($scope.milongas.today.length)
               $scope.sorryMsg = true;
           }   
       })
@@ -123,7 +124,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
           }
           // console.log($scope.milongas)
           if($scope.milongas.today.length == 0) {
-              console.log($scope.milongas.today.length)
+              // console.log($scope.milongas.today.length)
               $scope.sorryMsg = true;
           }
       })
@@ -134,6 +135,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
     $scope.sorryMsg = false;
     if(newValue != oldValue && newValue != null){
 
+        //if the user typed in a new city, save it to preferences
         if ($rootScope.search.city && $rootScope.search.city.geometry) {
             pos = {
               lat: $rootScope.search.city.geometry.location.lat(),
@@ -151,9 +153,14 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
                 // console.log('BACK WITH MILONGAS:', data)
                 $scope.milongas = data;
                 if($scope.milongas.today.length == 0) {
-                    console.log($scope.milongas.today.length)
+                    // console.log($scope.milongas.today.length)
                     $scope.sorryMsg = true;
                 }
+                $cookies.put('cityPrefLat', pos.lat);
+                $cookies.put('cityPrefLng', pos.lng);
+                $cookies.put('cityPrefState', st);
+                $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
+                // console.log('USER COOKIE:',$scope.userCookie)
 
                 if($rootScope.user){
                     // console.log('Rosotscopeuser', $rootScope.user)
@@ -165,23 +172,23 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
                 };
             });
         }
-        else {
-            // console.log('city_preference',$rootScope.city_preference)
-            pos = {
-              lat: $rootScope.city_preference.coordinates.lat,
-              lng: $rootScope.city_preference.coordinates.lng
-            };
-            st = $rootScope.city_preference.state;
-            info.pos = pos;
-            info.state = {state: st}
-            eventsFactory.getMilongas(info, function(data){
-                $scope.milongas = data;
-                if($scope.milongas.today.length == 0) {
-                    console.log($scope.milongas.today.length)
-                    $scope.sorryMsg = true;
-                }
-            });
-        };
+        // else {
+        //     console.log('CURRENT city_preference',$rootScope.user.city_preference)
+        //     pos = {
+        //       lat: $rootScope.user.city_preference.coordinates.lat,
+        //       lng: $rootScope.user.city_preference.coordinates.lng
+        //     };
+        //     st = $rootScope.user.city_preference.state;
+        //     info.pos = pos;
+        //     info.state = {state: st}
+        //     eventsFactory.getMilongas(info, function(data){
+        //         $scope.milongas = data;
+        //         if($scope.milongas.today.length == 0) {
+        //             console.log($scope.milongas.today.length)
+        //             $scope.sorryMsg = true;
+        //         }
+        //     });
+        // };
     };
     
   });
@@ -343,6 +350,7 @@ var mapsInfo = [];
                     var id = 'a' + eventId;
                     $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                     // console.log('BACK stopAttending profile controller,', data);
+                    $('#status'+ eventId).html('Event saved');
                     refreshUser();
                 });
             });
@@ -355,6 +363,7 @@ var mapsInfo = [];
             }
             eventsFactory.stopSaving(info, function(data){
                 // console.log('BACK stopSaving profile controller,', data);
+                $('#status'+ eventId).html('');
                 refreshUser();   
             });
         }//END OF ELSE IF
@@ -389,6 +398,7 @@ var mapsInfo = [];
                     var id = 's' + eventId;
                     $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                     // console.log('BACK stopAttending profile controller,', data);
+                    $('#status'+ eventId).html('Attending event');
                     refreshUser(); 
                 }); 
             });
@@ -400,6 +410,7 @@ var mapsInfo = [];
               fb_id: $rootScope.user.fb_id
             }
             eventsFactory.stopAttending(info, function(data){
+                $('#status'+ eventId).html('');
                 refreshUser(); 
             });
         }//END OF ELSE IF
@@ -439,6 +450,7 @@ var mapsInfo = [];
                     var id = 'ac' + eventId;
                     $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                     // console.log('BACK stopAttending profile controller,', data);
+                    $('#status'+ eventId).html('Event saved');
                     refreshUser();
                 }); 
             });
@@ -451,6 +463,7 @@ var mapsInfo = [];
             }
             eventsFactory.stopSavingClass(info, function(data){
                 // console.log('BACK stopSaving profile controller,', data);
+                $('#status'+ eventId).html('');
                 refreshUser();   
             });
         }//END OF ELSE IF
@@ -480,7 +493,8 @@ var mapsInfo = [];
               fb_id: $rootScope.user.fb_id,
             }
             eventsFactory.attendClass(datos, function(data){
-                // console.log('back in frontend controller',datos);   
+                // console.log('back in frontend controller',datos);
+                $('#status'+ eventId).html('Attending event');   
                 eventsFactory.stopSavingClass(datos, function(data){
                     var id = 'sc' + eventId;
                     $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
@@ -495,6 +509,7 @@ var mapsInfo = [];
               fb_id: $rootScope.user.fb_id
             }
             eventsFactory.stopAttendingClass(info, function(data){
+                $('#status'+ eventId).html('');
                 refreshUser(); 
             });
         }//END OF ELSE IF
@@ -557,24 +572,28 @@ var mapsInfo = [];
               if(mId == $rootScope.user._favorites[i]._id){
                   var id = 's' + mId;
                   $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
+                  $('#status' + mId).html('Event saved');
               };
           };
           for(var i = 0; i < $rootScope.user._attending.length; i++){
               if(mId == $rootScope.user._attending[i]._id){
                   var id = 'a' + mId;
                   $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
+                  $('#status' + mId).html('Attending event')
               };
           };
           for(var i = 0; i < $rootScope.user._class_favorites.length; i++){
               if(mId == $rootScope.user._class_favorites[i]._id){
                   var id = 'sc' + mId;
                   $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
+                  $('#status' + mId).html('Event saved');
               };
           };
           for(var i = 0; i < $rootScope.user._class_attending.length; i++){
               if(mId == $rootScope.user._class_attending[i]._id){
                   var id = 'ac' + mId;
                   $('#' + id).css({"box-shadow" : "inset .2em .2em .1em #888888"});
+                  $('#status' + mId).html('Attending event')
               };
           };
       };

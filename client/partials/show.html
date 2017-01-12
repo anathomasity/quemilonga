@@ -6,6 +6,8 @@
 
 	<!-- {{performer._milongas_attending}} -->
 
+
+
 	<div ng-if='performer._milongas_attending.length < 1'>
 		<br><br>
 		<h5>Sorry, this performer doesn't have any milongas listed.</h5>
@@ -13,105 +15,133 @@
 		<br><br>
 	</div>
 	
-	<table class="table table-hover">
-	  <thead>
-	    <tr>
-	      <th></th>
-	      <th></th>
-	    </tr>
-	  </thead>
-	  <tbody>
+
+	<div class="scrollbar" id="style-13">
+      	<div class="force-overflow">
+			<table class="table table-hover" >
+			  <thead>
+			    <tr>
+			      <th></th>
+			      <th></th>
+			    </tr>
+			  </thead>
+			  <tbody>
+
+			  	<tr ng-repeat='m in performer._milongas_attending | orderBy : sortMilongas'>
+
+			        <th scope="row" ng-if="m.milonga[0].event_type == 'milonga' && (m.milonga[0].date >= now || m.class[0].date >= now) " style="background-color: #f8fcfb;">
+			        	<a href="#/milongas/{{m.milonga[0]._id}}" style="color: black" class="scheduleLinks">
+			        	<h3 ng-if='m.action == "performance" || m.action == "both"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
+			        	<h4 ng-if='m.action == "performance" || m.action == "both"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
+			        	
+
+			        	<h3 ng-if='m.action == "class"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
+			        	<h4 ng-if='m.action == "class"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
+			        	</a>
+
+			        </th>
+
+			      	<td ng-if='m.action == "performance"' style="background-color: #f8fcfb;">
+			      		<h4 style="color: red">PERFORMANCE</h4>
+			      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
+			      		<h5>{{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}}</h5>
+			      		<h5>${{m.milonga[0].price}}</h5>
+
+			      	</td>
+
+		  		  	<td ng-if='m.action == "both"' style="background-color: #fcf8f9">
+			      		<h4 style="color: red">PERFORMANCE AND CLASS</h4>
+			      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
+			      		<h5>Class: {{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}} | ${{m.milonga[0].class_price}}</h5>
+			      		<h5>Milonga: {{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}} | ${{m.milonga[0].price}}</h5>
+			      		<h5 ng-if='m.milonga[0].class_combo_price'>Combo Price: ${{m.milonga[0].class_combo_price}}</h5>
+			      	</td>
+
+		  		  	<td ng-if='m.action == "class" && m.milonga[0].event_type == "milonga"' style="background-color: #fcf8f9">      		
+		  		  		<h4 style="color: red">PRE MILONGA CLASS</h4>
+			      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
+			      		<h5>{{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}}</h5>
+			      		<h5>${{m.milonga[0].class_price}}</h5>
+			      	</td>
 
 
+			        <th scope="row" ng-if="m.class[0].event_type == 'class' && (m.class[0].date >= now || m.class[0].date >= now) " style="background-color: #fcf8f9" class="scheduleLinks">
+			        	<a href="#/classes/{{m.class[0]._id}}" style="color: black">
+			        	<h4>Topic: <strong>{{m.class[0].topic}}</strong></h4>
+			        	<h4>{{m.class[0].address.city}}, {{m.class[0].address.country}}</h4>
+			        	</a>
+			        </th>
 
-	    <tr ng-if="m.milonga[0].event_type == 'milonga' && (m.milonga[0].date >= now || m.class[0].date >= now) " ng-repeat='m in performer._milongas_attending | orderBy : !sortMilongas : true'>
+			      	<td ng-if="m.class[0].event_type == 'class' && (m.class[0].date >= now || m.class[0].date >= now) " style="background-color: #fcf8f9">
+			      		<h4 style="color: red">STUDIO CLASS</h4>
+			      		<h5 style="font-weight: bolder">{{m.class[0].date | date : fullDate}}</h5>
+			      		<h5>{{m.class[0].start_time | date:'shortTime'}} - {{m.class[0].end_time | date:'shortTime'}}</h5>
+			      		<h5>${{m.class[0].class_price}}</h5>
+			      	</td>
 
-		        <th scope="row">
-		        	<a href="#/milongas/{{m.milonga[0]._id}}" style="color: black">
-		        	<h3 ng-if='m.action == "performance" || m.action == "both"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
-		        	<h4 ng-if='m.action == "performance" || m.action == "both"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
-		        	
+			    </tr>
 
-		        	<h3 ng-if='m.action == "class"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
-		        	<h4 ng-if='m.action == "class"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
-		        	</a>
+			    <!-- <tr ng-if="m.milonga[0].event_type == 'milonga' && (m.milonga[0].date >= now || m.class[0].date >= now) " ng-repeat='m in performer._milongas_attending | orderBy : sortMilongas : true'>
 
-		        </th>
+				        <th scope="row">
+				        	<a href="#/milongas/{{m.milonga[0]._id}}" style="color: black">
+				        	<h3 ng-if='m.action == "performance" || m.action == "both"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
+				        	<h4 ng-if='m.action == "performance" || m.action == "both"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
+				        	
 
-		      	<td ng-if='m.action == "performance"'>
-		      		<h4 style="color: red">PERFORMANCE</h4>
-		      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
-		      		<h5>{{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}}</h5>
-		      		<h5>${{m.milonga[0].price}}</h5>
+				        	<h3 ng-if='m.action == "class"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
+				        	<h4 ng-if='m.action == "class"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
+				        	</a>
 
-		      	</td>
+				        </th>
 
-	  		  	<td ng-if='m.action == "both"'>
-		      		<h4 style="color: red">PERFORMANCE AND CLASS</h4>
-		      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
-		      		<h5>Class: {{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}} | ${{m.milonga[0].class_price}}</h5>
-		      		<h5>Milonga: {{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}} | ${{m.milonga[0].price}}</h5>
-		      		<h5 ng-if='m.milonga[0].class_combo_price'>Combo Price: ${{m.milonga[0].class_combo_price}}</h5>
-		      	</td>
+				      	<td ng-if='m.action == "performance"'>
+				      		<h4 style="color: red">PERFORMANCE</h4>
+				      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
+				      		<h5>{{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}}</h5>
+				      		<h5>${{m.milonga[0].price}}</h5>
 
-	  		  	<td ng-if='m.action == "class"'>      		
-	  		  		<h4 style="color: red">PRE MILONGA CLASS</h4>
-		      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
-		      		<h5>{{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}}</h5>
-		      		<h5>${{m.milonga[0].class_price}}</h5>
-		      	</td>
+				      	</td>
 
-	    </tr>
+			  		  	<td ng-if='m.action == "both"'>
+				      		<h4 style="color: red">PERFORMANCE AND CLASS</h4>
+				      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
+				      		<h5>Class: {{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}} | ${{m.milonga[0].class_price}}</h5>
+				      		<h5>Milonga: {{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}} | ${{m.milonga[0].price}}</h5>
+				      		<h5 ng-if='m.milonga[0].class_combo_price'>Combo Price: ${{m.milonga[0].class_combo_price}}</h5>
+				      	</td>
 
-	    <tr ng-if="m.class[0].event_type == 'class' && (m.class[0].date >= now || m.class[0].date >= now) " ng-repeat='m in performer._milongas_attending | orderBy : !sortMilongas : true'>
+			  		  	<td ng-if='m.action == "class"'>      		
+			  		  		<h4 style="color: red">PRE MILONGA CLASS</h4>
+				      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
+				      		<h5>{{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}}</h5>
+				      		<h5>${{m.milonga[0].class_price}}</h5>
+				      	</td>
 
+			    </tr>
 
-		        <th scope="row">
-		        	<a href="#/classes/{{m.class[0]._id}}" style="color: black">
-		        	<h4>Topic: <strong>{{m.class[0].topic}}</strong></h4>
-		        	<h4>{{m.class[0].address.city}}, {{m.class[0].address.country}}</h4>
-		        	</a>
-		        </th>
-
-		      	<td>
-		      		<h4 style="color: red">STUDIO CLASS</h4>
-		      		<h5 style="font-weight: bolder">{{m.class[0].date | date : fullDate}}</h5>
-		      		<h5>{{m.class[0].start_time | date:'shortTime'}} - {{m.class[0].end_time | date:'shortTime'}}</h5>
-		      		<h5>${{m.class[0].class_price}}</h5>
-		      	</td>
-
-	    </tr>
+			    <tr ng-if="m.class[0].event_type == 'class' && (m.class[0].date >= now || m.class[0].date >= now) " ng-repeat='m in performer._milongas_attending | orderBy : !sortMilongas : true'>
 
 
+				        <th scope="row">
+				        	<a href="#/classes/{{m.class[0]._id}}" style="color: black">
+				        	<h4>Topic: <strong>{{m.class[0].topic}}</strong></h4>
+				        	<h4>{{m.class[0].address.city}}, {{m.class[0].address.country}}</h4>
+				        	</a>
+				        </th>
+
+				      	<td>
+				      		<h4 style="color: red">STUDIO CLASS</h4>
+				      		<h5 style="font-weight: bolder">{{m.class[0].date | date : fullDate}}</h5>
+				      		<h5>{{m.class[0].start_time | date:'shortTime'}} - {{m.class[0].end_time | date:'shortTime'}}</h5>
+				      		<h5>${{m.class[0].class_price}}</h5>
+				      	</td>
+
+			    </tr> -->
 
 
-
-
-
-
-<!-- 	    <tr ng-if="m.milonga[0].date >= now || m.class[0].date >= now && m.event_type == 
-	    'class'" ng-repeat='m in performer._milongas_attending | orderBy : !sortMilongas : true'>
-
-
-		    <!- <div ng-if='m.milonga[0].event_type == "class"'> -->
-
-<!-- 		        <th scope="row"><h3>{{m.milonga[0].title}}</h3>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}/th>
-
-		      	<td ng-if='m.action == "performance"'>{{m.milonga[0].date | date : fullDate}}
-		      		<h5>Performance</h5>
-		      	</td>
-	  		  	<td ng-if='m.action == "both"'>{{m.milonga[0].date | date : fullDate}}
-		      		<h5>Performance and Class</h5>
-		      	</td>
-	  		  	<td ng-if='m.action == "class"'>{{m.milonga[0].date | date : fullDate}}
-		      		<h5>Class</h5>
-		      	</td> -->
-		    
-		    <!-- </div> //END OF IF ITS A CLASS -->
-
-
-<!-- 	    </tr> -->
-
-	  </tbody>
-	</table>
+			  </tbody>
+			</table>
+		</div>
+    </div>
 </div>

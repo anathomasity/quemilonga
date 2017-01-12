@@ -53,6 +53,11 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
             eventsFactory.attendEvent(datos, function(data){
                 // console.log('back in frontend controller',data);
                 $scope.stopSaving(eventId); 
+                $('#successMsg').html('Successfully moved milonga to Attending Events')
+                setTimeout(function(){
+                  $('#successMsg').html('')
+                },3000)
+
             });
         }
         else if(check == true){
@@ -93,6 +98,10 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
             eventsFactory.attendClass(datos, function(data){
                 // console.log('back in frontend controller',data);
                 $scope.stopSavingClass(eventId); 
+                $('#successMsg').html('Successfully moved class to Attending Events')
+                setTimeout(function(){
+                  $('#successMsg').html('')
+                },3000)
             });
         }
         else if(check == true){
@@ -132,6 +141,10 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
             eventsFactory.likeEvent(datos, function(data){
                 // console.log('back in frontend controller',data);   
                 $scope.stopAttending(eventId);
+                $('#successMsg').html('Successfully moved milonga to Saved Events')
+                setTimeout(function(){
+                  $('#successMsg').html('')
+                },3000)
             });
         }
         else if(check == true){
@@ -172,6 +185,11 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
             eventsFactory.likeClass(datos, function(data){
                 // console.log('back in frontend controller',data);   
                 $scope.stopAttendingClass(eventId);
+                $('#successMsg').html('Successfully moved class to Saved Events')
+                setTimeout(function(){
+                  $('#successMsg').html('')
+                },3000)
+
             });
         }
         else if(check == true){
