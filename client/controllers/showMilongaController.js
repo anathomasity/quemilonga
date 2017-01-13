@@ -10,6 +10,8 @@ myApp.controller('showMilongaController', function($scope, $routeParams, eventsF
 	})
 
 
+
+
 	$scope.saveEvent = function(eventId) {
     if(!$rootScope.user){
       // console.log('!Rosotscope user')
@@ -135,4 +137,12 @@ myApp.controller('showMilongaController', function($scope, $routeParams, eventsF
           $rootScope.user = data.data;
       }); 
   }
+
+  //FIND MORE ELEGANT SOLUTION TO REMOVE MULTIPLE VERIONS
+  setTimeout(function(){
+    $rootScope.multipleVersions = false;
+    // console.log('DONE!')
+  },10000);
+
+  
 });

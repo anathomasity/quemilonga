@@ -7,6 +7,8 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	$scope.performersList = [];
 	$scope.toggle;
 
+	$rootScope.multipleVersions = [];
+
 	// console.log('USER is: ',$rootScope.user);
 
 	eventsFactory.getPerformers(function(dat){
@@ -107,7 +109,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	        	}
 
 				eventsFactory.addMilonga(simpleVersion, function(addedMilonga){
-					// console.log('MILOGA ADDED:', addedMilonga)
+					$rootScope.multipleVersions.push(addedMilonga)
 				});
 	        }
 

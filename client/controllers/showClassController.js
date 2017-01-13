@@ -134,5 +134,11 @@ myApp.controller('showClassController', function($scope, $routeParams, eventsFac
       }); 
   }
 
+  //FIND MORE ELEGANT SOLUTION TO REMOVE MULTIPLE VERIONS
+  setTimeout(function(){
+    $rootScope.multipleVersions = false;
+    // console.log('DONE!')
+  },10000);
+
 
 });

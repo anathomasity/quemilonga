@@ -1,4 +1,15 @@
-<div class="container" id="mainInfoPartial"><br><br><br>
+<div class="container" id="mainInfoPartial"><br><br>
+
+    <div ng-if='multipleVersions'>
+        <h4 style="color: green; border-left: 1px solid green; padding-left: 1em;">Here is your new Class</h4><br>
+    </div>
+    <br>
+    <div ng-if='multipleVersions.length > 0' style="border-left: 1px solid green; padding-left: 1em;">
+        <h4 style="color: green">You also added this class on these dates:</h4>
+        <div ng-repeat='v in multipleVersions' class="inline">
+            <h4 class="inline" style="padding: 1em;">{{v.date | date : fullDate}}</h4>
+        </div>
+    </div><br>
 
     <div class="col-xs-12 col-md-8 wrap zeromargin">
 

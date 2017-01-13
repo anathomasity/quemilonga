@@ -5,6 +5,7 @@ myApp.controller('newClassController', function($scope, eventsFactory, $location
 	$scope.event.address = {};
 	$scope.performersList = [];
 	$scope.toggle;
+	$rootScope.multipleVersions = [];
 
 	// console.log('USER is: ',$rootScope.user);
 
@@ -108,6 +109,7 @@ myApp.controller('newClassController', function($scope, eventsFactory, $location
 	        	}
 
 				eventsFactory.addClass(simpleVersion, function(addedClass){
+					$rootScope.multipleVersions.push(addedClass)
 					// console.log('CLASS ADDED:', addedClass)
 
 					for (var j = 0; j < $scope.performersList.length; j++){

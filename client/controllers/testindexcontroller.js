@@ -2,12 +2,6 @@
 
 //fix mailto from browser -- contact and report
 
-//display messages of confirmation: NG FLASH
-// this is your new class on show class page
-// this is your new milonga // on show milonga page
-
-//after adding multiple milongas, redirect to a show page of a list of them
-
 //AFTER google maps api IS REACHING 25000 a day, replace map by picture hosting.
 
 
@@ -409,6 +403,7 @@ var mapsInfo = [];
     else {
         var check = false;
         var id = 'a' + eventId;
+                    console.log('ID TO START ATTENDING',id)
         for(var i = 0; i < $rootScope.user._attending.length; i++){
             if(eventId == $rootScope.user._attending[i]._id){
                 check = true;
@@ -427,7 +422,6 @@ var mapsInfo = [];
                 eventsFactory.stopSaving(datos, function(data){
                     var id = 's' + eventId;
                     $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
-                    // console.log('BACK stopAttending profile controller,', data);
                     $('#status'+ eventId).html('Attending event');
                     refreshUser(); 
                 }); 

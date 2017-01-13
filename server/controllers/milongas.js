@@ -809,15 +809,21 @@ module.exports = (function() {
 				else {
 					// console.log('this is our user',user);
 					var index = user._class_attending.indexOf(req.body.eventId);
-					user._class_attending.splice(index, 1);
-					user.save(function(erro, use) {
-						if (erro) {
-							console.log('ERROR', erro)
-						}
-						else{
-							res.json(user);
-						}
-					})
+					if(index == -1){
+						console.log('******************DIDNT FIND IT'); 
+						res.json(user);
+					}
+					else{
+						user._class_attending.splice(index, 1);
+						user.save(function(erro, use) {
+							if (erro) {
+								console.log('ERROR', erro)
+							}
+							else{
+								res.json(user);
+							}
+						})
+					}					
 				}
 			})
 		},
@@ -829,15 +835,22 @@ module.exports = (function() {
 				else {
 					// console.log('this is our user',user);
 					var index = user._attending.indexOf(req.body.eventId);
-					user._attending.splice(index, 1);
-					user.save(function(erro, use) {
-						if (erro) {
-							console.log('ERROR', erro)
-						}
-						else{
-							res.json(user);
-						}
-					})
+					if(index == -1){
+						console.log('******************DIDNT FIND IT'); 
+						res.json(user);
+					}
+					else{
+						user._attending.splice(index, 1);
+						user.save(function(erro, use) {
+							if (erro) {
+								console.log('ERROR', erro)
+							}
+							else{
+								res.json(user);
+							}
+						})
+					}
+					
 				}
 			})
 		},
@@ -849,15 +862,22 @@ module.exports = (function() {
 				else {
 					// console.log('this is our user',user);
 					var index = user._class_favorites.indexOf(req.body.eventId);
-					user._class_favorites.splice(index, 1);
-					user.save(function(erro, use) {
-						if (erro) {
-							console.log('ERROR', erro)
-						}
-						else{
-							res.json(user);
-						}
-					})
+					if(index == -1){
+						console.log('******************DIDNT FIND IT'); 
+						res.json(user);
+					}
+					else{
+						user._class_favorites.splice(index, 1);
+						user.save(function(erro, use) {
+							if (erro) {
+								console.log('ERROR', erro)
+							}
+							else{
+								res.json(user);
+							}
+						})
+					}
+					
 				}
 			})
 		},
@@ -869,15 +889,22 @@ module.exports = (function() {
 				else {
 					// console.log('this is our user',user);
 					var index = user._favorites.indexOf(req.body.eventId);
-					user._favorites.splice(index, 1);
-					user.save(function(erro, use) {
-						if (erro) {
-							console.log('ERROR', erro)
-						}
-						else{
-							res.json(user);
-						}
-					})
+					if(index == -1){
+						console.log('******************DIDNT FIND IT'); 
+						res.json(user);
+					}
+					else{
+						user._favorites.splice(index, 1);
+						user.save(function(erro, use) {
+							if (erro) {
+								console.log('ERROR', erro)
+							}
+							else{
+								res.json(user);
+							}
+						})
+					}
+					
 				}
 			})
 		},
