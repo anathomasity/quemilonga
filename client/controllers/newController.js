@@ -103,7 +103,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	            	end_time: $scope.event.end_time,
 	            	price: $scope.event.price,
 	            	address: $scope.event.address,
-	            	_added_by: $rootScope.user.fb_id,
+	            	_added_by: $scope.event._added_by
 	        	}
 
 				eventsFactory.addMilonga(simpleVersion, function(addedMilonga){
@@ -139,9 +139,10 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 
 
 	        // CREATE THE ORIGINAL MILONGA WITH ALL THE INFO
+	        // console.log('ABOUT TO ADD :', $scope.event)
 			eventsFactory.addMilonga($scope.event, function(addedMilonga){
 
-				console.log('ADDED MILONGA:', addedMilonga)
+				// console.log('ADDED MILONGA:', addedMilonga)
 				
 				for (var i = 0; i < $scope.performersList.length; i++){
 					var info = {
@@ -151,7 +152,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 					}
 
 					eventsFactory.addMilongaToPerformer(info, function(result){
-						console.log('ADD MILONGA TO PERFORMER RESULT:',result);
+						// console.log('ADD MILONGA TO PERFORMER RESULT:',result);
 					});
 				}
 

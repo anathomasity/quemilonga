@@ -4,14 +4,14 @@
 		<button class="close" data-dismiss="alert" aria-label="close">&times;</button>
 		<strong class="noto">Welcome<span ng-if='user.first_name'>, {{user.first_name}}</span>!</strong> In order to help the community, please make sure the class you are adding is not already in our database, and the information is accurate. Thanks!
 	</div>
-	<h2 class="noto">Add a New Class: </h2> <br>
+	<h2 class="noto">Add a New Class </h2> <br>
 
 	<form name="form">
 
 
 	<div class="form-group row">
-	    <label for="example-time-input" class="col-md-4 col-form-label">Class Teachers</label>
-	    <div class="col-md-8">
+	    <label for="example-time-input" class="col-md-2 col-form-label">Class Teachers</label>
+	    <div class="col-md-5">
 			<div
 			ng-click='setTouch()'
 		    isteven-multi-select
@@ -31,8 +31,8 @@
 	</div>
 
 	<div class="form-group row">
-	  <label for="example-date-input" class="col-md-4 col-form-label">Date * </label>
-	  <div class="col-md-8">
+	  <label for="example-date-input" class="col-md-2 col-form-label">Date * </label>
+	  <div class="col-md-5">
 
 		 <p class="input-group">
           <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="event.date" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" name="mDate" required=""/>
@@ -48,8 +48,8 @@
 	</div>
 
 	<div class="form-group row">
-	  <label for="example-time-input" class="col-md-4 col-form-label">Start Time *</label>
-	  <div class="col-md-8">
+	  <label for="example-time-input" class="col-md-2 col-form-label">Start Time *</label>
+	  <div class="col-md-5">
 	    <input class="form-control" type="time" value="13:45:00" id="example-time-input" ng-model="event.start_time" name="mStart" required="">
 	    <div class="errorMsgs" ng-show="form.$submitted || form.mStart.$touched">
       		<div ng-show="form.mStart.$error.required">Enter a valid starting time</div>
@@ -58,8 +58,8 @@
 	  
 	</div>
 	<div class="form-group row">
-	  <label for="example-time-input" class="col-md-4 col-form-label">End Time *</label>
-	  <div class="col-md-8">
+	  <label for="example-time-input" class="col-md-2 col-form-label">End Time *</label>
+	  <div class="col-md-5">
 	    <input class="form-control" type="time" value="13:45:00" id="example-time-input" ng-model="event.end_time" name="mEnd" required="">
 	    <div class="errorMsgs" ng-show="form.$submitted || form.mEnd.$touched">
       		<div ng-show="form.mEnd.$error.required">Enter a valid ending time</div>
@@ -68,8 +68,8 @@
 	</div>
 
 	<div class="form-group row">
-	  <label for="example-text-input" class="col-md-4 col-form-label">Address *</label>
-	  <div class="col-md-8">
+	  <label for="example-text-input" class="col-md-2 col-form-label">Address *</label>
+	  <div class="col-md-5">
 	    <input class="form-control" type="text" g-places-autocomplete ng-model='address' options="autocompleteOptions" placeholder="Start typing and select from options" name="mAddress" required="" />
 	    <div class="errorMsgs" ng-show="form.$submitted || form.mAddress.$touched">
       		<div ng-show="form.mAddress.$error.required || !address.address_components || !hasStNumber()" class="redBorder">Invalid format. Start typing an address and choose from Google results.</div>
@@ -78,15 +78,15 @@
 	</div>
 
 	<div class="form-group row">
-	  <label for="example-text-input" class="col-md-4 col-form-label" >Address Details</label>
-	  <div class="col-md-8">
+	  <label for="example-text-input" class="col-md-2 col-form-label" >Address Details</label>
+	  <div class="col-md-5">
 	    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input" ng-model="event.address.details" maxlength="60" placeholder="e.g: Suite #">
 	  </div>
 	</div>
 
 	<div class="form-group row">
-	  <label for="example-number-input" class="col-md-4 col-form-label">Class Price * </label>
-	  <div class="col-md-8">
+	  <label for="example-number-input" class="col-md-2 col-form-label">Class Price * </label>
+	  <div class="col-md-5">
 	    <input class="form-control" type="number" min="0" id="example-number-input" ng-model='event.class_price' name="mPrice" required="">
 	    <div class="errorMsgs" ng-show="form.$submitted || form.mPrice.$touched">
       		<div ng-show="form.mPrice.$error.required">Enter a numeric value in your currency. (E.g: '12')</div>
@@ -95,23 +95,23 @@
 	</div>
 
 	<div class="form-group row">
-	  <label for="example-text-input" class="col-md-4 col-form-label">This Class's Topic</label>
-	  <div class="col-md-8">
+	  <label for="example-text-input" class="col-md-2 col-form-label">This Class's Topic</label>
+	  <div class="col-md-5">
 	    <textarea class="form-control" id="exampleTextarea" maxlength="100" ng-model='event.topic' placeholder="Topic of the class. Max Length 100 characters."></textarea>
 	  </div>
 	</div>
 
 	<div class="form-group row">
-	  <label for="example-text-input" class="col-md-4 col-form-label">Class Description and Details</label>
-	  <div class="col-md-8">
+	  <label for="example-text-input" class="col-md-2 col-form-label">Class Description and Details</label>
+	  <div class="col-md-5">
 	    <textarea class="form-control" id="exampleTextarea" maxlength="600" ng-model='event.details' placeholder="Details like teacher's contact info, combo prices, etc. Max Length 600 characters."></textarea>
 	  </div>
 	</div>
 	<div class="form-group row">
-	  <label for="example-text-input" class="col-md-4 col-form-label">Repeat class?</label>
-	  <div class="col-md-8" id="multipleDatePicker">
+	  <label for="example-text-input" class="col-md-2 col-form-label">Repeat class?</label>
+	  <div class="col-md-5" id="multipleDatePicker">
 	  	<div class="alert alert-warning">
-  			<strong>Select the dates this class repeats: </strong><br>Only the teachers, time, description and address will be repeated. You can later update the specifics like 'Class Topic' of each class from the calendar on the home page.  
+  			<strong>Select all the dates this class repeats: </strong><br>Only the teachers, time, description and address will be repeated. You can later update the specifics like 'Class Topic' of each class from the calendar on the home page.  
 		</div>
     	<multiple-date-picker disable-days-before="datesUntil" disallow-back-past-months="true" ng-click='passDate()' ng-model='repeatMilonga'></multiple-date-picker>
 	  </div>

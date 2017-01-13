@@ -1,8 +1,10 @@
-<div class="container">
+<div class="container" id="showPage">
 
 <!-- {{performer}} -->
-	<h3 class="noto">{{performer.name}}</h3>
-	<h4>Upcoming events</h4><br><br>
+	<div id="showPageInfo">
+		<h3 class="noto">{{performer.name}}</h3>
+		<h4>Upcoming events</h4><br><br>
+	</div>
 
 	<!-- {{performer._milongas_attending}} -->
 
@@ -16,7 +18,7 @@
 	</div>
 	
 
-	<div class="scrollbar" id="style-13">
+	<div class="scrollbar" id="style-13" >
       	<div class="force-overflow">
 			<table class="table table-hover" >
 			  <thead>
@@ -32,7 +34,7 @@
 			        <th scope="row" ng-if="m.milonga[0].event_type == 'milonga' && (m.milonga[0].date >= now || m.class[0].date >= now) " style="background-color: #f8fcfb;">
 			        	<a href="#/milongas/{{m.milonga[0]._id}}" style="color: black" class="scheduleLinks">
 			        	<h3 ng-if='m.action == "performance" || m.action == "both"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
-			        	<h4 ng-if='m.action == "performance" || m.action == "both"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
+			        	<h5 ng-if='m.action == "performance" || m.action == "both"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h5>
 			        	
 
 			        	<h3 ng-if='m.action == "class"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
@@ -68,7 +70,7 @@
 			        <th scope="row" ng-if="m.class[0].event_type == 'class' && (m.class[0].date >= now || m.class[0].date >= now) " style="background-color: #fcf8f9" class="scheduleLinks">
 			        	<a href="#/classes/{{m.class[0]._id}}" style="color: black">
 			        	<h4>Topic: <strong>{{m.class[0].topic}}</strong></h4>
-			        	<h4>{{m.class[0].address.city}}, {{m.class[0].address.country}}</h4>
+			        	<h5>{{m.class[0].address.city}}, {{m.class[0].address.country}}</h5>
 			        	</a>
 			        </th>
 

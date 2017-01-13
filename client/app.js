@@ -85,10 +85,12 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 	    }
 
 	    $scope.logout = function(){
+	    	$scope.status = false;
 	    	$rootScope.user = false;
 	    	$facebook.logout();
 	    	$cookies.remove('userFbId');
-	    	$location.url('/')
+	    	$route.reload();
+	    	// $location.url('/')
 	    }
 
 		// FIND MATCHES TO HELP FINDING THE TEACHER

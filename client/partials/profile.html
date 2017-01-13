@@ -1,6 +1,6 @@
 <!-- <div style="font-family: 'La Belle Aurore', cursive; background: url('../assets/legs.png'); width: 230px; height: 230px; margin-left: 20px; color: #cc0000; font-size: 1100%; padding-top: 40px; letter-spacing: -3px;">QM</div> -->
 
-<div class="container">
+<div class="container" >
 
     <div class="row">
 
@@ -14,12 +14,12 @@
               </label>
               
               <br><br>
-              <h4 ng-if="choice == 'favorites'">Your saved for later Events</h4>
-              <h4 ng-if="choice == 'attending'">Events you are attending</h4>
+              <h4 ng-if="choice == 'favorites'">your<strong> Saved for Later </strong>events</h4>
+              <h4 ng-if="choice == 'attending'">Events you are <strong>Attending</strong></h4>
             </div>
         </div>
 
-        <div class="col-sm-4" style="padding-top: 3em;">
+        <div class="col-sm-4" style="padding-top: 1em;">
             <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
         </div>
         <br>
@@ -30,7 +30,7 @@
 
     <h5 id='successMsg' style="color: green"></h5><br>
 
-	<div ng-if="choice == 'favorites'">
+	<div ng-if="choice == 'favorites'" class="col-xs-12 col-md-8 wrap zeromargin">
 
             <div ng-init="parentIndex = $index">
             
@@ -241,7 +241,7 @@
 
 
     <!-- FIX ZEROMARGIN FOR THE MOBILE VERSION -->
-    <div ng-if="choice == 'attending'" class="zeromargin">
+    <div ng-if="choice == 'attending'" class="col-xs-12 col-md-8 wrap zeromargin">
 
             <div ng-init="parentIndex = $index" >
             

@@ -104,11 +104,11 @@ myApp.controller('newClassController', function($scope, eventsFactory, $location
 	            	address: $scope.event.address,
 	            	details: $scope.event.details,
 	            	_class_teachers: $scope.event._class_teachers,
-	            	_added_by: $rootScope.user.fb_id,
+	            	_added_by: $scope.event._added_by,
 	        	}
 
 				eventsFactory.addClass(simpleVersion, function(addedClass){
-					console.log('CLASS ADDED:', addedClass)
+					// console.log('CLASS ADDED:', addedClass)
 
 					for (var j = 0; j < $scope.performersList.length; j++){
 						var info = {
@@ -117,7 +117,7 @@ myApp.controller('newClassController', function($scope, eventsFactory, $location
 							class: addedClass._id,
 						}
 						eventsFactory.addClassToPerformer(info, function(result){
-							console.log('ADD MILONGA TO PERFORMER RESULT:',result);
+							// console.log('ADD MILONGA TO PERFORMER RESULT:',result);
 						});
 					}
 				});
@@ -126,7 +126,7 @@ myApp.controller('newClassController', function($scope, eventsFactory, $location
 	        // CREATE THE ORIGINAL CLASS WITH ALL THE INFO
 			eventsFactory.addClass($scope.event, function(addedClass){
 
-				console.log('ADDED CLASS:', addedClass)
+				// console.log('ADDED CLASS:', addedClass)
 				
 				for (var i = 0; i < $scope.performersList.length; i++){
 					var info = {
@@ -134,10 +134,10 @@ myApp.controller('newClassController', function($scope, eventsFactory, $location
 						action: $scope.performersList[i].action,
 						class: addedClass._id,
 					}
-					console.log('THIS IS INFO:', info)
+					// console.log('THIS IS INFO:', info)
 
 					eventsFactory.addClassToPerformer(info, function(result){
-						console.log('ADD CLASS TO PERFORMER RESULT:',result);
+						// console.log('ADD CLASS TO PERFORMER RESULT:',result);
 					});
 				}
 

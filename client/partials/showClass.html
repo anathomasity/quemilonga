@@ -1,7 +1,6 @@
-<!-- {{class}} -->
+<div class="container" id="mainInfoPartial"><br><br><br>
 
-<div class="container" style="width: 55%">
-        <br><br><br>
+    <div class="col-xs-12 col-md-8 wrap zeromargin">
 
 
                 <h4 id="mDate" class="inline noto">{{class.date | date : fullDate}}</h4>
@@ -17,7 +16,8 @@
                                 <div class="panel-title">
                                     <div class="smallerTittle">
  
-                                        <h4 style="margin: 0;">Class @ {{class.start_time | date:'shortTime'}}</h4><h5 class="inline" ng-repeat='p in class._class_teachers'>
+                                        <h4 style="margin: 0;">Class @ {{class.start_time | date:'shortTime'}}</h4>
+                                        <h5 class="inline" ng-repeat='p in class._class_teachers'>
                                             <a ng-if='p.pending == false' class='body_links noto' href="#/performers/{{p._id}}">{{p.name}}</a>
                                             <p ng-if='p.pending == true' class="pending" style="padding-right: 5px;">{{p.name}}</p>
                                         </h5><br>
@@ -29,17 +29,18 @@
                                         <h5 style="margin: 0;" ng-if="class.topic" class="inline noto"> {{class.topic}}, </h5>
                                         <h5 style="margin: 0;"class="inline">{{class.address.city}}</h5>
                                     </div>
-                                    
-
-                                    
+                                
                                 </div>
-                            </div>
+
+
+                            </div> <!-- END OF PANEL HEADING -->
 
                             <div id="collapse{{parentIndex}}{{childIndex}}" class="panel-collapse collapse in" >
 
                                 <div class="panel-body">
 
                                     <div class="row">
+
                                         <div class="col-xs-6 col-sm-6 col-md-8">
                                             <h5 class="noto">Class: ${{class.class_price}}</h5>
                                             <h5 class="noto">{{class.start_time | date:'shortTime'}} - {{class.end_time | date:'shortTime'}}</h5>
@@ -53,6 +54,7 @@
                                                 <div class="friendsButton inline" data-toggle="modal" data-target="#myModal" data-toggle="tooltip" data-placement="top" title="See who is attending this event" ng-click='getAttendees(class._id, class.event_type)'></div>
                                             </div>
                                         </div>
+
                                     </div><br>
                                     
 
@@ -72,7 +74,8 @@
                                             <button type="button" class="btn btn-info noto" ng-click='openInMaps(class.address)'>Open in maps</button>
                                         </div>
                                     </div>
-                                </div>
+
+                                </div> <!-- END OF PANEL BODY -->
 
                                 <div class="row linksbackground">
 
@@ -91,7 +94,8 @@
                                 </div>
                                 
                             </div>
-                        </div> <!-- END OF EVENT_TYPE = CLASS -->
+                        </div>
+
                 </div>
         </div>
 
@@ -103,6 +107,8 @@
 
         </div>
 
-<br><button type="button" class="but btn" ng-click="go('/')">HOME</button>
+        <br><button type="button" class="but btn" ng-click="go('/')">HOME</button>
+
+    </div><!--  END OF BOOSTRAP COLUMNS -->
 
 </div>

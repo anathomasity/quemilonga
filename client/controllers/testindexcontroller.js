@@ -1,5 +1,3 @@
-//MAKE SHOW PAGES RESPONSIVE
-
 //see how to get users facebook profile picture
 
 //fix mailto from browser -- contact and report
@@ -71,7 +69,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
 
   eventsFactory.getMilongas(info, function(data){
-      $scope.milongas = data;  
+      $scope.milongas = data;
+      // console.log($scope.milongas)
       if($scope.milongas.today.length == 0) {
           // console.log($scope.milongas.today.length)
           $scope.sorryMsg = true;
@@ -82,10 +81,6 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
     $scope.sorryMsg = false;
     range = newValue
     info.range = range;
-    // eventsFactory.getMilongas(info, function(data){
-    //     $scope.milongas = data;   
-    // })
-
 
     if ($scope.search.what == 'Classes') {
       // console.log('WE ARE SEARCHING WITHIN CLASSES')
@@ -146,49 +141,83 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
             info.state = {state: st}
             info.city = $rootScope.search.city.formatted_address
 
-            // console.log('scopesearchcity:', info.city)
 
+            if ($scope.search.what == 'Classes') {
+              // console.log('WE ARE SEARCHING WITHIN CLASSES')
+              eventsFactory.getClasses(info, function(data){
+                  $scope.milongas = data;
+                  if($scope.milongas.today.length == 0) {
+                      console.log($scope.milongas.today.length)
+                      $scope.sorryMsg = true;
+                  }
+                  //update city in the cookie and user_preference
+                  $cookies.put('cityPrefLat', pos.lat);
+                  $cookies.put('cityPrefLng', pos.lng);
+                  $cookies.put('cityPrefState', st);
+                  $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
 
-            eventsFactory.getMilongas(info, function(data){
-                // console.log('BACK WITH MILONGAS:', data)
-                $scope.milongas = data;
-                if($scope.milongas.today.length == 0) {
-                    // console.log($scope.milongas.today.length)
-                    $scope.sorryMsg = true;
-                }
-                $cookies.put('cityPrefLat', pos.lat);
-                $cookies.put('cityPrefLng', pos.lng);
-                $cookies.put('cityPrefState', st);
-                $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
-                // console.log('USER COOKIE:',$scope.userCookie)
+                  if($rootScope.user){
+                      info.userId = $rootScope.user.fb_id;
+                      eventsFactory.updateUsersCity(info, function(dat){
+                      });
+                  };
+              })
+            }
 
-                if($rootScope.user){
-                    // console.log('Rosotscopeuser', $rootScope.user)
+            else if ( $scope.search.what == 'Milongas' || !$scope.search.what){
+              // console.log('WE ARE SEARCHING WITHIN MILONGAS')
+              eventsFactory.getMilongas(info, function(data){
+                  $scope.milongas = data;                  
+                  if($scope.milongas.today.length == 0) {
+                      $scope.sorryMsg = true;
+                  } 
+                  $cookies.put('cityPrefLat', pos.lat);
+                  $cookies.put('cityPrefLng', pos.lng);
+                  $cookies.put('cityPrefState', st);
+                  $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
 
-                    info.userId = $rootScope.user.fb_id;
-                    eventsFactory.updateUsersCity(info, function(dat){
-                        // console.log('UPDATED USERS CITY CONTROLLER', dat)
-                    });
-                };
-            });
+                  if($rootScope.user){
+                      info.userId = $rootScope.user.fb_id;
+                      eventsFactory.updateUsersCity(info, function(dat){
+                      });
+                  };
+              })
+            }
+
+            else if ( $scope.search.what == 'All'){
+              // console.log('WE ARE SEARCHING ALL')
+              eventsFactory.getMilongas(info, function(data){
+                  $scope.milongas = data;   
+              })
+              eventsFactory.getClasses(info, function(data){
+                  for (x in data.today){
+                      $scope.milongas.today.push(data.today[x]);
+                  }
+                  for (x in data.tomorrow){
+                      $scope.milongas.tomorrow.push(data.tomorrow[x]);
+                  }
+                  for (x in data.day_after){
+                      $scope.milongas.day_after.push(data.day_after[x]);
+                  }
+                  if($scope.milongas.today.length == 0) {
+                      // console.log($scope.milongas.today.length)
+                      $scope.sorryMsg = true;
+                  }
+
+                  $cookies.put('cityPrefLat', pos.lat);
+                  $cookies.put('cityPrefLng', pos.lng);
+                  $cookies.put('cityPrefState', st);
+                  $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
+
+                  if($rootScope.user){
+                      info.userId = $rootScope.user.fb_id;
+                      eventsFactory.updateUsersCity(info, function(dat){
+                      });
+                  };
+              })
+            }
         }
-        // else {
-        //     console.log('CURRENT city_preference',$rootScope.user.city_preference)
-        //     pos = {
-        //       lat: $rootScope.user.city_preference.coordinates.lat,
-        //       lng: $rootScope.user.city_preference.coordinates.lng
-        //     };
-        //     st = $rootScope.user.city_preference.state;
-        //     info.pos = pos;
-        //     info.state = {state: st}
-        //     eventsFactory.getMilongas(info, function(data){
-        //         $scope.milongas = data;
-        //         if($scope.milongas.today.length == 0) {
-        //             console.log($scope.milongas.today.length)
-        //             $scope.sorryMsg = true;
-        //         }
-        //     });
-        // };
+
     };
     
   });
@@ -211,6 +240,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       // console.log('WE ARE SEARCHING WITHIN MILONGAS')
       eventsFactory.getMilongas(info, function(data){
           $scope.milongas = data;
+                  // console.log($scope.milongas);
           if($scope.milongas.today.length == 0) {
               // console.log($scope.milongas.today.length)
               $scope.sorryMsg = true;

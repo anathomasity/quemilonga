@@ -30,13 +30,13 @@
 
 .scrollbar
 {
-	margin-left: 30px;
+	/*margin-left: 30px;*/
 	float: left;
 	height: 30em;
 	width: 100%;
 	/*background: #F5F5F5;*/
 	overflow-y: scroll;
-	margin-bottom: 25px;
+	/*margin-bottom: 25px;*/
 }
 
 .force-overflow
@@ -640,6 +640,7 @@ section{
 		clear: right;
 	}
 
+
 }
 
 /* Small monitor */
@@ -901,7 +902,20 @@ section{
 	.hidden-desktop{
 		display: block;
 	}
-}
+
+	#showPage {
+		margin: 0;
+		width: 100%;
+	}
+
+	#showPageInfo{
+		margin-left: 1em;
+	}
+
+
+
+} /*END OF PHONE SIZE*/
+
 
 /*LOGIN CSS*/
 
@@ -936,3 +950,5 @@ section{
 	font-size: 80%;
 	padding: .5em;
 }
+
+
