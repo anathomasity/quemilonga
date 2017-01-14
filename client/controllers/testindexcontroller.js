@@ -4,6 +4,7 @@
 
 //AFTER google maps api IS REACHING 25000 a day, replace map by picture hosting.
 
+//only future dates alowed for new events and classes
 
 
 myApp.controller('indexController', function($scope, eventsFactory, $cookies, $location, $http, $rootScope, $window){
