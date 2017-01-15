@@ -13,7 +13,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
   var range = 50;
   $rootScope.search = {};
   $rootScope.search.what = 'Milongas'
-  $rootScope.search.date = new Date()
+
+  
 
   if($rootScope.user){
     refreshUser();
@@ -30,6 +31,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       }
       var st = 'CA'
       $rootScope.search.city = 'San Francisco, CA, USA';
+      var utc_offset = -480;
   }
   else if($rootScope.user && $rootScope.user.city_preference){
 
@@ -39,6 +41,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       }
       var st = $rootScope.user.city_preference.state;
       $rootScope.search.city = $rootScope.user.city_preference.city;
+      var utc_offset = $rootScope.user.city_preference.utc_offset;
   }
   else if($scope.userCookie.cityPrefCity){
     // console.log('city from cookie')
@@ -48,6 +51,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       }
       var st = $scope.userCookie.cityPrefState;
       $rootScope.search.city = $scope.userCookie.cityPrefCity;
+      var utc_offset = $scope.userCookie.cityPrefUtc_offset;
+
   }
 
   $scope.milongas = {
@@ -56,10 +61,18 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
     day_after: [],
   };
 
+  $rootScope.search.date = moment();
+
   var info = {
       range: range,
       pos: pos,
       state: {state: st},
+      dates: {
+        today: moment($rootScope.search.date).format('YYYY MM DD'),
+        tomorrow: moment($rootScope.search.date).add(1, 'days').format('YYYY MM DD'),
+        day_after: moment($rootScope.search.date).add(2, 'days').format('YYYY MM DD')
+      },
+      utc_offset: utc_offset,
   };
 
 
@@ -127,14 +140,16 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
         //if the user typed in a new city, save it to preferences
         if ($rootScope.search.city && $rootScope.search.city.geometry) {
+            console.log($rootScope.search.city)
             pos = {
               lat: $rootScope.search.city.geometry.location.lat(),
               lng: $rootScope.search.city.geometry.location.lng()
             };
             st = $rootScope.search.city.address_components[2].short_name;
+            info.utc_offset = $rootScope.search.city.utc_offset;
             info.pos = pos;
-            info.state = {state: st}
-            info.city = $rootScope.search.city.formatted_address
+            info.state = {state: st};
+            info.city = $rootScope.search.city.formatted_address;
 
 
             if ($scope.search.what == 'Classes') {
@@ -150,6 +165,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
                   $cookies.put('cityPrefLng', pos.lng);
                   $cookies.put('cityPrefState', st);
                   $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
+                  $cookies.put('cityPrefUtc_offset', info.utc_offset);
+
 
                   if($rootScope.user){
                       info.userId = $rootScope.user.fb_id;
@@ -170,6 +187,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
                   $cookies.put('cityPrefLng', pos.lng);
                   $cookies.put('cityPrefState', st);
                   $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
+                  $cookies.put('cityPrefUtc_offset', info.utc_offset);
+
 
                   if($rootScope.user){
                       info.userId = $rootScope.user.fb_id;
@@ -203,6 +222,8 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
                   $cookies.put('cityPrefLng', pos.lng);
                   $cookies.put('cityPrefState', st);
                   $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
+                  $cookies.put('cityPrefUtc_offset', info.utc_offset);
+
 
                   if($rootScope.user){
                       info.userId = $rootScope.user.fb_id;
@@ -218,7 +239,15 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
   });
 
   $scope.$watch("search.date", function(newValue, oldValue) {
-    info.state.date = newValue;
+    newValue = moment(newValue).format('YYYY MM DD');
+    var newValue2 = moment(newValue).add(1, 'days').format('YYYY MM DD');
+    var newValue3 = moment(newValue).add(2, 'days').format('YYYY MM DD');
+    // console.log('NEW DATE:',newValue)
+    info.dates = {
+        today: newValue,
+        tomorrow: newValue2,
+        day_after: newValue3
+    }
     $scope.sorryMsg = false;
 
     if ($scope.search.what == 'Classes') {
@@ -226,7 +255,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       eventsFactory.getClasses(info, function(data){
           $scope.milongas = data;
           if($scope.milongas.today.length == 0) {
-              console.log($scope.milongas.today.length)
+              // console.log($scope.milongas.today.length)
               $scope.sorryMsg = true;
           }
       })
@@ -310,7 +339,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
           }
           // console.log($scope.milongas)
           if($scope.milongas.today.length == 0) {
-              console.log($scope.milongas.today.length)
+              // console.log($scope.milongas.today.length)
               $scope.sorryMsg = true;
           }
       })

@@ -19,6 +19,7 @@ var Userschema = new mongoose.Schema({
 	city_preference: {
 		city: String,
 		state: String,
+		utc_offset: Number,
 		coordinates: {
 			lat: String,
 			lng: String,

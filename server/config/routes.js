@@ -23,7 +23,7 @@ module.exports = function(app){
 	})
 	
 	app.post('/milongas/get', function(req, res){
-		console.log(' made it to my /milongas/get get route', req.body);
+		console.log(' **************made it to my /milongas/get get route', req.body);
 		milongas.getMilongas(req, res);
 	})
 

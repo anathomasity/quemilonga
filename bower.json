@@ -26,6 +26,7 @@
     "moment": "^2.14.1",
     "angular-momentjs": "^0.2.2",
     "angular-bootstrap-calendar": "^0.22.0",
-    "angular-multiple-date-picker": "multiple-date-picker#^2.0.8"
+    "angular-multiple-date-picker": "multiple-date-picker#^2.0.8",
+    "moment-timezone": "^0.5.11"
   }
 }

@@ -73,8 +73,8 @@ module.exports = (function() {
 		},
 		getMilongas: function(req, res){
 
-			console.log('GET MILONGAS STATE:', req.body);
-			Milonga.find({"address.state" : req.body.state})
+			console.log('GET MILONGAS:', req.body);
+			Milonga.find({"address.state" : req.body.state.state})
 			.populate('_performers')
 			.populate('_class_teachers')
 			.exec(function(err, milongas){
@@ -88,43 +88,25 @@ module.exports = (function() {
 						tomorrow: [],
 						day_after: [], 
 					}
-					// console.log(new Date())
+					// console.log('****************DATE********************', req.body.date);
 					for(var m in milongas){
 
 
-						// IF THE USER SPECIFIED A DATE, USE THAT TO DIVIDE MILONGAS, ELSE USE TODAYS DATE
 						var m_date = moment(milongas[m].date).format('YYYY MM DD');
 
-						if(!req.body.date){
 
-							if(m_date == moment(new Date()).format('YYYY MM DD')){
+							if(m_date == req.body.dates.today){
 								milongas_per_day.today.push(milongas[m]);
 							}
 
-							else if(m_date == moment(new Date()).add(1, 'days').format('YYYY MM DD')){
+							else if(m_date == req.body.dates.tomorrow){
 								milongas_per_day.tomorrow.push(milongas[m]);
 							}
 
-							else if(m_date == moment(new Date()).add(2, 'days').format('YYYY MM DD')){
-								milongas_per_day.day_after.push(milongas[m]);
-							}
-						}
-
-						else{
-
-							if(m_date == moment(req.body.date).format('YYYY MM DD')){
-								milongas_per_day.today.push(milongas[m]);
-							}
-
-							else if(m_date == moment(req.body.date).add(1, 'days').format('YYYY MM DD')){
-								milongas_per_day.tomorrow.push(milongas[m]);
-							}
-
-							else if(m_date == moment(req.body.date).add(2, 'days').format('YYYY MM DD')){
+							else if(m_date == req.body.dates.day_after){
 								milongas_per_day.day_after.push(milongas[m]);
 							}
 
-						}
 						
 						console.log(milongas_per_day);
 					}
@@ -232,8 +214,8 @@ module.exports = (function() {
 		},
 		getClasses: function(req, res){
 
-			console.log('GET classes STATE:', req.body);
-			Class.find({"address.state" : req.body.state})
+			console.log('GET classes:', req.body);
+			Class.find({"address.state" : req.body.state.state})
 			.populate('_class_teachers')
 			.exec(function(err, classes){
 				if(err){
@@ -253,38 +235,20 @@ module.exports = (function() {
 						// IF THE USER SPECIFIED A DATE, USE THAT TO DIVIDE classes, ELSE USE TODAYS DATE
 						var m_date = moment(classes[m].date).format('YYYY MM DD');
 
-						if(!req.body.date){
 
-							if(m_date == moment(new Date()).format('YYYY MM DD')){
-								classes_per_day.today.push(classes[m]);
-							}
-
-							else if(m_date == moment(new Date()).add(1, 'days').format('YYYY MM DD')){
-								classes_per_day.tomorrow.push(classes[m]);
-							}
-
-							else if(m_date == moment(new Date()).add(2, 'days').format('YYYY MM DD')){
-								classes_per_day.day_after.push(classes[m]);
-							}
+						if(m_date == req.body.dates.today){
+							classes_per_day.today.push(classes[m]);
 						}
 
-						else{
-
-							if(m_date == moment(req.body.date).format('YYYY MM DD')){
-								classes_per_day.today.push(classes[m]);
-							}
-
-							else if(m_date == moment(req.body.date).add(1, 'days').format('YYYY MM DD')){
-								classes_per_day.tomorrow.push(classes[m]);
-							}
-
-							else if(m_date == moment(req.body.date).add(2, 'days').format('YYYY MM DD')){
-								classes_per_day.day_after.push(classes[m]);
-							}
-
+						else if(m_date == req.body.dates.tomorrow){
+							classes_per_day.tomorrow.push(classes[m]);
 						}
-						
-						console.log(classes_per_day);
+
+						else if(m_date == req.body.dates.day_after){
+							classes_per_day.day_after.push(classes[m]);
+						}
+
+						// console.log(classes_per_day);
 					}
 
 					res.json(classes_per_day);

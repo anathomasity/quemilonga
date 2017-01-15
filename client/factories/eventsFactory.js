@@ -17,7 +17,8 @@ myApp.factory('eventsFactory', function($http){
 			info.range = 50;
 		}
 
-		$http.post('/milongas/get', info.state).then(function(data){
+		$http.post('/milongas/get', info).then(function(data){
+			// console.log('DATE AT FACTORY', info)
 
 			for(day in data.data){
 
@@ -69,7 +70,7 @@ myApp.factory('eventsFactory', function($http){
 			info.range = 50;
 		}
 
-		$http.post('/classes/get', info.state).then(function(data){
+		$http.post('/classes/get', info).then(function(data){
 
 			for(day in data.data){
 
