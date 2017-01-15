@@ -61,7 +61,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
     day_after: [],
   };
 
-  $rootScope.search.date = moment();
+  $rootScope.search.date = new Date();
 
   var info = {
       range: range,
