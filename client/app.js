@@ -1,7 +1,7 @@
 var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'google.places', 'multipleDatePicker', "isteven-multi-select"]);
 
 (function(){
-	myApp.controller('MainCtrl', function ($scope, $window, $cookies, $rootScope, $facebook, eventsFactory, $location, $route) {
+	myApp.controller('MainCtrl', function ($scope, $window, $cookies, $rootScope, $facebook, eventsFactory, forumFactory, $location, $route) {
     	
 		$rootScope.search={};
 		$scope.userCookie = $cookies.getAll();
@@ -341,7 +341,19 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 				controller: 'generalMapController', 
 				templateUrl: "partials/generalMap.html",
 				// needAuth: true,
-			})		
+			})
+			.when('/forum', 
+			{
+				controller: 'forumController', 
+				templateUrl: "partials/forum.html",
+				// needAuth: true,
+			})
+			.when('/threads/:id', 
+			{
+				controller: 'threadController', 
+				templateUrl: "partials/thread.html",
+				// needAuth: true,
+			})			
 
 	});
 	myApp.config(['$facebookProvider', function($facebookProvider) {

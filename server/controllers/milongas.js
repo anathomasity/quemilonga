@@ -52,6 +52,32 @@ module.exports = (function() {
 			})
 		},
 
+		allEvents: function(req, res){
+
+			var events = [];
+			Milonga.find({}, function(err, milongas){
+				if(err){
+					console.log(err);
+					console.log('error finding milongas, milongas controller');
+				} else {
+					for(m in milongas){
+						events.push(milongas[m])
+					}
+					Class.find({}, function(err, classes){
+						if(err){
+							console.log(err);
+							console.log('error finding classes, classes controller');
+						} else {
+							for(m in classes){
+								events.push(classes[m])
+							}
+							res.json(events);
+						} //END OF ELSE
+					})
+				} //END OF ELSE
+			})
+		},
+
 
 
 
@@ -172,15 +198,7 @@ module.exports = (function() {
 			});
 		},
 		updateMilonga: function(req, res){
-			// HERE MAKE SURE WE SEND BACK IN RES.JSON THE UPDATED MILONGA
-			// Milonga.update({_id: req.params.id}, req.body, function (err, result) {
-  	// 			if(err){
-			// 		console.log('couldnt save update mongoose', err);
-			// 	} else {
-			// 		console.log('updated milonga: ', result);
-			// 		res.json(result);
-			// 	}
-			// });
+
 			Milonga.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, result){
 			    if(err){
 			        console.log("Something wrong when updating milonga!");

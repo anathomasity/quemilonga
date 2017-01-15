@@ -1,0 +1,125 @@
+<div class="container">
+	<h3>TANGO THREADS</h3>
+
+        <br><button type="button" class="but btn" ng-click="newThread()">CREATE NEW THREAD</button>
+
+	<table class="table table-hover">
+	  <thead>
+<!-- 	    <tr>
+	      <th>Time</th>
+	      <th>Request made by</th>
+	      <th>Name of Dancer</th>
+	      <th>City of Dancer</th>
+	      <th>Accept/Destroy</th>
+	    </tr> -->
+	  </thead>
+	  <tbody>
+	    <tr ng-if="threads" ng-repeat='t in threads | orderBy: "createdAt":true track by t._id '>
+
+	      <!-- <th scope="row">{{r.createdAt | date:'short'}}</th> -->
+
+	      <!-- <td><a href="http://www.facebook.com/{{r.requested_by.fb_id}}" style="color: red;">{{r.requested_by.first_name}} {{r.requested_by.last_name}}</a></td> -->
+
+	      <!-- <td>{{r.name}}</td> -->
+
+	        <td>
+	        	<h6 style="color: gray">{{t.createdAt | date : fullDate}}</h6>
+	      		<h4 style="font-weight: bolder;"><a style="color: black" href="#/threads/{{t._id}}">{{t.title}}</a></h4>
+	      		<h5 class="inline"><strong>By <a href="http://www.facebook.com/{{t._user.id}}" class="body_links">{{t._user.first_name}} {{t._user.last_name}}</a></strong> |</h5>
+	      		<h5 class="inline" ng-if='t.comments'><strong>{{t.comments.length}}</strong> comments </h5>
+	      		<h5 class="inline" ng-if='!t.comments'><strong>0</strong> comments </h5>
+	      		<!-- <h5 class="inline" ng-if't.views > 0'> | <strong>{{t.views}}</strong> views </h5> -->
+	      		<h5 class="inline" ng-if't.views == 0'> | <strong>0</strong> views </h5>
+	        </td>
+
+	      <td ng-if='t._user._id == user._id'>
+	      	<button class="but btn" ng-click='editThread(t._id)'>Edit</button>
+	      	<button class="but btn" ng-click='destroyThread(t._id)'>Delete</button>
+	      </td>
+
+	    </tr>
+	  </tbody>
+	</table><br><br><hr><br>
+
+
+
+</div>
+
+<!-- NEW THREAD MODAL -->
+        <div class="modal fade bd-example-modal-sm" id="newThreadModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+
+                    <div class="container">
+                        <br><h4 class="noto">Create a new Thread</h4><br>
+
+
+                        <form name="form2">
+                            <div class="form-group">
+                                <label for="recipient-name" class="form-control-label">TITLE:</label>
+                                <input type="text" class="form-control" id="recipient-name" ng-model="thread.title" name="dName" required="">
+                                <div class="errorMsgs" ng-show="form2.$submitted || form2.dName.$touched">
+                                    <div ng-show="form2.dName.$error.required">Title is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="form-control-label">CONTENT:</label>
+                                <textarea class="form-control" id="recipient-name" ng-model="thread.content" name="dFrom" required="">Enter content here</textarea>
+                                <div class="errorMsgs" ng-show="form2.$submitted || form2.dFrom.$touched">
+                                    <div ng-show="form2.dFrom.$error.required">Content is required</div>
+                                </div>
+                            </div>
+                        
+
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary noto" ng-click="addThread()" value="CREATE"/>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+<!-- EDIT THREAD MODAL -->
+        <div class="modal fade bd-example-modal-sm" id="editThreadModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+
+                    <div class="container">
+                        <br><h4 class="noto">EDIT REQUEST</h4><br>
+
+
+                        <form name="form2">
+                            <div class="form-group">
+                                <label for="recipient-name" class="form-control-label">TITLE:</label>
+                                <input type="text" class="form-control" id="recipient-name" ng-model="thread.title" name="dName" required="">
+                                <div class="errorMsgs" ng-show="form2.$submitted || form2.dName.$touched">
+                                    <div ng-show="form2.dName.$error.required">Title is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="form-control-label">CONTENT:</label>
+                                <textarea class="form-control" id="recipient-name" ng-model="thread.content" name="dFrom" required="">Enter content here</textarea>
+                                <div class="errorMsgs" ng-show="form2.$submitted || form2.dFrom.$touched">
+                                    <div ng-show="form2.dFrom.$error.required">Content is required</div>
+                                </div>
+                            </div>
+                        
+
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary noto" ng-click="updateThread()" value="SAVE"/>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>

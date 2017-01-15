@@ -179,6 +179,15 @@ myApp.factory('eventsFactory', function($http){
 		})
 	}
 
+	factory.getAllEvents = function(callback){
+		// console.log('made it to Get performers factory');
+		$http.get('/allevents').then(function(events){
+			// console.log('made it back from backend with events', events);
+			events = events.data;
+			callback(events);
+		})
+	}
+
 	factory.getRequests = function(callback){
 		// console.log('made it to Get performers factory');
 		$http.get('/requests').then(function(requests){

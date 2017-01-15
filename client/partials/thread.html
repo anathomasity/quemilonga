@@ -1,0 +1,39 @@
+<!-- {{thread}} -->
+
+<div class="container" style="width: 50%;">
+	<br>
+	<button type="button" class="but btn" ng-click="go()">SEE ALL THREADS</button>
+    <br><br><br>
+    <div style="border-top: 2px solid black; border-bottom: 2px solid black;">
+		<h2 class="noto">{{thread.title}}</h2>
+		<h4 class="inline"><strong>By </strong><a href="http://www.facebook.com/{{thread._user.id}}" class="body_links">{{thread._user.first_name}} {{thread._user.last_name}}</a></h4><h5 class="inline"> {{thread._user.city_preference.city}} - {{thread.createdAt | date : fullDate}}</h5>
+
+		<h3 style="padding: 2em;">{{thread.content}}</h3>
+	</div>
+	<br><br><br>
+    
+
+	<div style="padding-left: 4em; ">
+	    <h3>COMMENTS</h3>
+	    <div ng-repeat='c in thread._comments | orderBy: "createdAt":true ' style="padding-bottom: 2em;">
+	    	<h4 class="inline"><a href="http://www.facebook.com/{{c._user.id}}" class="body_links">{{c._user.first_name}} {{c._user.last_name}}</a></h4><h5 class="inline"> {{c.createdAt | date : shortTime}}</h5><br>
+	    	<h4 class="inline">{{c.content}}</h4> <button ng-if='c._user._id == user._id' ng-click='destroyComment(c._id)'>Delete</button> <button ng-if='c._user._id == user._id' ng-click='editComment(c._id)'>Edit</button>
+	    </div>
+    </div>
+    <br><br><br>
+    <hr>
+    <br><br><br>
+    <h5 class="noto">Leave a comment</h5>
+    <form>
+    	<div class="form-group">
+            <textarea class="form-control" id="recipient-name" ng-model="comment.content" name="dFrom" required="">Enter comment here</textarea>
+            <div class="errorMsgs" ng-show="form2.$submitted || form2.dFrom.$touched">
+                <div ng-show="form2.dFrom.$error.required">Content is required</div>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary noto" ng-click="addComment()" value="Post Comment"/>
+
+    </form><br><br><br>
+    <button type="button" class="but btn" ng-click="go()">SEE ALL THREADS</button>
+    <br><br><br>
+</div>

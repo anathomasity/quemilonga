@@ -17,6 +17,10 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
 			console.log('Requests:', data)
 			$scope.dancerRequests = data;
 		})
+		eventsFactory.getAllEvents(function(data){
+			console.log('all events:', data)
+			$scope.events = data;
+		})
 
 
 		$scope.addPerformer = function(index){

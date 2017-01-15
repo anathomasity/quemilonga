@@ -1,17 +1,66 @@
 var milongas = require('./../controllers/milongas.js');
+var threads = require('./../controllers/threads.js');
+
 
 module.exports = function(app){
-	// app.post('/dummies/:test', function(req, res){
-		
-	// 	// I'm testing the info that I'm getting from my dummy Factory
-	// 	// I console.log the body and the params just to make sure that it's
-	// 	// going through 
 
-	// 	console.log(req.body);
-	// 	console.log(req.params.test)
-	// 	// mongooseController.getMongooses(req, res);
-	// })
 
+
+	//threads
+
+	app.get('/threads', function(req, res){
+		console.log(' **************made it to ALL threads get route');
+		threads.getThreads(req, res);
+	})
+
+	app.post('/threads', function(req, res){
+		console.log('made it to my post /threads route');
+		threads.createThread(req, res);
+
+	})
+
+	app.get('/threads/:id', function(req, res){
+		console.log('made it to my /threads/:id get route');
+		threads.getThread(req, res);
+	})
+
+	app.post('/threads/:id/update', function(req, res){
+		console.log('made it to my /threads/:id/update post route');
+		threads.updateThread(req, res);
+	})
+
+	app.post('/threads/:id/destroy', function(req,res) {
+		console.log('made it to my /destroy thread route');
+		threads.destroyThread(req,res);
+	})
+
+
+
+
+	//comments
+
+	app.post('/comments', function(req, res){
+		console.log('made it to my post /comments route');
+		threads.createComment(req, res);
+
+	})
+
+	app.post('/comments/:id/update', function(req, res){
+		console.log('made it to my /comments/:id/update post route');
+		threads.updateComment(req, res);
+	})
+
+	app.post('/comments/:id/destroy', function(req,res) {
+		console.log('made it to my /destroy Comment route');
+		threads.destroyComment(req,res);
+	})
+
+
+
+
+
+	//everything else
+	
 	app.post('/milongas/:id/update', function(req, res){
 		console.log('made it to my /milongas/:id/update post route');
 		milongas.updateMilonga(req, res);
@@ -25,6 +74,11 @@ module.exports = function(app){
 	app.post('/milongas/get', function(req, res){
 		console.log(' **************made it to my /milongas/get get route', req.body);
 		milongas.getMilongas(req, res);
+	})
+
+	app.get('/allevents', function(req, res){
+		console.log(' **************made it to ALL EVENTS get route');
+		milongas.allEvents(req, res);
 	})
 
 	app.post('/milongas', function(req, res){
