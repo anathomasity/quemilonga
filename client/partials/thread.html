@@ -1,16 +1,17 @@
-<!-- {{thread}} -->
+{{thread._user}}
 
 <div class="container" id="threadPage">
     <a href="#/forum"><h1 class="inline" style="color: black; font-family: 'La Belle Aurore', cursive; font-weight: bolder;">QueMilonga.com</h1><h2 class="inline" style="color: #b30000;"><strong>FORUM</strong></h2></a><br>
 	<br>
-	<button type="button" class="but btn" ng-click="go()">SEE ALL THREADS</button>
+	<button type="button" class="but btn" ng-click="go('/forum')">SEE ALL THREADS</button>
     <button type="button" class="but btn" ng-click="go('/')">HOME</button>
     
 
     <br><br><br>
+
     <div style="border-top: 2px solid black; border-bottom: 2px solid black;">
 		<h2 class="noto">{{thread.title}}</h2>
-		<h4 class="inline"><strong>By </strong><a href="http://www.facebook.com/{{thread._user.id}}" class="body_links">{{thread._user.first_name}} {{thread._user.last_name}}</a></h4><h5 class="inline">{{thread.createdAt | date : fullDate}} - {{thread._user.city_preference.city}} </h5>
+		<h4 class="inline"><strong>By </strong><a href="http://www.facebook.com/{{thread._user.fb_id}}" class="body_links">{{thread._user.first_name}} {{thread._user.last_name}}</a></h4><h5 class="inline">{{thread.createdAt | date : fullDate}} - {{thread._user.city_preference.city}} </h5>
 
 		<div id='threadContent'>
             <h3>{{thread.content}}</h3><br><br>
@@ -26,7 +27,7 @@
 	<div id='threadComments'>
 	    <h3 class="noto">COMMENTS</h3>
 	    <div ng-repeat='c in thread._comments | orderBy: "createdAt":true ' style="padding-bottom: 2em;">
-	    	<h4 class="inline"><a href="http://www.facebook.com/{{c._user.id}}" class="body_links">{{c._user.first_name}} {{c._user.last_name}}</a></h4><h5 class="inline"> {{c.createdAt | date : 'short'}}</h5><br>
+	    	<h4 class="inline"><a href="http://www.facebook.com/{{c._user.fb_id}}" class="body_links">{{c._user.first_name}} {{c._user.last_name}}</a></h4><h5 class="inline"> {{c.createdAt | date : 'short'}}</h5><br>
 	    	<h4 class="inline">{{c.content}}</h4> <button style="padding-left: 5px; padding-right: 5px; border-radius: 3px;" ng-if='c._user._id == user._id' ng-click='editComment(c._id)'>Edit</button> <button style="padding-left: 5px; padding-right: 5px; border-radius: 3px;" ng-if='c._user._id == user._id' ng-click='destroyComment(c._id)'>Delete</button> 
 	    </div>
     </div>
