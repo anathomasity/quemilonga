@@ -125,6 +125,7 @@
                 <a href="#/profile" ng-if='user' class="navLinks" ng-click='closeNav()'>{{user.first_name}} {{user.last_name}}</a>
                 <a id="newMilLink" class="navLinks" href="#/milongas/new" ng-click='closeNav()'>POST NEW MILONGA</a>
                 <a id="newMilLink" class="navLinks" href="#/classes/new" ng-click='closeNav()'>POST NEW CLASS</a>
+                <a id="forumLink" class="navLinks" href="#/forum" ng-click='closeNav()' style="font-family: 'La Belle Aurore', cursive;">QueMilonga<strong style="font-family: 'Inconsolata', monospace; ">FORUM</strong></a>
                 <a ng-click='findPerformerModal(); closeNav()' class="navLinks">Find Performer</a>
                 <a ng-if='!user' ng-click='login(); closeNav()' class="navLinks">Login</a>
                 <a ng-if='user' ng-click='logout(); closeNav()' class="navLinks">Logout</a>

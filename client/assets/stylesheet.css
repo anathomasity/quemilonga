@@ -224,6 +224,10 @@ header{
 	font-weight: bolder;
 	color: #EAAF00;
 }
+#forumLink {
+	font-weight: bolder;
+	color: #0000ff;
+}
 
 .panel-title{
 	padding: 0;
@@ -344,6 +348,21 @@ header{
 	.but:hover {
 		font-size: large;
 		color: #EAAF00;
+	}
+
+	.butforum {
+
+		font-size: larger;
+		font-weight: bolder;
+		color: #0000ff;
+		background-color: white;
+		border: 2px solid #0000ff;
+		margin-bottom: 1em;
+	}
+
+	.butforum:hover {
+		font-size: large;
+		color: #0000ff;
 	}
 
 	.calendar div button {
@@ -556,6 +575,18 @@ section{
 	border-style: none solid dotted solid;
 }
 
+#threadPage {
+	width: 50%;
+}
+
+#threadComments {
+	padding-left: 4em;
+}
+
+#threadContent {
+	padding: 2em;
+}
+
 .cityInput {
 	width: 15em;
 	padding-left: 7px;
@@ -640,6 +671,12 @@ section{
 		clear: right;
 	}
 
+	#threadPage {
+		width: 50%;
+	}
+	#threadComments {
+		padding-left: 4em;
+	}
 
 }
 
@@ -669,6 +706,12 @@ section{
 	.learn-more{
 		margin: 0 auto;
 	}
+	#threadPage {
+		width: 50%;
+	}
+	#threadComments {
+		padding-left: 4em;
+	}
 }
  
 /* Landscape phone to portrait tablet */
@@ -687,6 +730,13 @@ section{
 		padding: 0;
 		width: 100%;
 
+	}
+	#threadPage {
+		width: 67%;
+	}
+
+	#threadComments {
+		padding-left: 3em;
 	}
 
 	nav>a{
@@ -738,6 +788,25 @@ section{
 		background: #EAAF00;
 		background-image: -webkit-linear-gradient(#EAAF00 0%, #D78100 100%);
 		color: white;
+	}
+
+	#forumLink {
+		font-weight: bolder;
+		background: #4d4dff;
+		background-image: -webkit-linear-gradient(#4d4dff 0%, #0000cc 100%);
+		color: white;
+	}
+
+	#threadPage {
+		width: 90%;
+	}
+
+	#threadComments {
+		padding-left: 1em;
+	}
+
+	#threadContent {
+		padding: .5em;
 	}
 
 	.smallerTittle h4{

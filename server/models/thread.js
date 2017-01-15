@@ -6,7 +6,10 @@ var ThreadSchema = new mongoose.Schema({
     content: String,
     _comments: [{type: Schema.Types.ObjectId, ref: 'comment'}],
     _user: {type: Schema.Types.ObjectId, ref: 'user'},
-    views : Number,
+    views : {
+        type : Number,
+        default: 0,
+    },
 },{timestamps:true});
 
 mongoose.model('thread', ThreadSchema);

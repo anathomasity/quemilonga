@@ -41,10 +41,19 @@ myApp.controller('threadController', function($scope, $routeParams, forumFactory
 
     forumFactory.getThread(threadId, function(data){
         $scope.thread = data.data;
+
+        if($rootScope.user && $scope.thread._user._id != $rootScope.user._id) {
+            forumFactory.updateViews(threadId, function(data){
+
+            })
+        }
     })
 
 
     $scope.addComment = function(){
+        if($scope.form2.$valid == false) {
+            return;
+        }
 
         if(!$rootScope.user){
             // console.log('!Rosotscope user')
@@ -54,9 +63,9 @@ myApp.controller('threadController', function($scope, $routeParams, forumFactory
 
             $scope.comment._user = $rootScope.user._id;
             $scope.comment.threadId = threadId;
-            console.log("comment TO ADD", $scope.comment)
+            // console.log("comment TO ADD", $scope.comment)
             forumFactory.addComment($scope.comment, function(addedComment){
-                console.log("ADDED Comment", addedComment)
+                // console.log("ADDED Comment", addedComment)
                 forumFactory.getThread(threadId, function(data){
                     $scope.thread = data.data;
                     $scope.comment = {};
@@ -126,6 +135,54 @@ myApp.controller('threadController', function($scope, $routeParams, forumFactory
                 $scope.thread = data.data;
             })
         })
+    }
+
+    $scope.editCommentt = {};
+    
+    $scope.editComment = function(tId){
+
+        // console.log(index)
+        var index;
+        $scope.editCommentt._id = tId;
+        for(t in $scope.thread._comments) {
+            if($scope.thread._comments[t]._id == tId){
+                index = t;
+            }
+        }
+
+        // editThreadId = $scope.threads[index]._id;
+
+        // console.log(editThreadId)
+        $scope.editCommentt.content = $scope.thread._comments[index].content;
+        $('#editCommentModal').modal();
+    }
+
+
+
+    $scope.updateComment = function(){
+        console.log('INSIDE UPDATE COMMENT')
+        if($scope.form3.$valid == false) {
+            return;
+        }
+        if(!$rootScope.user){
+            // console.log('!Rosotscope user')
+            $('#loginModal').modal();
+        }
+        else{
+
+
+            var info = $scope.editCommentt;
+
+            forumFactory.updateComment(info, function(updatedComment){
+                $('#editCommentModal').modal('hide');
+
+                forumFactory.getThread(threadId, function(data){
+                    $scope.thread = data.data;
+                    $scope.editCommentt = {};
+                })
+
+            })
+        } //END OF ELSE
     }
 
 });

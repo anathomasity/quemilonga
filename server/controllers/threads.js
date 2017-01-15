@@ -15,7 +15,7 @@ module.exports = (function() {
 
 			Thread.find({})
 			.populate('_user')
-			// .populate('_comments')
+			.populate('_comments')
 			
 			.exec(function (err, threads) {
 			  if(err){
@@ -72,6 +72,29 @@ module.exports = (function() {
 					console.log('updated Thread: ', result);
 					res.json(result);
 				}
+			});
+
+		},
+
+		updateThreadViews: function(req, res){
+			console.log("***************AT UPDATE***************")
+			Thread.findOne({_id: req.params.id}, function (err, thread){
+				if(err){
+					console.log('********************ERROR FINDING THREAD',err)
+				}
+				else{
+					thread.views = thread.views+1;
+				    thread.save(function (err) {
+				        if(err) {
+				            console.log('********************ERROR SAVING THREAD!');
+				        }
+				        else{
+				        	console.log('SUCCES********************', thread)
+				        	res.json({status:'ok'});
+				        }
+				    });
+				}
+				
 			});
 
 		},

@@ -13,6 +13,9 @@ myApp.controller('forumController', function($scope, $routeParams, forumFactory,
     }
 
     $scope.addThread = function(){
+        if($scope.form2.$valid == false) {
+            return;
+        }
 
         if(!$rootScope.user){
             // console.log('!Rosotscope user')
@@ -21,10 +24,11 @@ myApp.controller('forumController', function($scope, $routeParams, forumFactory,
         else {
 
             $scope.thread._user = $rootScope.user._id;
-            console.log("SCOPE THREAD TO ADD", $scope.thread)
+            // console.log("SCOPE THREAD TO ADD", $scope.thread)
             forumFactory.addThread($scope.thread, function(addedThread){
-                console.log("ADDED THREAD", addedThread)
+                // console.log("ADDED THREAD", addedThread)
                 $('#newThreadModal').modal('hide');
+                $scope.thread = {};
 
                 forumFactory.getThreads(function(dat){
                     $scope.threads = dat;
@@ -59,6 +63,10 @@ myApp.controller('forumController', function($scope, $routeParams, forumFactory,
 
 
     $scope.updateThread = function(){
+        // console.log('form3', $scope.form3)
+        if($scope.form3.$valid == false) {
+            return;
+        }
         if(!$rootScope.user){
             // console.log('!Rosotscope user')
             $('#loginModal').modal();

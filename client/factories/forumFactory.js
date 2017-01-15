@@ -74,6 +74,12 @@ myApp.factory('forumFactory', function($http){
 		})
 	}
 
+	factory.updateViews = function(threadId, callback){
+		$http.post('/threads/' + threadId + '/updateViews').then(function(data){
+			// console.log('updated comment:', data.data);
+			callback(data.data);
+		})
+	}
 	
 
 

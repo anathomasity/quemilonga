@@ -24,6 +24,11 @@ module.exports = function(app){
 		threads.getThread(req, res);
 	})
 
+	app.post('/threads/:id/updateViews', function(req, res){
+		console.log('made it to my /threads/:id/update views post route');
+		threads.updateThreadViews(req, res);
+	})
+
 	app.post('/threads/:id/update', function(req, res){
 		console.log('made it to my /threads/:id/update post route');
 		threads.updateThread(req, res);

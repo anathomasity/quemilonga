@@ -1,39 +1,78 @@
 <!-- {{thread}} -->
 
-<div class="container" style="width: 50%;">
+<div class="container" id="threadPage">
+    <a href="#/forum"><h1 class="inline" style="color: black; font-family: 'La Belle Aurore', cursive; font-weight: bolder;">QueMilonga.com</h1><h2 class="inline" style="color: #b30000;"><strong>FORUM</strong></h2></a><br>
 	<br>
 	<button type="button" class="but btn" ng-click="go()">SEE ALL THREADS</button>
+    <button type="button" class="but btn" ng-click="go('/')">HOME</button>
+    
+
     <br><br><br>
     <div style="border-top: 2px solid black; border-bottom: 2px solid black;">
 		<h2 class="noto">{{thread.title}}</h2>
-		<h4 class="inline"><strong>By </strong><a href="http://www.facebook.com/{{thread._user.id}}" class="body_links">{{thread._user.first_name}} {{thread._user.last_name}}</a></h4><h5 class="inline"> {{thread._user.city_preference.city}} - {{thread.createdAt | date : fullDate}}</h5>
+		<h4 class="inline"><strong>By </strong><a href="http://www.facebook.com/{{thread._user.id}}" class="body_links">{{thread._user.first_name}} {{thread._user.last_name}}</a></h4><h5 class="inline">{{thread.createdAt | date : fullDate}} - {{thread._user.city_preference.city}} </h5>
 
-		<h3 style="padding: 2em;">{{thread.content}}</h3>
+		<div id='threadContent'>
+            <h3>{{thread.content}}</h3><br><br>
+            <div style="float: right;">
+                <h5>Share thread with your friends</h5>
+                <a style='float: right;' href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fthreads%2F{{thread._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fforum2.png&title={{thread.title}}&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Check+out+this+thread+on+QueMilonga.com+FORUM&description={{thread.content}}"><div class='shareButton inline'></div></a>
+            </div><br><br><br>
+        </div>
 	</div>
 	<br><br><br>
     
 
-	<div style="padding-left: 4em; ">
-	    <h3>COMMENTS</h3>
+	<div id='threadComments'>
+	    <h3 class="noto">COMMENTS</h3>
 	    <div ng-repeat='c in thread._comments | orderBy: "createdAt":true ' style="padding-bottom: 2em;">
-	    	<h4 class="inline"><a href="http://www.facebook.com/{{c._user.id}}" class="body_links">{{c._user.first_name}} {{c._user.last_name}}</a></h4><h5 class="inline"> {{c.createdAt | date : shortTime}}</h5><br>
-	    	<h4 class="inline">{{c.content}}</h4> <button ng-if='c._user._id == user._id' ng-click='destroyComment(c._id)'>Delete</button> <button ng-if='c._user._id == user._id' ng-click='editComment(c._id)'>Edit</button>
+	    	<h4 class="inline"><a href="http://www.facebook.com/{{c._user.id}}" class="body_links">{{c._user.first_name}} {{c._user.last_name}}</a></h4><h5 class="inline"> {{c.createdAt | date : 'short'}}</h5><br>
+	    	<h4 class="inline">{{c.content}}</h4> <button style="padding-left: 5px; padding-right: 5px; border-radius: 3px;" ng-if='c._user._id == user._id' ng-click='editComment(c._id)'>Edit</button> <button style="padding-left: 5px; padding-right: 5px; border-radius: 3px;" ng-if='c._user._id == user._id' ng-click='destroyComment(c._id)'>Delete</button> 
 	    </div>
     </div>
     <br><br><br>
     <hr>
     <br><br><br>
     <h5 class="noto">Leave a comment</h5>
-    <form>
+    <form name="form2">
     	<div class="form-group">
-            <textarea class="form-control" id="recipient-name" ng-model="comment.content" name="dFrom" required="">Enter comment here</textarea>
+            <textarea class="form-control" id="recipient-name" ng-model="comment.content" name="dFrom" required="" ng-minlength='5'>Enter comment here</textarea>
             <div class="errorMsgs" ng-show="form2.$submitted || form2.dFrom.$touched">
-                <div ng-show="form2.dFrom.$error.required">Content is required</div>
+                <!-- <div ng-show="form2.dFrom.$error.required">Content is required</div> -->
+                <div ng-show="form2.dFrom.$error.minlength">Minimum length in 5 characters</div>
             </div>
         </div>
         <input type="submit" class="btn btn-primary noto" ng-click="addComment()" value="Post Comment"/>
 
     </form><br><br><br>
     <button type="button" class="but btn" ng-click="go()">SEE ALL THREADS</button>
+    <button type="button" class="but btn" ng-click="go('/')">HOME</button>
     <br><br><br>
 </div>
+
+
+
+
+<!-- EDIT COMMENT MODAL -->
+        <div class="modal fade bd-example-modal-lg" id="editCommentModal" tabindex="-1" role="dialog" aria-labelledby="mylgallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="container">
+                        <br><h4 class="noto">EDIT COMMENT</h4><br>
+
+
+                        <form name="form3">
+                            <div class="form-group">
+                                <textarea class="form-control" id="recipient-name" ng-model="editCommentt.content" name="dFrom" required="" ng-minlength='5'>Enter comment here</textarea>
+                                <div class="errorMsgs" ng-show="form3.$submitted || form3.dFrom.$touched">
+                                    <div ng-show="form3.dFrom.$error.minlength">Minimum length in 5 characters</div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-primary noto" ng-click="updateComment()" value="SAVE"/>
+
+                        </form><br><br>
+                </div>
+
+            </div>
+        </div>

@@ -81,19 +81,21 @@
 		      <th>Event Type</th>
 		      <th>Added By</th>
 		      <th>City</th>
-		      <!-- <th>FB ID</th> -->
+		      <th>Date</th>
 		    </tr>
 		  </thead>
 		  <tbody>
 		    <tr ng-if="events" ng-repeat='e in events | filter:eventsFilter | orderBy: "createdAt":true'>
 
-		      <th scope="row">{{e.event_type}}</th>
+		      <th scope="row" ng-if='e.event_type == "class"'><a href="#/classes/{{e._id}}" class="body_links">{{e.event_type}}</a></th>
+
+		      <th scope="row" ng-if='e.event_type == "milonga"'><a href="#/milongas/{{e._id}}" class="body_links">{{e.event_type}}</a></th>
 
 		      <td><a href="http://www.facebook.com/{{e._added_by.id}}" style="color:red;">{{e._added_by.name}}</a></td>
 
 		      <td>{{e.address.city}}, {{e.address.country}}</td>
 
-		      <!-- <td>FB ID TO BE ADDED</td> -->
+		      <td>{{e.date | date: 'short'}}</td>
 
 		    </tr>
 		  </tbody>
