@@ -26,6 +26,18 @@ var PerformerSchema = new mongoose.Schema({
         first_name: String,
         last_name: String,
     },
+    fb_id: String,
+    userId: String,
+    introduction: String,
+    _partner: {
+        _id: {type: Schema.Types.ObjectId, ref: 'performer'},
+        name: String,
+    },
+    youtubeLink: String,
+    _favorite_dancers: [{
+        _id: {type: Schema.Types.ObjectId, ref: 'performer'},
+        name: String,
+    }],
 },{timestamps:true});
 
 mongoose.model('performer', PerformerSchema);

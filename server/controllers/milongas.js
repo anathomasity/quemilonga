@@ -392,6 +392,7 @@ module.exports = (function() {
 					console.log(err);
 					console.log('error finding requests, milongas controller');
 				} else {
+					console.log('THIS ARE THE REQUESTS', requests)
 					res.json(requests);
 				}
 			})
@@ -909,6 +910,160 @@ module.exports = (function() {
 						}
 						else{
 							res.json(user);
+						}
+					})
+				}
+			})
+
+		},
+		linkAccounts: function(req, res){
+			console.log("THIS IS REQBODY CONTROLLER ************", req.body);
+
+			request = new Request(req.body);
+			request.save(function(err, result){
+				if(err){
+					console.log(err);
+					console.log('error creating a new request');
+				} else {
+					console.log('this is our new request',result);
+					res.json('ok');
+
+				}
+			})
+
+		},
+
+		acceptAccountLinking: function(req,res){
+
+			console.log("THIS IS REQBODY CONTROLLER ************", req.body);
+
+			if(req.body.user.performerId){
+				Performer.findOne({_id: req.body.user.performerId}, function(err, perf){
+					if(err){
+						console.log("error finding the performer", err);
+					}
+					else{
+						perf.userId = undefined;
+						perf.fb_id = undefined;
+						perf.save(function(erro, perf) {
+							if (erro) {
+								console.log('ERROR removing previous linking from PERF', erro)
+							}
+							else{
+								console.log('REMOVED USER FROM PERFORMER***************', perf)
+							}
+						})
+					}
+				});
+			}
+
+			if(req.body.performer.userId){
+				User.findOne({_id: req.body.performer.userId}, function(err, us){
+					if(err){
+						console.log("error finding theUSER", err);
+					}
+					else{
+						us.performerId = undefined;
+						us.save(function(erro, us) {
+							if (erro) {
+								console.log('ERROR removing previous linking from USER', erro)
+							}
+							else{
+								console.log('REMOVED PERFORMER FROM USER***************', us)
+							}
+						})
+					}
+				});
+			}
+
+			Performer.findOne({_id: req.body.performer._id}, function(err, performer){
+				if(err){
+					console.log("error finding the performer", err);
+				}
+				else {
+					performer.fb_id = req.body.fb_id;
+					performer.userId = req.body.user._id;
+					performer.save(function(erro, perf) {
+						if (erro) {
+							console.log('ERROR SAVING PERFORMER', erro)
+						}
+						else{
+							User.findOne({_id: req.body.user._id}, function(err, user){
+								if(err){
+									console.log("error finding the user", err);
+								}
+								else {
+									// console.log('this is our user',user);
+									user.performerId = req.body.performer._id;
+									user.save(function(erro, user) {
+										if (erro) {
+											console.log('ERROR SAVING USER', erro)
+										}
+										else{
+											res.json({user: user, performer: performer})
+										}
+									})
+								}
+							})
+
+						}
+					})
+				}
+			})
+		},
+		getLinkingRequests: function(req, res){
+			Request
+			.find({})
+			.populate('user')
+			.populate('performer')
+			.exec(function (err, requests) {
+			  if (err) {
+			  	return handleError(err);
+			  }
+			  else{
+			  	console.log("THIS ARE LINKING REQUESTS", requests)
+			  	res.json(requests);
+			  }			  
+
+			})
+		},
+		destroyLinkingRequest: function(req, res){
+			Request.findByIdAndRemove(req.params.id, function(err){
+				if(err){
+					console.log('error removing request')
+				}
+				else{
+					res.json({status:'ok'})
+				}
+
+			})
+		},
+
+
+		updatePerformerProfile: function(req, res){
+			console.log("THIS IS REQBODY UPDATE ********************", req.body);
+			Performer.findOne({_id: req.params.id}, function(err, performer){
+				if(err){
+					console.log("error finding the performer", err);
+				}
+				else {
+					// console.log('this is our performer',performer);
+					if (req.body._favorite_dancers.length > 0) {
+					performer._favorite_dancers = req.body._favorite_dancers;}
+					if (req.body.youtubeLink) {
+					performer.youtubeLink = req.body.youtubeLink;}
+					if (req.body.from) {
+					performer.from = req.body.from;}
+					if (req.body._partner[0]) {
+					performer._partner = req.body._partner[0];}
+					if (req.body.introduction) {
+					performer.introduction = req.body.introduction;}
+					performer.save(function(erro, performer) {
+						if (erro) {
+							console.log('ERROR', erro)
+						}
+						else{
+							res.json(performer);
 						}
 					})
 				}

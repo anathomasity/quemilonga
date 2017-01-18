@@ -63,6 +63,37 @@ module.exports = function(app){
 
 
 
+	//account linking
+
+	app.post('/linkAccounts', function(req, res){
+		console.log(' made it to my /accountLinking get route', req.body);
+		milongas.linkAccounts(req, res);
+	})
+
+	app.post('/acceptAccountLinking', function(req, res){
+		console.log(' made it to my /accountLinking get route', req.body);
+		milongas.acceptAccountLinking(req, res);
+	})
+
+	app.get('/linkingRequests', function(req, res){
+		console.log(' **************made it to my /requests get route', req.body);
+		milongas.getLinkingRequests(req, res);
+	})
+	app.post('/linkingRequests/:id/destroy', function(req,res) {
+		console.log('made it to my /destroy Comment route');
+		milongas.destroyLinkingRequest(req,res);
+	})
+
+
+
+
+	//update teachers profile
+
+	app.post('/performers/:id/updateProfile', function(req, res){
+		console.log('made it to my /performers update post route');
+		milongas.updatePerformerProfile(req, res);
+	})
+
 
 	//everything else
 	

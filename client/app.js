@@ -101,8 +101,19 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 			 		// console.log('!Rosotscope user')
 			 		$('#loginModal').modal();
 			 	}
+			 	var string = $scope.dancer.name,
+    			substring = ' and ',
+    			substring2 = '&';
+				if (string.indexOf(substring) !== -1 || string.indexOf(substring2) !== -1) {
+		 			console.log('includes 2 performers');
+		 			$scope.onlyOneMsg = 'Please submit one request for each performer separately';
+		 			return
+		 		}
+		 		
 			}
-			eventsFactory.getPerformers(function(data){
+
+ 			$scope.onlyOneMsg = false;
+ 			eventsFactory.getPerformers(function(data){
 				// console.log('performers:',data);
 				$rootScope.performers = data;
 				$scope.matches = [];
@@ -112,6 +123,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 					}			
 				}
 			})
+			
 			
 		}
 
@@ -124,6 +136,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 						$rootScope.performers[i].ticked = true;
 					}
 					else if ($scope.toggle == 'teachers') {
+						console.log('ticking teacher')
 						$rootScope.teachers[i].ticked = true;
 					}
 					
@@ -137,11 +150,26 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 
 		//MAKE A PERFORMER WITH PENDING STATUS
 		$scope.addPerformer = function(){
+
 			if(!$rootScope.user){
 		 		// console.log('!Rosotscope user')
 		 		$('#loginModal').modal();
 		 	}
 		 	else{
+
+
+			 	var string = $scope.dancer.name,
+    			substring = ' and ',
+    			substring2 = '&';
+				if (string.indexOf(substring) !== -1 || string.indexOf(substring2) !== -1) {
+		 			console.log('includes 2 performers');
+		 			$scope.onlyOneMsg = 'Please submit one request for each performer separately';
+		 			$scope.msg = false;
+					$scope.matches = false;
+		 			return
+		 		}
+
+		 		$scope.onlyOneMsg = false;
 		 		$scope.msg = true;
 				setTimeout(function(){ 
 					$('#exampleModal').modal('hide');
@@ -159,8 +187,6 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 					// console.log('succesfully requested, CONTROLLER')
 					$scope.dancer = false;
 					$scope.matches = false;
-					
-					// console.log('ADDED DANCER:', addedDancer)
 
 					var pending = addedDancer.data.name + ' ' + '(PENDING)';
 					if($rootScope.teachers){
@@ -169,6 +195,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 					$rootScope.performers.push({name: pending, _id: addedDancer.data._id});
 
 				});
+
 		 	}
 			
 		}
@@ -353,7 +380,13 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 				controller: 'threadController', 
 				templateUrl: "partials/thread.html",
 				// needAuth: true,
-			})			
+			})
+			.when('/linkPerfAccount', 
+			{
+				controller: 'linkPerfAccountController', 
+				templateUrl: "partials/linkPerfAccount.html",
+				// needAuth: true,
+			})		
 
 	});
 	myApp.config(['$facebookProvider', function($facebookProvider) {

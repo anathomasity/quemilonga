@@ -3,15 +3,47 @@
 
 
 
-myApp.controller('showController', function($scope, $routeParams, eventsFactory){
+myApp.controller('showController', function($scope, $rootScope, $sce, $routeParams, eventsFactory){
 
 	$scope.now = moment().add(-1,'days').format();
+	$rootScope.teachers = [];
+	$rootScope.performers = [];
+	$scope.toggle;
+	$scope.editPerformer = {};
 
 	var performerId = $routeParams.id;
 	eventsFactory.getPerformer(performerId, function(data){
-		// console.log('show controller,', data);
 		$scope.performer = data.data;
+
+		if($scope.performer.youtubeLink){
+			var videoID = '';
+			for (var i = $scope.performer.youtubeLink.length - 1; i > 0; i--) {
+				if($scope.performer.youtubeLink[i] == '/' || $scope.performer.youtubeLink[i] == '='){
+					break;
+				}
+				videoID = $scope.performer.youtubeLink[i] + videoID;
+				// console.log(videoID)
+
+			}
+			$scope.youtubeURL = 'https://www.youtube.com/embed/' + videoID;
+		}
+		
 	})
+
+	$scope.trustSrc = function(src) {
+	    return $sce.trustAsResourceUrl(src);
+	}
+
+
+	eventsFactory.getPerformers(function(dat){
+		// console.log('performers:',data);
+		for ( var i = 0; i < dat.length; i++){
+			$rootScope.teachers.push({name: dat[i].name, _id: dat[i]._id})
+			$rootScope.performers.push({name: dat[i].name, _id: dat[i]._id})
+		}
+
+	})
+
 
 	$scope.sortMilongas = function(milonga){
 		// console.log('SORT MILNGAS')
@@ -28,4 +60,44 @@ myApp.controller('showController', function($scope, $routeParams, eventsFactory)
 		}
 		
 	};
+
+	$scope.editMyProfile = function(){
+		$('#editMyProfileModal').modal();
+	}
+
+	$scope.updateMyProfile = function(){
+		
+		var info = {
+			from: $scope.editPerformer.from,
+			performerId: performerId,
+			youtubeLink : $scope.editPerformer.youtubeLink,
+			introduction: $scope.editPerformer.introduction,
+			_partner: $scope.partner,
+			_favorite_dancers: $scope.favoriteDancers,
+		}
+
+		console.log(info)
+		eventsFactory.updateMyProfile(info, function(updatedProfile){
+			eventsFactory.getPerformer(performerId, function(data){
+				$scope.performer = data.data;
+			})
+			$('#editMyProfileModal').modal('hide');
+
+		})
+	}
+
+
+
+
+
+	$scope.toggleList = function(list) {
+		if (list == 'p') {
+			$scope.toggle = 'teachers';
+		}
+		else if (list == 'fd') {
+			$scope.toggle = 'performers';
+		}
+	}
+
+
 })

@@ -2,14 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var RequestSchema = new mongoose.Schema({
-    user: {
-    	name: String,
-    	id: String,
-    	first_name: String,
-    	last_name: String,
-    },
-    dancer_name: String,
-	dancer_from: String,
+	type: String,
+    fb_id: String,
+    user: {type: Schema.Types.ObjectId, ref: 'user'},
+    performer: {type: Schema.Types.ObjectId, ref: 'performer'},
 },{timestamps:true});
 
 mongoose.model('request', RequestSchema);

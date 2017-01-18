@@ -1,14 +1,39 @@
 <div class="container" id="showPage">
-
 <!-- {{performer}} -->
+
 	<div id="showPageInfo">
-		<h3 class="noto">{{performer.name}}</h3>
-		<h4>Upcoming events</h4><br><br>
+		<div>
+			<div class="inline">
+				<h3 class="noto">{{performer.name}}</h3>
+				<h5 ng-if='performer.from'>From {{performer.from}}</h5>
+				<h5 ng-if='performer._partner'>Partners with <a href="#/performers/{{performer._partner._id}}" class="body_links noto">{{performer._partner.name}}</a></h5>
+			</div>
+			<h5 ng-if='performer._id == user.performerId' class="inline" style="float: right;"><a ng-click='editMyProfile()' class="body_links noto pointer">EDIT MY PROFILE</a></h5><br><br><hr>
+		</div>
+
+
+		<div class="row">
+			<div class="col-xs-12 col-md-6" style="text-align: center">
+				<h4 ng-if='performer.introduction'>{{performer.introduction}}</h4><br><br>
+				<div ng-if='performer._favorite_dancers.length > 0'>
+					<h4><strong>Some of my favorite Colleagues:</strong></h4>
+					<h5 ng-repeat='d in performer._favorite_dancers' class="inline"><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h5>
+				</div>
+			</div>
+			<div ng-if='performer.youtubeLink' class="col-xs-12 col-md-6" style="text-align: center;">
+				<iframe width="420" height="315"
+				ng-src="{{trustSrc(youtubeURL)}}">
+				</iframe>
+			<br><br>
+			<br><hr><br>
+
+			</div>
+		</div>
 	</div>
 
-	<!-- {{performer._milongas_attending}} -->
 
 
+	<h4 class="noto">MY UPCOMING EVENTS</h4><br>
 
 	<div ng-if='performer._milongas_attending.length < 1'>
 		<br><br>
@@ -85,64 +110,6 @@
 
 			    </tr>
 
-			    <!-- <tr ng-if="m.milonga[0].event_type == 'milonga' && (m.milonga[0].date >= now || m.class[0].date >= now) " ng-repeat='m in performer._milongas_attending | orderBy : sortMilongas : true'>
-
-				        <th scope="row">
-				        	<a href="#/milongas/{{m.milonga[0]._id}}" style="color: black">
-				        	<h3 ng-if='m.action == "performance" || m.action == "both"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
-				        	<h4 ng-if='m.action == "performance" || m.action == "both"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
-				        	
-
-				        	<h3 ng-if='m.action == "class"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
-				        	<h4 ng-if='m.action == "class"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
-				        	</a>
-
-				        </th>
-
-				      	<td ng-if='m.action == "performance"'>
-				      		<h4 style="color: red">PERFORMANCE</h4>
-				      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
-				      		<h5>{{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}}</h5>
-				      		<h5>${{m.milonga[0].price}}</h5>
-
-				      	</td>
-
-			  		  	<td ng-if='m.action == "both"'>
-				      		<h4 style="color: red">PERFORMANCE AND CLASS</h4>
-				      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
-				      		<h5>Class: {{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}} | ${{m.milonga[0].class_price}}</h5>
-				      		<h5>Milonga: {{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}} | ${{m.milonga[0].price}}</h5>
-				      		<h5 ng-if='m.milonga[0].class_combo_price'>Combo Price: ${{m.milonga[0].class_combo_price}}</h5>
-				      	</td>
-
-			  		  	<td ng-if='m.action == "class"'>      		
-			  		  		<h4 style="color: red">PRE MILONGA CLASS</h4>
-				      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
-				      		<h5>{{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}}</h5>
-				      		<h5>${{m.milonga[0].class_price}}</h5>
-				      	</td>
-
-			    </tr>
-
-			    <tr ng-if="m.class[0].event_type == 'class' && (m.class[0].date >= now || m.class[0].date >= now) " ng-repeat='m in performer._milongas_attending | orderBy : !sortMilongas : true'>
-
-
-				        <th scope="row">
-				        	<a href="#/classes/{{m.class[0]._id}}" style="color: black">
-				        	<h4>Topic: <strong>{{m.class[0].topic}}</strong></h4>
-				        	<h4>{{m.class[0].address.city}}, {{m.class[0].address.country}}</h4>
-				        	</a>
-				        </th>
-
-				      	<td>
-				      		<h4 style="color: red">STUDIO CLASS</h4>
-				      		<h5 style="font-weight: bolder">{{m.class[0].date | date : fullDate}}</h5>
-				      		<h5>{{m.class[0].start_time | date:'shortTime'}} - {{m.class[0].end_time | date:'shortTime'}}</h5>
-				      		<h5>${{m.class[0].class_price}}</h5>
-				      	</td>
-
-			    </tr> -->
-
 
 			  </tbody>
 			</table>
@@ -150,3 +117,100 @@
     </div>
 </div>
 
+
+
+
+
+<!-- EDIT MY PROFILE MODAL -->
+        <div class="modal fade bd-example-modal-lg" id="editMyProfileModal" tabindex="-1" role="dialog" aria-labelledby="mylgallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="container">
+                        <br><h4 class="noto">EDIT MY PROFILE</h4><br>
+
+
+                        <form name="form3">
+
+                        	<div class="form-group">
+                                <label for="recipient-name" class="form-control-label">Where are you from or where are you based?</label><br>
+                                <input type="text" class="form-control" id="recipient-name" ng-model="editPerformer.from" name="dFrom" ng-minlength="2" ng-maxlength="30" maxlength="30">
+                                <div class="errorMsgs" ng-show="form3.$submitted || form3.dFrom.$touched">
+                                    <div ng-show="form3.dFrom.$error.minlength">Minimum length is 2 characters</div>
+                                    <div ng-show="form3.dFrom.$error.maxlength">Maximum length is 30 characters</div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="form-control-label">Introduction of yourself, Inspirational Quote or Something you want to say to your followers:</label><br>
+                                <input type="text" class="form-control" id="recipient-name" ng-model="editPerformer.introduction" name="dIntro" ng-minlength="10" ng-maxlength="350" maxlength="350">
+                                <div class="errorMsgs" ng-show="form3.$submitted || form3.dIntro.$touched">
+                                    <div ng-show="form3.dIntro.$error.minlength">Minimum length is 20 characters</div>
+                                    <div ng-show="form3.dIntro.$error.maxlength">Maximum length is 350 characters</div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="form-control-label">If you have a partner, search and select him/her:</label><br>
+                                <div class="col-md-5">
+									<div
+									ng-click='setTouch()'
+								    isteven-multi-select
+								    input-model="teachers"
+								    output-model="partner"
+								    button-label="icon name"
+								    item-label="name"
+								    tick-property="ticked"
+								    ng-click="toggleList('p')"
+								    selection-mode="single"
+								    name="partner">
+									</div>
+
+							    </div><br><br>
+
+
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label for="message-text" class="form-control-label">Youtube video URL of you that you want to share:</label><br>
+                                <input type="text" class="form-control" id="recipient-name" ng-model="editPerformer.youtubeLink" name="dLink">
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label for="recipient-name" class="form-control-label">Who are your favorite dancers and collegues?</label><br>
+                                <div class="col-md-5">
+									<div
+									ng-click='setTouch()'
+								    isteven-multi-select
+								    input-model="performers"
+								    output-model="favoriteDancers"
+								    button-label="icon name"
+								    item-label="name"
+								    tick-property="ticked"
+								    ng-click="toggleList('fd')"
+								    name="fav_dancers">
+									</div>
+
+							    </div><br><br>
+
+
+                            </div>
+                        
+
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary noto" ng-click="updateMyProfile()" value="SAVE DETAILS"/>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>

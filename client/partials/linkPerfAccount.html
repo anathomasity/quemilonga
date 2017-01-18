@@ -1,0 +1,63 @@
+<div class="container"><br><br>
+	
+	<h3 class="noto">PERFORMERS AND TEACHERS ACCOUNT LINKING</h3>
+	<div class="alert alert-warning fade in">
+        <button class="close" data-dismiss="alert" aria-label="close">&times;</button>
+        <strong class="noto">QueMilonga.com  PERFORMERS AND TEACHERS ACCOUNT LINKING</strong><br> If you are a performer or teacher, in this page you will be able to link yourself to your QueMilonga.com SCHEDULE. That way you can update your profile and schedule details, as well as share it on Facebook with your students and followers. 
+    </div><br><br>
+
+
+    <h4>1. Search and Select your name</h4>
+    <h6>If your name is not there, <a style="cursor: pointer;" class="body_links" type="button" data-toggle="modal" data-target="#exampleModal">ADD YOURSELF</a> and search again</h6>
+
+    <div class="col-md-5">
+		<div
+		ng-click='setTouch()'
+	    isteven-multi-select
+	    input-model="teachers"
+	    output-model="outputTeachers"
+	    button-label="icon name"
+	    item-label="name"
+	    tick-property="ticked"
+	    ng-click="toggleList('t')"
+	    selection-mode="single"
+	    name="mTeachers" required="">
+		</div>
+
+    </div><br><br><br>
+
+
+    <h4>2. Link Accounts</h4><br>
+    <button class="btn btn-primary noto" ng-click="accountLinkingModal()">LINK ACCOUNTS</button>
+    <h5 class="errorMsgs" ng-if='erre'>{{erre}}</h5>
+
+
+
+
+
+
+
+</div>
+
+
+<!-- accountlinking MODAL -->
+        <div class="modal fade bd-example-modal-lg" id="accountLinkingModal" tabindex="-1" role="dialog" aria-labelledby="mylgallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="container">
+                        <br><h4 class="noto">LINK ACCOUNTS</h4><br>
+
+                        	<h4 ng-if='user.performerId' style="color: blue">We see that you are already linked to another performer. If you proceed, you won't be linked to him anymore. You can only have one performer linked to you.</h4><br>
+
+                        	<h4>You are about to link <a href="#/performers/{{outputTeachers[0]._id}}" class="body_links noto">{{outputTeachers[0].name}}</a> with yourself {{user.first_name}} {{user.last_name}}.<strong> Is that you?</strong>  </h4><br>
+                        	<h5>We will review your request and get back to you. Thank you!</h5>               
+                        	<button class="btn btn-primary noto" ng-click="linkAccounts()">REQUEST LINKING</button><br><br>
+
+                        	<h4 ng-if='success' style="color: green;">{{success}}</h4>
+
+                        <br><br>
+                </div>
+
+            </div>
+        </div>

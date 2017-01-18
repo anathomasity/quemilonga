@@ -352,6 +352,45 @@ myApp.factory('eventsFactory', function($http){
 		})
 	}
 
+	factory.linkAccounts = function(info, callback){
+		// console.log('at factory', info)
+		$http.post('/linkAccounts', info).then(function(status){
+			// console.log('attendees AT FACTORY,', attendees)
+			callback(status);
+		})
+	}
+
+	factory.acceptAccountLinking = function(info, callback){
+		// console.log('at factory', info)
+		$http.post('/acceptAccountLinking', info).then(function(status){
+			// console.log('attendees AT FACTORY,', attendees)
+			callback(status);
+		})
+	}
+
+	factory.getLinkingRequests = function(callback){
+		$http.get('/linkingRequests').then(function(requests){
+			requests = requests.data;
+			callback(requests);
+		})
+	}
+
+	factory.destroyLinkingRequest = function(requestId, callback){
+		// console.log('INFO', info)
+		$http.post('/linkingRequests/' + requestId + '/destroy').then(function(request){
+			// console.log('made it back from backend eddited this performer', performer);
+			callback(request);
+		})
+	}
+
+	factory.updateMyProfile = function(info, callback){
+		// console.log('THIS IS INFO, FACTORY', info)
+		$http.post('/performers/' + info.performerId + '/updateProfile', info).then(function(data){
+			// console.log('updated milonga:', data.data);
+			callback(data.data);
+		})
+	}
+
 
 	return factory;
 })

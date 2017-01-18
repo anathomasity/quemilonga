@@ -21,6 +21,10 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
 			console.log('all events:', data)
 			$scope.events = data;
 		})
+		eventsFactory.getLinkingRequests(function(data){
+			console.log('Linking requests:', data)
+			$scope.linkingRequests = data;
+		})
 
 
 		$scope.addPerformer = function(index){
@@ -82,6 +86,29 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
 		}
 
 		
+		$scope.acceptAccountLinking = function(index){
+
+			var requestToAccept = $scope.linkingRequests[index];
+			eventsFactory.acceptAccountLinking(requestToAccept, function(result){
+				eventsFactory.getPerformers(function(data){
+					console.log('Performers:', data)
+					$scope.dancers = data;
+				})
+			})
+
+		}
+
+		$scope.destroyLinkingRequest = function(index){
+			// console.log('destroying request!!', index);
+			var requestId = $scope.linkingRequests[index]._id;
+			eventsFactory.destroyLinkingRequest(requestId, function(destroyedRequest){
+				console.log(destroyedRequest, 'destroying this one');
+				$scope.linkingRequests.splice(index, 1);
+			})
+		}
+
+
+
 	}//END OF ELSE
 
 
