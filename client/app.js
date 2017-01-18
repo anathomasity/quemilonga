@@ -24,11 +24,16 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		        totals.push({index: i, total: threads[i].views + threads[i]._comments.length})
 		    }
 		    totals.sort(compare);
-		    var highestScores = totals.splice(0,numberOfPosts);
-		    highestScores = shuffle(highestScores);
-		    $scope.threads.push(threads[highestScores[0].index])
-		    $scope.threads.push(threads[highestScores[1].index])
-		    // console.log($scope.threads);
+		    if(numberOfPosts < 2){
+		    	$scope.threads.push(threads[0])
+		    	$scope.threads.push(threads[1])
+		    }
+		    else{
+		    	var highestScores = totals.splice(0,numberOfPosts);
+		    	highestScores = shuffle(highestScores);
+		    	$scope.threads.push(threads[highestScores[0].index])
+		    	$scope.threads.push(threads[highestScores[1].index])
+		    }
 
 		})
 		
