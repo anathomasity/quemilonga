@@ -7,7 +7,7 @@
 //only future dates alowed for new events and classes
 
 
-myApp.controller('indexController', function($scope, eventsFactory, $cookies, $location, $http, $rootScope, $window){
+myApp.controller('indexController', function($scope, eventsFactory, forumFactory, $cookies, $location, $http, $rootScope, $window){
 
   var state;
   var range = 50;
@@ -85,6 +85,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
       }
   })
 
+
   $scope.$watch("search.range", function(newValue, oldValue) {
     $scope.sorryMsg = false;
     range = newValue
@@ -136,6 +137,7 @@ myApp.controller('indexController', function($scope, eventsFactory, $cookies, $l
 
   $rootScope.$watch("search.city", function(newValue, oldValue) {
     $scope.sorryMsg = false;
+    // console.log(newValue);
     if(newValue != oldValue && newValue != null){
 
         //if the user typed in a new city, save it to preferences

@@ -21,7 +21,7 @@
         	      		<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fthreads%2F{{t._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fforum2.png&title={{t.title}}&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Check+out+this+thread+on+QueMilonga.com+FORUM&description={{t.content}}"><div class='shareButton inline'></div><br></a>
         	        </td>
 
-        	      <td ng-if='t._user._id == user._id'>
+        	      <td ng-if='user._id && t._user._id == user._id'>
         	      	<button class="but btn" ng-click='editThread(t._id)'>Edit</button>
         	      	<button class="but btn" ng-click='destroyThread(t._id)'>Delete</button>
         	      </td>

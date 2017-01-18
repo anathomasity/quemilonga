@@ -53,7 +53,8 @@
                                     <div class="row">
 
                                         <div class="col-xs-6 col-sm-6 col-md-8">
-                                            <h5 class="noto">Class: ${{class.class_price}}</h5>
+                                            <h5 class="noto" ng-if='class.class_price > 0'>Class: ${{class.class_price}}</h5>
+                                            <h5 class="noto" ng-if='class.class_price == 0'>Class: <strong style="color: green">FREE</strong></h5>
                                             <h5 class="noto">{{class.start_time | date:'shortTime'}} - {{class.end_time | date:'shortTime'}}</h5>
                                         </div>
 

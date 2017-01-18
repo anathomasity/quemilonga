@@ -151,11 +151,42 @@
 
     </script>
 
-        <div >
+        <div id="mainInfo">
             
-            <div ng-view id="mainInfo"></div>
+            <div ng-view ></div>
+            <div class="container">
+                <br><br><br>
+                <hr class="hr">
+            </div>
+            <div class="container" style="border-top: 5px solid #0000ff; border-right: 1px solid #0000ff; border-left: 1px solid #0000ff; padding: 2em; margin-top: 5em; box-shadow: 10px 10px 5px #888888;">
+                <h3 class="noto" style="margin-top: 0; text-align: center;"><a href="#/forum" style="font-family: 'La Belle Aurore', cursive; color: #0000ff">QueMilonga<strong style="font-family: 'Inconsolata', monospace; ">FORUM</strong></a> trending threads</h3>
+
+
+
+
+                <table class="table table-hover" style="width: 100%; margin: 0;">
+
+                          <tbody>
+                            <tr ng-if="threads" ng-repeat='t in threads | filter:thread_name | orderBy: "createdAt":true track by t._id '>
+
+                                <td>
+                                    <h6 style="color: gray">{{t.createdAt | date : fullDate}}</h6>
+                                    <h4 style="font-weight: bolder;"><a style="color: black" href="#/threads/{{t._id}}">{{t.title}}</a></h4>
+                                    <h5 class="inline"><strong>By <a href="http://www.facebook.com/{{t._user.fb_id}}" class="body_links">{{t._user.first_name}} {{t._user.last_name}}</a></strong> |</h5>
+                                    <h5 class="inline" ng-if='t._comments'><strong>{{t._comments.length}}</strong> comments </h5>
+                                    <h5 class="inline"> | <strong>{{t.views}}</strong> views </h5>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fthreads%2F{{t._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fforum2.png&title={{t.title}}&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Check+out+this+thread+on+QueMilonga.com+FORUM&description={{t.content}}"><div class='shareButton inline'></div><br></a>
+                                </td>
+
+                            </tr>
+                          </tbody>
+
+                    </table>
+            </div>
 
         </div>
+
+
 
 
 
@@ -325,6 +356,8 @@
             </div>
           </div>
         </div> -->
+
+
             
     </body>
     <footer class="foto2">

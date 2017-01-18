@@ -98,7 +98,8 @@
 
                                     <div class="row">
                                         <div class="col-xs-6 col-sm-6 col-md-8">
-                                            <h5 class="noto">Class: ${{m.class_price}}</h5>
+                                            <h5 class="noto" ng-if='m.class_price > 0'>Class: ${{m.class_price}}</h5>
+                                            <h5 class="noto" ng-if='m.class_price == 0'>Class: <strong style="color: green">FREE</strong></h5>
                                             <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h5>
                                         </div>
 
@@ -189,7 +190,8 @@
 
                                     <div class="row">
                                         <div class="col-xs-6 col-sm-6 col-md-8">
-                                            <h5 class="noto">Milonga: ${{m.price}}</h5>
+                                            <h5 class="noto" ng-if='m.price > 0'>Milonga: ${{m.price}}</h5>
+                                            <h5 class="noto" ng-if='m.price == 0'>Milonga: <strong style="color: green">FREE</strong></h5>
                                             <h5 class="noto">{{m.start_time | date:'shortTime'}} - {{m.end_time | date:'shortTime'}}</h5>
                                         </div>
 
@@ -218,6 +220,7 @@
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-6 col-md-8">
 
+
                                             <div ng-if="m.class_start_time" class="clase">
                                                 <h4 class="noto">Class </h4>
                                                 <h5 ng-if='m._class_teachers' class="inline">by:</h5>
@@ -226,7 +229,8 @@
                                                     <p ng-if='t.pending == true' class="pending" style="padding-right: 5px;">{{t.name}}</p>
                                                 </h5>
                                                 <h4 class="inline" ng-if='m.class_start_time'>@ {{m.class_start_time | date:'shortTime'}} - {{m.class_end_time | date:'shortTime'}}</h4><br>
-                                                <h5 class="inline noto" ng-if='m.class_price'>Class: ${{m.class_price}}</h5>
+                                                <h5 class="inline noto" ng-if='m.class_price > 0'>Class: ${{m.class_price}}</h5>
+                                                <h5 class="inline noto" ng-if='m.class_price == 0'>Class: <strong style="color: green;">FREE</strong></h5>
                                                 <h5 class="inline noto" ng-if='m.class_combo_price'>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Milonga & Class: ${{m.class_combo_price}}</h5>
                                             </div><br ng-if='m.details'>
                                             <h4>{{m.details}}</h4><br ng-if='m.details'>
@@ -309,7 +313,12 @@
             </div><br>
             <button type="button" class="but reach btn btn-secondary btn-lg btn-block" ng-click="go('/generalMap')">SEE OUR REACH</button>
             <button type="button" class="butforum reach btn btn-secondary btn-lg btn-block" ng-click="go('/forum')" style="font-family: 'La Belle Aurore', cursive;">QueMilonga<strong style="font-family: 'Inconsolata', monospace; ">FORUM</strong></button>
+        
+                
+            
         </div>
+        <h4 class="noto">Did you know?</h4>
+        <p>You can find your favorite performer's schedule</p>
 
     </div>
     

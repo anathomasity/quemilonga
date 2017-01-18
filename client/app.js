@@ -13,6 +13,24 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		        $rootScope.user = data.data
 		    })
 		}
+
+		$scope.threads = [];
+
+		forumFactory.getThreads(function(dat){
+		    var threads = dat;
+		    var totals = [];
+		    var numberOfPosts = Math.floor(threads.length/3)
+		    for(var i = 0; i < threads.length; i++){
+		        totals.push({index: i, total: threads[i].views + threads[i]._comments.length})
+		    }
+		    totals.sort(compare);
+		    var highestScores = totals.splice(0,numberOfPosts);
+		    highestScores = shuffle(highestScores);
+		    $scope.threads.push(threads[highestScores[0].index])
+		    $scope.threads.push(threads[highestScores[1].index])
+		    // console.log($scope.threads);
+
+		})
 		
     	$scope.$on('fb.auth.authResponseChange', function() {
 		    $scope.status = $facebook.isConnected();
@@ -290,6 +308,34 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 				$scope.attendees = data.data;
 			})
 		}
+
+		  function compare(a,b) {
+		    if (a.total < b.total)
+		      return 1;
+		    if (a.total > b.total)
+		      return -1;
+		    return 0;
+		  }
+
+		  function shuffle(array) {
+		    var currentIndex = array.length, temporaryValue, randomIndex;
+
+		    // While there remain elements to shuffle...
+		    while (0 !== currentIndex) {
+
+		      // Pick a remaining element...
+		      randomIndex = Math.floor(Math.random() * currentIndex);
+		      currentIndex -= 1;
+
+		      // And swap it with the current element.
+		      temporaryValue = array[currentIndex];
+		      array[currentIndex] = array[randomIndex];
+		      array[randomIndex] = temporaryValue;
+		    }
+
+		    return array;
+		  }
+
 
 
 

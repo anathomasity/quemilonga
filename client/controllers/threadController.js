@@ -44,6 +44,13 @@ myApp.controller('threadController', function($scope, $routeParams, forumFactory
 
         if($rootScope.user && $scope.thread._user._id != $rootScope.user._id) {
             forumFactory.updateViews(threadId, function(data){
+                // console.log('added view', data)
+
+            })
+        }
+        else if(!$rootScope.user) {
+            forumFactory.updateViews(threadId, function(data){
+                // console.log('added view', data)
 
             })
         }

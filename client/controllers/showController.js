@@ -13,7 +13,11 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 
 	var performerId = $routeParams.id;
 	eventsFactory.getPerformer(performerId, function(data){
+		// console.log(data.data)
 		$scope.performer = data.data;
+
+		$scope.futureDates = futureDates();
+		
 
 		if($scope.performer.youtubeLink){
 			var videoID = '';
@@ -44,6 +48,8 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 
 	})
 
+	var today = moment().startOf('day').format();
+
 
 	$scope.sortMilongas = function(milonga){
 		// console.log('SORT MILNGAS')
@@ -66,7 +72,7 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 	}
 
 	$scope.updateMyProfile = function(){
-		
+
 		var info = {
 			from: $scope.editPerformer.from,
 			performerId: performerId,
@@ -80,6 +86,18 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 		eventsFactory.updateMyProfile(info, function(updatedProfile){
 			eventsFactory.getPerformer(performerId, function(data){
 				$scope.performer = data.data;
+				if($scope.performer.youtubeLink){
+					var videoID = '';
+					for (var i = $scope.performer.youtubeLink.length - 1; i > 0; i--) {
+						if($scope.performer.youtubeLink[i] == '/' || $scope.performer.youtubeLink[i] == '='){
+							break;
+						}
+						videoID = $scope.performer.youtubeLink[i] + videoID;
+						// console.log(videoID)
+
+					}
+					$scope.youtubeURL = 'https://www.youtube.com/embed/' + videoID;
+				}
 			})
 			$('#editMyProfileModal').modal('hide');
 
@@ -98,6 +116,67 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 			$scope.toggle = 'performers';
 		}
 	}
+
+	function futureDates(){
+		for(var i = 0; i < $scope.performer._milongas_attending.length; i++){
+			if($scope.performer._milongas_attending[i].milonga[0]){
+				// console.log('COMPARING', $scope.performer._milongas_attending[i].milonga[0].date, today)
+
+				if ($scope.performer._milongas_attending[i].milonga[0].date >= today ) {
+					// console.log('returning true')
+					return true;
+
+				}
+			}
+			else if ($scope.performer._milongas_attending[i].class[0]) {
+				// console.log('COMPARING', $scope.performer._milongas_attending[i].class[0].date, today)
+				if ($scope.performer._milongas_attending[i].class[0].date >= today ) {
+					// console.log('returning true')
+
+					return true;
+				}
+			}
+
+			
+		}
+					// console.log('returning false')
+
+		return false;
+	}
+
+	function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 1,
+          center: {lat: 0, lng: 0},
+          mapTypeId: 'terrain'
+        });
+
+        // Define a symbol using SVG path notation, with an opacity of 1.
+        var lineSymbol = {
+          path: 'M 0,-1 0,1',
+          strokeOpacity: 1,
+          scale: 4
+        };
+
+        // Create the polyline, passing the symbol in the 'icons' property.
+        // Give the line an opacity of 0.
+        // Repeat the symbol at intervals of 20 pixels to create the dashed effect.
+        var line = new google.maps.Polyline({
+          path: [{lat: 22.291, lng: 153.027}, {lat: 41.8781, lng: -87.6298}, {lat:35.6895, lng: 139.6917}],
+          strokeOpacity: 0,
+          icons: [{
+            icon: lineSymbol,
+            offset: '0',
+            repeat: '20px'
+          }],
+          map: map
+        });
+      }
+	
+	// setTimeout(function(){
+	// 	initMap();
+	// }, 50)
+
 
 
 })

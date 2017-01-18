@@ -2,48 +2,60 @@
 <!-- {{performer}} -->
 
 	<div id="showPageInfo">
-		<div>
-			<div class="inline">
+		<h5 ng-if='performer._id == user.performerId' class="inline" style="float: right;"><a ng-click='editMyProfile()' class="body_links noto pointer">EDIT MY PROFILE</a><br></h5><br>
+		<div class="row">
+
+			<div class="col-xs-12 col-md-6">
 				<h3 class="noto">{{performer.name}}</h3>
 				<h5 ng-if='performer.from'>From {{performer.from}}</h5>
 				<h5 ng-if='performer._partner'>Partners with <a href="#/performers/{{performer._partner._id}}" class="body_links noto">{{performer._partner.name}}</a></h5>
 			</div>
-			<h5 ng-if='performer._id == user.performerId' class="inline" style="float: right;"><a ng-click='editMyProfile()' class="body_links noto pointer">EDIT MY PROFILE</a></h5><br><br><hr>
-		</div>
+			<div class="col-xs-12 col-md-6" >
+				
+				<a  class='inline' style="float: right;" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fperformers%2F{{performer._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Flegswithlogo.png&title={{performer.name}}%27s+profile+on+QueMilonga.com&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Follow+{{performer.name}}%27s++detailed+schedule+on+QueMilonga.com&description={{performer.introduction}}"><div class='shareButton'></div></a><br>
+				<h5 style="float: right;">Share this profile on Facebook</h5>
+			</div>
+
+		</div><br><hr>
 
 
 		<div class="row">
-			<div class="col-xs-12 col-md-6" style="text-align: center">
+			<div class="col-xs-12 col-md-6" style="text-align: center" ng-if='performer.introduction || performer._favorite_dancers.length > 0'>
 				<h4 ng-if='performer.introduction'>{{performer.introduction}}</h4><br><br>
 				<div ng-if='performer._favorite_dancers.length > 0'>
 					<h4><strong>Some of my favorite Colleagues:</strong></h4>
-					<h5 ng-repeat='d in performer._favorite_dancers' class="inline"><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h5>
+					<h5 ng-repeat='d in performer._favorite_dancers' class="inline"><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h5><br><br>
+					<!-- <div id="map" style="width: 420px; height: 315px;"></div> -->
 				</div>
 			</div>
 			<div ng-if='performer.youtubeLink' class="col-xs-12 col-md-6" style="text-align: center;">
-				<iframe width="420" height="315"
+				<iframe height="300em" width="98%" 
 				ng-src="{{trustSrc(youtubeURL)}}">
 				</iframe>
 			<br><br>
 			<br><hr><br>
 
 			</div>
-		</div>
+		</div><br><br><br>
 	</div>
 
 
 
 	<h4 class="noto">MY UPCOMING EVENTS</h4><br>
 
-	<div ng-if='performer._milongas_attending.length < 1'>
-		<br><br>
-		<h5>Sorry, this performer doesn't have any milongas listed.</h5>
-		<h4>Do you know where he/she's going to be? <a href="#/milongas/new" class="body_links noto">Add the event and list him!</a></h4>
-		<br><br>
+	<div style="text-align: center;" ng-if='performer._milongas_attending.length < 1 || futureDates == false'>
+		<h5>Sorry, this performer doesn't have any upcoming events listed.</h5>
+		<h4>Do you know where he/she's going to be?</h4>
+		<div>
+            <button type="button" class="but btn" ng-click="go('/milongas/new')">POST NEW MILONGA</button>
+            <button type="button" class="but btn" ng-click="go('/classes/new')">POST NEW CLASS</button>
+			<h4>and tag him! It's very easy, and you don't need to be an organizer to add events.</h4>
+            <hr>
+        </div>
 	</div>
 	
 
-	<div class="scrollbar" id="style-13" >
+	<div class="scrollbar" id="style-13" ng-if='futureDates == true'>
       	<div class="force-overflow">
 			<table class="table table-hover" >
 			  <thead>
@@ -54,9 +66,9 @@
 			  </thead>
 			  <tbody>
 
-			  	<tr ng-repeat='m in performer._milongas_attending | orderBy : sortMilongas'>
+			  	<tr ng-repeat='m in performer._milongas_attending | orderBy : sortMilongas' ng-if='m.milonga[0].date >= now || m.class[0].date >= now'>
 
-			        <th scope="row" ng-if="m.milonga[0].event_type == 'milonga' && (m.milonga[0].date >= now || m.class[0].date >= now) " style="background-color: #f8fcfb;">
+			        <th scope="row" ng-if="m.milonga[0].event_type == 'milonga'" style="background-color: #f8fcfb;">
 			        	<a href="#/milongas/{{m.milonga[0]._id}}" style="color: black" class="scheduleLinks">
 			        	<h3 ng-if='m.action == "performance" || m.action == "both"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
 			        	<h5 ng-if='m.action == "performance" || m.action == "both"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h5>
@@ -65,6 +77,9 @@
 			        	<h3 ng-if='m.action == "class"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
 			        	<h4 ng-if='m.action == "class"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
 			        	</a>
+
+        	      		<a ng-if='performer._id == user.performerId' href="#/milongas/{{m.milonga[0]._id}}/edit"><button class="but btn">Update Details</button></a>
+
 
 			        </th>
 
@@ -92,14 +107,16 @@
 			      	</td>
 
 
-			        <th scope="row" ng-if="m.class[0].event_type == 'class' && (m.class[0].date >= now || m.class[0].date >= now) " style="background-color: #fcf8f9" class="scheduleLinks">
+			        <th scope="row" ng-if="m.class[0].event_type == 'class'" style="background-color: #fcf8f9" class="scheduleLinks">
 			        	<a href="#/classes/{{m.class[0]._id}}" style="color: black">
 			        	<h4>Topic: <strong>{{m.class[0].topic}}</strong></h4>
 			        	<h5>{{m.class[0].address.city}}, {{m.class[0].address.country}}</h5>
 			        	</a>
+        	      		<a ng-if='performer._id == user.performerId' href="#/classes/{{m.class[0]._id}}/edit"><button class="but btn">Update Details</button></a>
+
 			        </th>
 
-			      	<td ng-if="m.class[0].event_type == 'class' && (m.class[0].date >= now || m.class[0].date >= now) " style="background-color: #fcf8f9">
+			      	<td ng-if="m.class[0].event_type == 'class'" style="background-color: #fcf8f9">
 			      		<h4 style="color: red">STUDIO CLASS</h4>
 			      		<h5 style="font-weight: bolder">{{m.class[0].date | date : fullDate}}</h5>
 			      		<h5>{{m.class[0].start_time | date:'shortTime'}} - {{m.class[0].end_time | date:'shortTime'}}</h5>
