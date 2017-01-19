@@ -118,13 +118,20 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 
 		// FIND MATCHES TO HELP FINDING THE TEACHER
 		$rootScope.performers = [];
+		$rootScope.dancer = {}
 		$scope.findMatches = function(type){
+			console.log('inside find matches')
+		 	$scope.fullname = true;
+		 	if(!$rootScope.dancer.name){
+		 		console.log('inside if')
+		 		return
+		 	}
 			if (type == 1){
 				if(!$rootScope.user){
 			 		// console.log('!Rosotscope user')
 			 		$('#loginModal').modal();
 			 	}
-			 	var string = $scope.dancer.name,
+			 	var string = $rootScope.dancer.name,
     			substring = ' and ',
     			substring2 = '&';
 				if (string.indexOf(substring) !== -1 || string.indexOf(substring2) !== -1) {
@@ -141,11 +148,12 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 				$rootScope.performers = data;
 				$scope.matches = [];
 				for (var i = 0; i < $rootScope.performers.length; i++){
-					if(getEditDistance($scope.dancer.name, $rootScope.performers[i].name) < 7){
+					if(getEditDistance($rootScope.dancer.name, $rootScope.performers[i].name) < 7){
 						$scope.matches.push($rootScope.performers[i])
 					}			
 				}
 			})
+			console.log($scope.matches)
 			
 			
 		}
@@ -165,7 +173,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 					
 					$('#exampleModal').modal('hide');
 					$scope.matches = false;
-					$scope.dancer = {};
+					$rootScope.dancer = {};
 				}			
 			}
 		}
@@ -181,7 +189,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		 	else{
 
 
-			 	var string = $scope.dancer.name,
+			 	var string = $rootScope.dancer.name,
     			substring = ' and ',
     			substring2 = '&';
 				if (string.indexOf(substring) !== -1 || string.indexOf(substring2) !== -1) {
@@ -194,6 +202,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 
 		 		$scope.onlyOneMsg = false;
 		 		$scope.msg = true;
+		 		$scope.fullname = false;
 				setTimeout(function(){ 
 					$('#exampleModal').modal('hide');
 					$('#findPerformerModal').modal('hide');
@@ -202,13 +211,13 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 
 				var requestData = {
 					requested_by: $rootScope.user,
-					name: $scope.dancer.name,
-					from: $scope.dancer.from
+					name: $rootScope.dancer.name,
+					from: $rootScope.dancer.from
 				}
 
 				eventsFactory.addPerformerRequest(requestData, function(addedDancer){
 					// console.log('succesfully requested, CONTROLLER')
-					$scope.dancer = false;
+					// $rootScope.dancer = false;
 					$scope.matches = false;
 
 					var pending = addedDancer.data.name + ' ' + '(PENDING)';
@@ -234,7 +243,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		$scope.viewPerformer = function(perfId){
 			$location.url('/performers/' + perfId);
 			$('#findPerformerModal').modal('hide');
-			$scope.dancer = false;
+			$rootScope.dancer = false;
 			$scope.matches = false;
 		}
 
