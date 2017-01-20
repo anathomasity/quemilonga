@@ -95,6 +95,13 @@ module.exports = function(app){
 	})
 
 
+	//get users
+
+	app.get('/users', function(req, res){
+		console.log(' made it to my /Users get route');
+		milongas.getUsers(req, res);
+	})
+
 	//everything else
 	
 	app.post('/milongas/:id/update', function(req, res){

@@ -1,7 +1,9 @@
-myApp.controller('forumController', function($scope, $routeParams, forumFactory, $location, $http, $rootScope, $facebook){
+myApp.controller('forumController', function($scope, $routeParams, forumFactory, $location, $http, $rootScope, $window, $facebook){
 
     $scope.thread = {};
     $scope.thread.user = '';
+    $window.scrollTo(0, 0);
+
 
     forumFactory.getThreads(function(dat){
         $scope.threads = dat;

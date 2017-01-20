@@ -1,6 +1,7 @@
-myApp.controller('generalMapController', function($scope, $routeParams, eventsFactory, $location, $http, $rootScope, $facebook){
+myApp.controller('generalMapController', function($scope, $routeParams, eventsFactory, $location, $http, $rootScope, $facebook, $window){
 
     var dat = [];
+    $window.scrollTo(0, 0);
 
 
     eventsFactory.countMilongas(function(data){

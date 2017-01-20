@@ -92,10 +92,11 @@
 		      <th>Name</th>
 		      <th>From</th>
 		      <th>FB ID</th>
+		      <th>MATCH</th>
 		    </tr>
 		  </thead>
 		  <tbody>
-		    <tr ng-if="dancers && d.pending == false" ng-repeat='d in dancers | filter:filter_name | orderBy: "createdAt":true'>
+		    <tr ng-if="dancers && d.pending == false" ng-repeat='d in dancers | filter:filter_name track by $index'>
 
 		      <th scope="row"><a style="color: blue" href="#/performers/{{d._id}}">{{d.name}}</a></th>
 
@@ -104,6 +105,8 @@
 		      <td ng-if='d.fb_id'><a href="http://www.facebook.com/{{d.fb_id}}" style="color: red;">FB PROFILE</a></td>
 
 		      <td ng-if='!d.fb_id'>NOT LINKED YET</td>
+
+		      <td ng-if='d.match'><button ng-click='acceptAccountLinking($index, "button")'>LINK THEM</button></td>
 
 		    </tr>
 		  </tbody>

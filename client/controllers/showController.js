@@ -3,13 +3,15 @@
 
 
 
-myApp.controller('showController', function($scope, $rootScope, $sce, $routeParams, eventsFactory){
+myApp.controller('showController', function($scope, $rootScope, $sce, $routeParams, eventsFactory, $window){
 
 	$scope.now = moment().add(-1,'days').format();
 	$rootScope.teachers = [];
 	$rootScope.performers = [];
 	$scope.toggle;
 	$scope.editPerformer = {};
+    $window.scrollTo(0, 0);
+
 
 	var performerId = $routeParams.id;
 	eventsFactory.getPerformer(performerId, function(data){

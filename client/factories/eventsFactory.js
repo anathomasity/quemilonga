@@ -391,6 +391,15 @@ myApp.factory('eventsFactory', function($http){
 		})
 	}
 
+	factory.getUsers = function(callback){
+		// console.log('made it to Get users factory');
+		$http.get('/users').then(function(users){
+			// console.log('made it back from backend with users', users);
+			users = users.data;
+			callback(users);
+		})
+	}
+
 
 	return factory;
 })

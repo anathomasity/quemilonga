@@ -1,9 +1,8 @@
 
 
 <section class="clearfix">
-    <div class="container">
-        <div class="section-left">
-            <div class="searchLine">
+
+            <div class="searchLine container">
                 <h4 class="inline">Find</h4>
                 <select class="inline searchInputs" ng-model="search.what">
                     <option ng-selected="search" style="color: black">Milongas</option> 
@@ -23,13 +22,6 @@
                 <input class="inline searchInputs cityInput" type="text" g-places-autocomplete ng-model="search.city" options="autocompleteOptions" placeholder="Enter a City" ng-value='search.city' ng-click="search.city = null"/>
             </div>
 
-            
-        </div>
-<!--         <div class="section-right">
-            <a href="#/milongas/new" class="inline"><button class="learn-more noto">Add Milonga</button></a>
-            <a href="#/classes/new" class="inline"><button class="learn-more noto">Add Class</button></a>
-        </div> -->
-    </div>
 </section>
 
 <br>
@@ -45,16 +37,15 @@
 
 
         <div ng-if="anyMilonga()" class="col-xs-12 col-md-8 wrap zeromargin">   
-
-            <div class="col-md-8">
-                <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
-            </div>
             
 
             <div ng-if='sorryMsg'>
-            <br><br><br>
                 <h4 ng-if='search.what != "All"' style="color: #EAAF00; background-color: #f5f5f0; padding: .8em; border: 1px solid #EAAF00; border-radius: 5px;">Sorry, no {{search.what}} found for <strong>{{search.date | date : fullDate}}</strong>. See the next few days's results:</h4>
                 <h4 ng-if='search.what == "All"' style="color: #EAAF00; background-color: #f5f5f0; padding: .8em; border: 1px solid #EAAF00; border-radius: 5px;">Sorry, no events found for <strong>{{search.date | date : fullDate}}</strong>. See the next few days's results:</h4>
+            </div><br>
+
+            <div class="col-md-8">
+                <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
             </div><br>
 
             <div ng-repeat='day in milongas' ng-if='day.length > 0' class="milonga">
@@ -309,7 +300,7 @@
         <!-- CALENDAR FOR OTHER DATES -->
         <div class="col-xs-12 col-md-4 calendar" >
             <div>
-                <h4 class="noto">Want to check other dates?</h4>
+                <h4 class="noto">Check other dates</h4>
                 <div uib-datepicker ng-model="search.date" class="well-sm" datepicker-options="options"></div>
             </div><br><hr class="hr">
             <div>

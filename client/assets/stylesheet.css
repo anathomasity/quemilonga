@@ -16,8 +16,9 @@
     box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
 }
 
-
-
+#brand {
+	width: 75%;
+}
 
 
 
@@ -191,10 +192,11 @@
 }
 .clearfix {
   *zoom: 1;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  text-align: center;
 }
-html{
-	font-size: 12px;
-}
+
 
 .clearfix:before,
 .clearfix:after {
@@ -206,7 +208,7 @@ html{
   clear: both;
 }
 .container{
-	width: 80%;
+	width: 68%;
 	margin: 0 auto;
 }
 header{
@@ -786,6 +788,13 @@ section{
 		padding: 0;
 	}
 
+	.clearfix {
+	  *zoom: 1;
+	  padding-top: .2em;
+	  padding-bottom: .2em;
+	  text-align: center;
+	}
+
 	#mainInfoPartial{
 		/*font-size: 60%;*/
 	}
@@ -833,6 +842,9 @@ section{
 		font-size: small;
 	}
 
+	#brand {
+		width: 100%;
+	}
 
 	/*CALENDAR*/
 

@@ -5,6 +5,8 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
   }
   else {
 
+  $window.scrollTo(0, 0);
+
 
   refreshUser();
 

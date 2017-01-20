@@ -1,4 +1,4 @@
-myApp.controller('adminController', function($scope, eventsFactory, $location, $http, $rootScope, $facebook){
+myApp.controller('adminController', function($scope, eventsFactory, $location, $http, $rootScope, $facebook, $window){
 
 	if(!$rootScope.user){
  		// console.log('!Rosotscope user')
@@ -9,10 +9,43 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
  		$location.url('/')
  	}
  	else{
+
+ 		var dancersWithUser = [];
+    	$window.scrollTo(0, 0);
+
 		eventsFactory.getPerformers(function(data){
-			console.log('Performers:', data)
+			// console.log('Performers:', data)
 			$scope.dancers = data;
+
+
+			eventsFactory.getUsers(function(data){
+				// console.log('users:', data)
+				$scope.users = data;
+
+				for(var i = 0; i < $scope.dancers.length; i++) {
+					// console.log('inside loop')
+					for(var k = 0; k < $scope.users.length; k++ ) {
+						// console.log('inside loop2')
+
+						var userName = $scope.users[k].first_name.concat(' ' + $scope.users[k].last_name)
+						var dancerName = $scope.dancers[i].name
+						userName = userName.toUpperCase();
+						dancerName = dancerName.toUpperCase();
+						// console.log('comparing: ', $scope.dancers[i].name, userName)
+						if (dancerName == userName) {
+							dancersWithUser.push({
+								performer: $scope.dancers[i],
+								user: $scope.users[k],
+								fb_id: $scope.users[k].fb_id,
+							})
+							$scope.dancers[i].match = true;
+							console.log($scope.dancers[i], 'JUST ADDED MATCH')
+						}
+					}
+				}
+			})
 		})
+
 		eventsFactory.getRequests(function(data){
 			console.log('Requests:', data)
 			$scope.dancerRequests = data;
@@ -25,6 +58,8 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
 			console.log('Linking requests:', data)
 			$scope.linkingRequests = data;
 		})
+
+		
 
 
 		$scope.addPerformer = function(index){
@@ -86,9 +121,32 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
 		}
 
 		
-		$scope.acceptAccountLinking = function(index){
+		$scope.acceptAccountLinking = function(index, button){
 
-			var requestToAccept = $scope.linkingRequests[index];
+			if(button){
+				var dancer = $scope.dancers[index];
+						console.log('dancersWithUser', dancersWithUser)
+						console.log('dancer to compare', dancer)
+
+				for (var i = 0; i < dancersWithUser.length; i++) {
+						console.log('comparing', dancer._id, dancersWithUser[i].performer._id)
+
+					if(dancer._id == dancersWithUser[i].performer._id){
+						var requestToAccept = {
+							fb_id:  dancersWithUser[i].user.fb_id,
+							user:  dancersWithUser[i].user,
+							performer:  dancersWithUser[i].performer,
+						}
+					}
+				}
+				
+			}
+			else{
+				var requestToAccept = $scope.linkingRequests[index];
+			}
+
+
+			console.log(requestToAccept)
 			eventsFactory.acceptAccountLinking(requestToAccept, function(result){
 				eventsFactory.getPerformers(function(data){
 					console.log('Performers:', data)

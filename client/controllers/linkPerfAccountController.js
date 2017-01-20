@@ -1,6 +1,8 @@
-myApp.controller('linkPerfAccountController', function($scope, $rootScope, $routeParams, forumFactory, eventsFactory, $location, $http, $rootScope, $facebook){
+myApp.controller('linkPerfAccountController', function($scope, $rootScope, $routeParams, forumFactory, eventsFactory, $location, $window, $http, $rootScope, $facebook){
 
     $rootScope.teachers = [];
+    $window.scrollTo(0, 0);
+    
 
 
     eventsFactory.getPerformers(function(dat){

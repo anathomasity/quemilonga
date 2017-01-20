@@ -1071,6 +1071,18 @@ module.exports = (function() {
 
 		},
 
+		getUsers: function(req, res){
+
+			User.find({}, function(err, users){
+				if(err){
+					console.log(err);
+					console.log('error finding users, milongas controller');
+				} else {
+					res.json(users);
+				} //END OF ELSE
+			})
+		},
+
 
 		
 	}
