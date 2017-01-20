@@ -123,6 +123,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 			console.log('inside find matches')
 		 	$scope.fullname = true;
 		 	if(!$rootScope.dancer.name){
+		 		console.log("DANCER", $rootScope.dancer)
 		 		console.log('inside if')
 		 		return
 		 	}
@@ -160,7 +161,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 
 
 		$scope.selectMatch = function(match){
-			// console.log('match:',match);
+			// console.log('SElECT MATCH match:',match);
 			for (var i = 0; i < $rootScope.performers.length; i++){
 				if(match._id == $rootScope.performers[i]._id){
 					if ($scope.toggle == 'performers') {
@@ -243,8 +244,9 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		$scope.viewPerformer = function(perfId){
 			$location.url('/performers/' + perfId);
 			$('#findPerformerModal').modal('hide');
-			$rootScope.dancer = false;
+			$rootScope.dancer = {};
 			$scope.matches = false;
+
 		}
 
 		var getEditDistance = function(a, b){

@@ -314,8 +314,8 @@
                                 <h4 class="noto" >Did you know?</h4><br>
 
 
-                                <label for="recipient-name" class="form-control-label">You can find your favorite performer's schedule and follow him!</label>
-                                <h5>Performer's full name: (e.g: "Osvaldo Zotto")</h5>
+                                <label for="recipient-name" class="form-control-label">You can find your favorite dancer's schedule and follow him!</label>
+                                <h5>Dancer's full name: (e.g: "Osvaldo Zotto")</h5>
 
                                 <input type="text" class="form-control" id="recipient-name" ng-model="dancer.name" name="dName" required="">
                                 <div class="errorMsgs" ng-show="form2.dName.$touched" ng-if='fullname'>
@@ -328,7 +328,7 @@
                         </div>
                         <div ng-if='matches.length > 0'>
                             <h3 class="noto">Did you mean...</h3>
-                            <a ng-repeat='m in matches' class="body_links" style="cursor: pointer; display: block;" ng-click='viewPerformer(m._id)'>.. {{m.name}}?</a>
+                            <a ng-repeat='m in matches' class="body_links" style="cursor: pointer; display: block;" ng-click='viewPerformer(m._id);'>.. {{m.name}}?</a>
                             <br>
                             <p>If we couldn't find a match, you can still put a request to add him/her.</p>
                         </div>

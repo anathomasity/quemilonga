@@ -14,8 +14,8 @@
 
 <!--     Bootstrap and jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!--     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
@@ -128,7 +128,7 @@
                 <a id="newMilLink" class="navLinks" href="#/milongas/new" ng-click='closeNav()'>POST NEW MILONGA</a>
                 <a id="newMilLink" class="navLinks" href="#/classes/new" ng-click='closeNav()'>POST NEW CLASS</a>
                 <a id="forumLink" class="navLinks" href="#/forum" ng-click='closeNav()' style="font-family: 'La Belle Aurore', cursive;">QueMilonga<strong style="font-family: 'Inconsolata', monospace; ">FORUM</strong></a>
-                <a ng-click='findPerformerModal(); closeNav()' class="navLinks">Follow Teacher</a>
+                <a ng-click='findPerformerModal(); closeNav()' class="navLinks">Find Dancer Schedule</a>
                 <a ng-if='!user' ng-click='login(); closeNav()' class="navLinks">Login</a>
                 <a ng-if='user' ng-click='logout(); closeNav()' class="navLinks">Logout</a>
             </nav>
@@ -173,7 +173,7 @@
                                 <td>
                                     <h6 style="color: gray">{{t.createdAt | date : fullDate}}</h6>
                                     <h4 style="font-weight: bolder;"><a style="color: black" href="#/threads/{{t._id}}">{{t.title}}</a></h4>
-                                    <h5 class="inline"><strong>By <a href="http://www.facebook.com/{{t._user.fb_id}}" class="body_links">{{t._user.first_name}} {{t._user.last_name}}</a></strong> |</h5>
+                                    <h5 class="inline"><strong>By <a href="https://www.facebook.com/{{t._user.fb_id}}" class="body_links">{{t._user.first_name}} {{t._user.last_name}}</a></strong> |</h5>
                                     <h5 class="inline" ng-if='t._comments'><strong>{{t._comments.length}}</strong> answers </h5>
                                     <h5 class="inline"> | <strong>{{t.views}}</strong> views </h5>
                                     <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fthreads%2F{{t._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fforum2.png&title={{t.title}}&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Check+out+this+thread+on+QueMilonga.com+FORUM&description={{t.content}}"><div class='shareButton inline'></div><br></a>
@@ -252,7 +252,7 @@
                             <h5 style="color:red;" id="noMatchMessage">We couldn't find a match, you can still put a request to add him/her to our database.</h5>
                         </div>
                         <div ng-if='msg'>
-                            <h5 style="color:green;" >Thanks! Request succesfully submitted.</h5>
+                            <h5 style="color:green;" >Request succesfully submitted. You can now tag him.</h5>
                         </div>
                     </div>
                     <div class="modal-footer">

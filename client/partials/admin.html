@@ -106,7 +106,8 @@
 
 		      <td ng-if='!d.fb_id'>NOT LINKED YET</td>
 
-		      <td ng-if='d.match'><button ng-click='acceptAccountLinking($index, "button")'>LINK THEM</button></td>
+		      <td ng-if='d.match && !d.fb_id'><button ng-click='acceptAccountLinking($index, "button")'>LINK THEM</button></td>
+
 
 		    </tr>
 		  </tbody>
