@@ -1,4 +1,4 @@
-myApp.controller('showClassController', function($scope, $routeParams, eventsFactory, $location, $http, $rootScope, $facebook){
+myApp.controller('showClassController', function($scope, $routeParams, eventsFactory, $location, $http, $rootScope, $facebook, $window){
 
 	var classId = $routeParams.id;
 	eventsFactory.getClass(classId, function(data){

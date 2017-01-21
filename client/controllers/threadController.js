@@ -1,4 +1,4 @@
-myApp.controller('threadController', function($scope, $routeParams, forumFactory, $location, $window, $http, $rootScope, $facebook){
+myApp.controller('threadController', function($scope, $routeParams, forumFactory, $location, $window, $http, $rootScope, $facebook,  $window){
 
     $scope.thread = {};
     $scope.thread.user = '';

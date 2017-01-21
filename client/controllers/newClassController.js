@@ -1,4 +1,4 @@
-myApp.controller('newClassController', function($scope, eventsFactory, $location, $http, $rootScope, $facebook){
+myApp.controller('newClassController', function($scope, eventsFactory, $location, $http, $rootScope, $facebook, $window){
     $window.scrollTo(0, 0);
 
 	$scope.event = {};

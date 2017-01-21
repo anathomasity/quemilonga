@@ -120,11 +120,11 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		$rootScope.performers = [];
 		$rootScope.dancer = {}
 		$scope.findMatches = function(type){
-			console.log('inside find matches')
+			// console.log('inside find matches')
 		 	$scope.fullname = true;
 		 	if(!$rootScope.dancer.name){
-		 		console.log("DANCER", $rootScope.dancer)
-		 		console.log('inside if')
+		 		// console.log("DANCER", $rootScope.dancer)
+		 		// console.log('inside if')
 		 		return
 		 	}
 			if (type == 1){
@@ -136,7 +136,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
     			substring = ' and ',
     			substring2 = '&';
 				if (string.indexOf(substring) !== -1 || string.indexOf(substring2) !== -1) {
-		 			console.log('includes 2 performers');
+		 			// console.log('includes 2 performers');
 		 			$scope.onlyOneMsg = 'Please submit one request for each performer separately';
 		 			return
 		 		}
@@ -154,7 +154,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 					}			
 				}
 			})
-			console.log($scope.matches)
+			// console.log($scope.matches)
 			
 			
 		}

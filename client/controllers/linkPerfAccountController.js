@@ -1,4 +1,4 @@
-myApp.controller('linkPerfAccountController', function($scope, $rootScope, $routeParams, forumFactory, eventsFactory, $location, $window, $http, $rootScope, $facebook){
+myApp.controller('linkPerfAccountController', function($scope, $rootScope, $routeParams, forumFactory, eventsFactory, $location, $window, $http, $rootScope, $facebook, $window){
 
     $rootScope.teachers = [];
     $window.scrollTo(0, 0);

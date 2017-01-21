@@ -1,3 +1,7 @@
+// IF USER DENIES GEOLOCATION, FIX SAN FRANCISCO!!!!
+
+
+
 myApp.controller('indexController', function($scope, eventsFactory, forumFactory, $cookies, $location, $http, $rootScope, $window){
 
   $scope.pos;
@@ -26,23 +30,14 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
   else if (($rootScope.user && !$rootScope.user.city_preference) || !$rootScope.user){
       if (navigator.geolocation) {
           $rootScope.search.city = 'Your current location';
-          navigator.geolocation.getCurrentPosition(function(position) {
-
-                $scope.pos = {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-                };
-
-
-                info.pos = $scope.pos;
-          })
+          navigator.geolocation.getCurrentPosition(success, error);
       }
       else{
         $scope.pos = {
           lat: 37.7749295,
           lng: -122.41941550000001,
         }
-        var st = 'CA'
+        // var st = 'CA'
         $rootScope.search.city = 'San Francisco, CA, USA';
       }
 
@@ -58,6 +53,30 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
   //     $rootScope.search.city = $scope.userCookie.cityPrefCity;
 
   // }
+
+  function success(position) {
+      console.log('SUCCESS', position)
+      $scope.pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      info.pos = $scope.pos;
+  };
+
+  function error(err) {
+    console.log(`ERROR(${err.code}): ${err.message}`);
+    $scope.pos = {
+      lat: 37.7749295,
+      lng: -122.41941550000001,
+    }
+    // var st = 'CA'
+    $rootScope.search.city = 'San Francisco, CA, USA';
+
+    eventsFactory.getMilongas(info, function(data){
+        $scope.milongas = data;
+        setErrorMsg();
+    })
+  };
 
   var info = {
       range: range,
