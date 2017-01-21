@@ -16,8 +16,11 @@ myApp.factory('eventsFactory', function($http){
 		if(!info.range){
 			info.range = 50;
 		}
-
+		if(!info.pos){
+	        return
+	    }
 		$http.post('/milongas/get', info).then(function(data){
+			
 			// console.log('DATE AT FACTORY', info)
 
 			for(day in data.data){

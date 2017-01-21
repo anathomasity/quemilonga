@@ -100,7 +100,7 @@ module.exports = (function() {
 		getMilongas: function(req, res){
 
 			console.log('GET MILONGAS:', req.body);
-			Milonga.find({"address.state" : req.body.state.state})
+			Milonga.find({})
 			.populate('_performers')
 			.populate('_class_teachers')
 			.exec(function(err, milongas){

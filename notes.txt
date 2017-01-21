@@ -1,3 +1,59 @@
+THIS IS THE CHUNK I JUST DELETED TO USE THE SATE. REMOVED GOOGLE GEOCODE TO GET THE USER STATE. NOW IM QUERING ALL THE EVENTS
+
+
+
+          // console.log('ABOUT TO CALL', pos)
+        //     $http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="
+        //   + pos.lat + ","
+        //   + pos.lng 
+        //   + "&key=AIzaSyCVt2_VyislvhmEKm-DzrFwfarQaLrTs4Q")
+        // .then(function(resp){
+        //   // console.log('RESPO',resp)
+
+        //     for (var p=0; p < resp.data.results[0].address_components.length; p++){
+
+        //       // console.log(resp.data.results[0].address_components)
+        //       if (resp.data.results[0].address_components[p].types[0] == 'administrative_area_level_1') {
+        //           var st = resp.data.results[0].address_components[p].short_name;
+        //       }
+        //       if (resp.data.results[0].address_components[p].types[0] == 'locality') {
+        //           var city = resp.data.results[0].address_components[p].short_name;
+        //       }
+        //       if (resp.data.results[0].address_components[p].types[0] == 'country') {
+        //           var country = resp.data.results[0].address_components[p].short_name;
+        //       }
+
+        //     }
+            
+
+        //     info.state.state = st;
+
+        //     eventsFactory.getMilongas(info, function(data){
+        //         $scope.milongas = data;
+        //         // console.log($scope.milongas)
+        //         setErrorMsg();
+        //     })
+
+        // })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--     <script type="text/javascript">
 
   if (navigator.geolocation) {

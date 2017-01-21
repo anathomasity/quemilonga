@@ -1,51 +1,11 @@
-
 myApp.controller('indexController', function($scope, eventsFactory, forumFactory, $cookies, $location, $http, $rootScope, $window){
 
-  var state;
+  var pos;
+  var st;
   var range = 50;
   $rootScope.search = {};
   $rootScope.search.what = 'Milongas'
 
-  
-
-  if($rootScope.user){
-    refreshUser();
-    // console.log($rootScope.user)
-  }
-
-  // console.log($scope.userCookie)
-  
-
-  if((!$rootScope.user || !$rootScope.user.city_preference) && !$scope.userCookie.cityPrefCity) {
-      var pos = {
-        lat: 37.7749295,
-        lng: -122.41941550000001,
-      }
-      var st = 'CA'
-      $rootScope.search.city = 'San Francisco, CA, USA';
-      var utc_offset = -480;
-  }
-  else if($rootScope.user && $rootScope.user.city_preference){
-
-      var pos = {
-        lat: $rootScope.user.city_preference.coordinates.lat,
-        lng: $rootScope.user.city_preference.coordinates.lng,
-      }
-      var st = $rootScope.user.city_preference.state;
-      $rootScope.search.city = $rootScope.user.city_preference.city;
-      var utc_offset = $rootScope.user.city_preference.utc_offset;
-  }
-  else if($scope.userCookie.cityPrefCity){
-    // console.log('city from cookie')
-      var pos = {
-        lat: $scope.userCookie.cityPrefLat,
-        lng: $scope.userCookie.cityPrefLng,
-      }
-      var st = $scope.userCookie.cityPrefState;
-      $rootScope.search.city = $scope.userCookie.cityPrefCity;
-      var utc_offset = $scope.userCookie.cityPrefUtc_offset;
-
-  }
 
   $scope.milongas = {
     today: [],
@@ -53,7 +13,52 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
     day_after: [],
   };
 
-  $rootScope.search.date = new Date();
+  if($rootScope.user && $rootScope.user.city_preference){
+
+      var pos = {
+        lat: $rootScope.user.city_preference.coordinates.lat,
+        lng: $rootScope.user.city_preference.coordinates.lng,
+      }
+      var st = $rootScope.user.city_preference.state;
+      $rootScope.search.city = $rootScope.user.city_preference.city;
+  }
+
+  else if (($rootScope.user && !$rootScope.user.city_preference) || !$rootScope.user){
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+
+                var pos = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+                };
+
+                $rootScope.search.city = 'Your current location';
+
+                info.pos = pos;
+          })
+      }
+      else{
+        var pos = {
+          lat: 37.7749295,
+          lng: -122.41941550000001,
+        }
+        var st = 'CA'
+        $rootScope.search.city = 'San Francisco, CA, USA';
+      }
+
+  }
+
+  // else if($scope.userCookie.cityPrefCity){
+  //   // console.log('city from cookie')
+  //     var pos = {
+  //       lat: $scope.userCookie.cityPrefLat,
+  //       lng: $scope.userCookie.cityPrefLng,
+  //     }
+  //     var st = $scope.userCookie.cityPrefState;
+  //     $rootScope.search.city = $scope.userCookie.cityPrefCity;
+
+  // }
+
 
   var info = {
       range: range,
@@ -64,17 +69,15 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
         tomorrow: moment($rootScope.search.date).add(1, 'days').format('YYYY MM DD'),
         day_after: moment($rootScope.search.date).add(2, 'days').format('YYYY MM DD')
       },
-      utc_offset: utc_offset,
   };
 
+  
 
   eventsFactory.getMilongas(info, function(data){
+      
       $scope.milongas = data;
       // console.log($scope.milongas)
-      if($scope.milongas.today.length == 0) {
-          // console.log($scope.milongas.today.length)
-          $scope.sorryMsg = true;
-      }
+      setErrorMsg();
   })
 
 
@@ -87,20 +90,14 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
       // console.log('WE ARE SEARCHING WITHIN CLASSES')
       eventsFactory.getClasses(info, function(data){
           $scope.milongas = data;
-          if($scope.milongas.today.length == 0) {
-              // console.log($scope.milongas.today.length)
-              $scope.sorryMsg = true;
-          }   
+          setErrorMsg(); 
       })
     }
     else if ( $scope.search.what == 'Milongas' || !$scope.search.what){
       // console.log('WE ARE SEARCHING WITHIN MILONGAS')
       eventsFactory.getMilongas(info, function(data){
           $scope.milongas = data;  
-          if($scope.milongas.today.length == 0) {
-              // console.log($scope.milongas.today.length)
-              $scope.sorryMsg = true;
-          } 
+          setErrorMsg();
       })
     }
     else if ( $scope.search.what == 'All'){
@@ -119,13 +116,13 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
               $scope.milongas.day_after.push(data.day_after[x]);
           }
           // console.log($scope.milongas)
-          if($scope.milongas.today.length == 0) {
-              // console.log($scope.milongas.today.length)
-              $scope.sorryMsg = true;
-          }
+          setErrorMsg();
       })
     }
   });
+
+
+
 
   $rootScope.$watch("search.city", function(newValue, oldValue) {
     $scope.sorryMsg = false;
@@ -134,13 +131,12 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
 
         //if the user typed in a new city, save it to preferences
         if ($rootScope.search.city && $rootScope.search.city.geometry) {
-            console.log($rootScope.search.city)
+            // console.log($rootScope.search.city)
             pos = {
               lat: $rootScope.search.city.geometry.location.lat(),
               lng: $rootScope.search.city.geometry.location.lng()
             };
             st = $rootScope.search.city.address_components[2].short_name;
-            info.utc_offset = $rootScope.search.city.utc_offset;
             info.pos = pos;
             info.state = {state: st};
             info.city = $rootScope.search.city.formatted_address;
@@ -150,16 +146,13 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
               // console.log('WE ARE SEARCHING WITHIN CLASSES')
               eventsFactory.getClasses(info, function(data){
                   $scope.milongas = data;
-                  if($scope.milongas.today.length == 0) {
-                      console.log($scope.milongas.today.length)
-                      $scope.sorryMsg = true;
-                  }
+                  setErrorMsg();
+
                   //update city in the cookie and user_preference
-                  $cookies.put('cityPrefLat', pos.lat);
-                  $cookies.put('cityPrefLng', pos.lng);
-                  $cookies.put('cityPrefState', st);
-                  $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
-                  $cookies.put('cityPrefUtc_offset', info.utc_offset);
+                  // $cookies.put('cityPrefLat', pos.lat);
+                  // $cookies.put('cityPrefLng', pos.lng);
+                  // $cookies.put('cityPrefState', st);
+                  // $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
 
 
                   if($rootScope.user){
@@ -174,14 +167,12 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
               // console.log('WE ARE SEARCHING WITHIN MILONGAS')
               eventsFactory.getMilongas(info, function(data){
                   $scope.milongas = data;                  
-                  if($scope.milongas.today.length == 0) {
-                      $scope.sorryMsg = true;
-                  } 
-                  $cookies.put('cityPrefLat', pos.lat);
-                  $cookies.put('cityPrefLng', pos.lng);
-                  $cookies.put('cityPrefState', st);
-                  $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
-                  $cookies.put('cityPrefUtc_offset', info.utc_offset);
+                  setErrorMsg(); 
+
+                  // $cookies.put('cityPrefLat', pos.lat);
+                  // $cookies.put('cityPrefLng', pos.lng);
+                  // $cookies.put('cityPrefState', st);
+                  // $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
 
 
                   if($rootScope.user){
@@ -207,16 +198,12 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
                   for (x in data.day_after){
                       $scope.milongas.day_after.push(data.day_after[x]);
                   }
-                  if($scope.milongas.today.length == 0) {
-                      // console.log($scope.milongas.today.length)
-                      $scope.sorryMsg = true;
-                  }
+                  setErrorMsg();
 
-                  $cookies.put('cityPrefLat', pos.lat);
-                  $cookies.put('cityPrefLng', pos.lng);
-                  $cookies.put('cityPrefState', st);
-                  $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
-                  $cookies.put('cityPrefUtc_offset', info.utc_offset);
+                  // $cookies.put('cityPrefLat', pos.lat);
+                  // $cookies.put('cityPrefLng', pos.lng);
+                  // $cookies.put('cityPrefState', st);
+                  // $cookies.put('cityPrefCity', $rootScope.search.city.formatted_address);
 
 
                   if($rootScope.user){
@@ -248,10 +235,7 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
       // console.log('WE ARE SEARCHING WITHIN CLASSES')
       eventsFactory.getClasses(info, function(data){
           $scope.milongas = data;
-          if($scope.milongas.today.length == 0) {
-              // console.log($scope.milongas.today.length)
-              $scope.sorryMsg = true;
-          }
+          setErrorMsg();
       })
     }
     else if ( $scope.search.what == 'Milongas' || !$scope.search.what){
@@ -259,10 +243,7 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
       eventsFactory.getMilongas(info, function(data){
           $scope.milongas = data;
                   // console.log($scope.milongas);
-          if($scope.milongas.today.length == 0) {
-              // console.log($scope.milongas.today.length)
-              $scope.sorryMsg = true;
-          } 
+          setErrorMsg();
       })
     }
     else if ( $scope.search.what == 'All'){
@@ -280,10 +261,7 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
           for (x in data.day_after){
               $scope.milongas.day_after.push(data.day_after[x]);
           }
-          if($scope.milongas.today.length == 0) {
-              // console.log($scope.milongas.today.length)
-              $scope.sorryMsg = true;
-          }
+          setErrorMsg();
       })
     }
   });
@@ -300,20 +278,14 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
       // console.log('new value is equal to classes')
       eventsFactory.getClasses(info, function(data){
           $scope.milongas = data;   
-          if($scope.milongas.today.length == 0) {
-              // console.log($scope.milongas.today.length)
-              $scope.sorryMsg = true;
-          }
+          setErrorMsg();
       })
     }
     else if ( newValue == 'Milongas'){
       // console.log('new value is equal to milongas')
       eventsFactory.getMilongas(info, function(data){
           $scope.milongas = data;   
-          if($scope.milongas.today.length == 0) {
-              // console.log($scope.milongas.today.length)
-              $scope.sorryMsg = true;
-          }
+          setErrorMsg();
       })
     }
     else if ( newValue == 'All'){
@@ -332,10 +304,7 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
               $scope.milongas.day_after.push(data.day_after[x]);
           }
           // console.log($scope.milongas)
-          if($scope.milongas.today.length == 0) {
-              // console.log($scope.milongas.today.length)
-              $scope.sorryMsg = true;
-          }
+          setErrorMsg();
       })
     }
 
@@ -608,9 +577,7 @@ var mapsInfo = [];
       return true;
   }
 
-  $scope.openFaceProfile = function(added_by_id) {
-     $window.open('https://www.facebook.com/' + added_by_id, '_blank');
-  };
+  
 
   $scope.getButtonsInfo = function(mId){
 
@@ -691,6 +658,13 @@ var mapsInfo = [];
 
       return matrix[b.length][a.length];
     };
+
+    function setErrorMsg(){
+      if($scope.milongas.today.length == 0) {
+          // console.log($scope.milongas.today.length)
+          $scope.sorryMsg = true;
+      }
+    }
 
 
 

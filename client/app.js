@@ -352,6 +352,10 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		    return array;
 		  }
 
+		  $scope.openFaceProfile = function(added_by_id) {
+		     $window.open('https://www.facebook.com/' + added_by_id, '_blank');
+		  };
+
 
 
 

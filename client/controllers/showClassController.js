@@ -140,5 +140,7 @@ myApp.controller('showClassController', function($scope, $routeParams, eventsFac
     // console.log('DONE!')
   },10000);
 
+  
+
 
 });
