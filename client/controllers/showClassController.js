@@ -7,6 +7,8 @@ myApp.controller('showClassController', function($scope, $routeParams, eventsFac
     
 	})
 
+  $window.scrollTo(0, 0);
+  
 
   $scope.saveClass = function(eventId) {
     // console.log('INSIDE SAVE CLASS')

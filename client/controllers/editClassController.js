@@ -6,6 +6,8 @@ myApp.controller('editClassController', function($scope, $routeParams, $location
 	$scope.outputTeachers = [];
 	$scope.toggle;
 
+    $window.scrollTo(0, 0);
+
 
 
 	eventsFactory.getClass(classId, function(data){

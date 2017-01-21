@@ -7,6 +7,8 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 	$scope.outputPerformers = [];
 	$scope.outputTeachers = [];
 	$scope.toggle;
+  	$window.scrollTo(0, 0);
+
 
 
 

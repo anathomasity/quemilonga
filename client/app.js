@@ -390,11 +390,6 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 				controller: 'findPerformerController', 
 				templateUrl: "partials/findPerformer.html"
 			})
-			.when('/login', 
-			{
-				controller: 'loginController', 
-				templateUrl: "partials/login.html"
-			})
 			.when('/admin', 
 			{
 				controller: 'adminController', 

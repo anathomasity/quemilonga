@@ -1,12 +1,12 @@
 myApp.controller('indexController', function($scope, eventsFactory, forumFactory, $cookies, $location, $http, $rootScope, $window){
 
-  var pos;
+  $scope.pos;
   var st;
   var range = 50;
   $rootScope.search = {};
   $rootScope.search.what = 'Milongas'
 
-
+  
   $scope.milongas = {
     today: [],
     tomorrow: [],
@@ -15,7 +15,7 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
 
   if($rootScope.user && $rootScope.user.city_preference){
 
-      var pos = {
+      $scope.pos = {
         lat: $rootScope.user.city_preference.coordinates.lat,
         lng: $rootScope.user.city_preference.coordinates.lng,
       }
@@ -25,20 +25,20 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
 
   else if (($rootScope.user && !$rootScope.user.city_preference) || !$rootScope.user){
       if (navigator.geolocation) {
+          $rootScope.search.city = 'Your current location';
           navigator.geolocation.getCurrentPosition(function(position) {
 
-                var pos = {
+                $scope.pos = {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
                 };
 
-                $rootScope.search.city = 'Your current location';
 
-                info.pos = pos;
+                info.pos = $scope.pos;
           })
       }
       else{
-        var pos = {
+        $scope.pos = {
           lat: 37.7749295,
           lng: -122.41941550000001,
         }
@@ -59,10 +59,9 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
 
   // }
 
-
   var info = {
       range: range,
-      pos: pos,
+      pos: $scope.pos,
       state: {state: st},
       dates: {
         today: moment($rootScope.search.date).format('YYYY MM DD'),
@@ -71,14 +70,22 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
       },
   };
 
-  
 
   eventsFactory.getMilongas(info, function(data){
-      
       $scope.milongas = data;
-      // console.log($scope.milongas)
       setErrorMsg();
   })
+
+
+  //AS SOON AS POS GETS DEFINED BY GEOLOCATION, GET MILONGAS AGAIN
+  $scope.$watch("pos", function(newValue, oldValue) {
+      eventsFactory.getMilongas(info, function(data){
+          $scope.milongas = data;
+          setErrorMsg();
+      })
+  });
+
+  
 
 
   $scope.$watch("search.range", function(newValue, oldValue) {
@@ -132,12 +139,12 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
         //if the user typed in a new city, save it to preferences
         if ($rootScope.search.city && $rootScope.search.city.geometry) {
             // console.log($rootScope.search.city)
-            pos = {
+            $scope.pos = {
               lat: $rootScope.search.city.geometry.location.lat(),
               lng: $rootScope.search.city.geometry.location.lng()
             };
             st = $rootScope.search.city.address_components[2].short_name;
-            info.pos = pos;
+            info.pos =  $scope.pos;
             info.state = {state: st};
             info.city = $rootScope.search.city.formatted_address;
 

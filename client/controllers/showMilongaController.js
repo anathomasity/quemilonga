@@ -1,6 +1,8 @@
 myApp.controller('showMilongaController', function($scope, $routeParams, eventsFactory, $location, $http, $rootScope, $facebook){
 
 	var milongaId = $routeParams.id;
+  $window.scrollTo(0, 0);
+  
 
 	eventsFactory.getMilonga(milongaId, function(data){
 

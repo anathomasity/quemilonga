@@ -1,4 +1,5 @@
 myApp.controller('newClassController', function($scope, eventsFactory, $location, $http, $rootScope, $facebook){
+    $window.scrollTo(0, 0);
 
 	$scope.event = {};
 	$rootScope.teachers = [];

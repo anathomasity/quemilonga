@@ -1,4 +1,5 @@
 myApp.controller('newController', function($scope, eventsFactory, $location, $http, $rootScope, $facebook){
+  	$window.scrollTo(0, 0);
 
 	$scope.event = {};
 	$rootScope.performers = [];
