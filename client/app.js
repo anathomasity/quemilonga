@@ -3,6 +3,11 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 (function(){
 	myApp.controller('MainCtrl', function ($scope, $window, $cookies, $rootScope, $facebook, eventsFactory, forumFactory, $location, $route) {
     	
+
+    	$scope.$on('$viewContentLoaded', function(event) {
+    		// console.log('CHANGED PAGE');
+	    	$window.ga('send', 'pageview', { page: $location.url() });
+	    });
 		$rootScope.search={};
 		$scope.userCookie = $cookies.getAll();
 
@@ -168,7 +173,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 						$rootScope.performers[i].ticked = true;
 					}
 					else if ($scope.toggle == 'teachers') {
-						console.log('ticking teacher')
+						// console.log('ticking teacher')
 						$rootScope.teachers[i].ticked = true;
 					}
 					
@@ -194,7 +199,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
     			substring = ' and ',
     			substring2 = '&';
 				if (string.indexOf(substring) !== -1 || string.indexOf(substring2) !== -1) {
-		 			console.log('includes 2 performers');
+		 			// console.log('includes 2 performers');
 		 			$scope.onlyOneMsg = 'Please submit one request for each performer separately';
 		 			$scope.msg = false;
 					$scope.matches = false;

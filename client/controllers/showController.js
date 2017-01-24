@@ -22,7 +22,7 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 
 
 	eventsFactory.getPerformer(performerId, function(data){
-		console.log('PERFORMER:',data.data)
+		// console.log('PERFORMER:',data.data)
 		$scope.performer = data.data;
 		checkFollowAndEndorse();
 
@@ -100,7 +100,7 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 			_favorite_dancers: $scope.favoriteDancers,
 		}
 
-		console.log(info)
+		// console.log(info)
 		eventsFactory.updateMyProfile(info, function(updatedProfile){
 			eventsFactory.getPerformer(performerId, function(data){
 				$scope.performer = data.data;
@@ -219,7 +219,7 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
             $scope.comment._user = $rootScope.user._id;
             $scope.comment.type = 'performer';
             $scope.comment.performerId = $scope.performer._id;
-            console.log("comment TO ADD", $scope.comment)
+            // console.log("comment TO ADD", $scope.comment)
             forumFactory.addComment($scope.comment, function(addedComment){
                 // console.log("ADDED Comment", addedComment)
                 $scope.comment = {};
@@ -344,7 +344,7 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 		if($scope.performer._comments){
 			for (var i = 0; i < $scope.performer._comments.length; i++) {
 				if ($scope.performer._comments[i].youtubeLink) {
-					console.log('COMMENT HAS A VIDEO')
+					// console.log('COMMENT HAS A VIDEO')
 
 					var videoID = '';
 					for (var k = $scope.performer._comments[i].youtubeLink.length - 1; k > 0; k--) {
@@ -356,7 +356,7 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 
 					}
 					$scope.performer._comments[i].youtubeURL = 'https://www.youtube.com/embed/' + videoID;
-					console.log('NEW VIDEO ADDED', $scope.performer._comments[i])
+					// console.log('NEW VIDEO ADDED', $scope.performer._comments[i])
 				}
 				
 			}
@@ -386,7 +386,7 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 	$scope.popup2 = [{opened: false}, {opened: false}];
 
 	$scope.open1 = function(index) {
-		console.log('INDEX', index)
+		// console.log('INDEX', index)
     	$scope.popup1[index].opened = true;
   	};
 
@@ -427,7 +427,7 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 
 
   	$scope.savePlan = function(){
-  		console.log($scope.plan)
+  		// console.log($scope.plan)
 
 
   		for (var i = 0; i < $scope.plan.length; i++) {
@@ -451,10 +451,10 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 			performerId: performerId,
 		}
 
-		console.log(info)
+		// console.log(info)
 		eventsFactory.updateMyProfile(info, function(updatedProfile){
 			
-			console.log(updatedProfile);
+			// console.log(updatedProfile);
 		})
 
 
@@ -462,7 +462,7 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 
   	var toggle = 'closed';
   	$scope.seeMySchedule = function(){
-  		console.log('inside see my schedule')
+  		// console.log('inside see my schedule')
   		if(toggle == 'closed'){
 			$('#seeMyUpcoming').html('SEE MY UPCOMING EVENTS ▼')
 			toggle = 'opened'
