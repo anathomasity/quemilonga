@@ -25,11 +25,11 @@
 <br>
 
 <div class="container" id="mainInfoPartial" >
-<!--     
+    
     <div class="alert alert-warning fade in">
         <button class="close" data-dismiss="alert" aria-label="close">&times;</button>
-        <strong class="noto">Welcome<span ng-if='user.first_name'>, {{user.first_name}}</span> to QueMilonga.com!</strong> We are launching our location based <strong>community-driven</strong> WORLWIDE TANGO CALENDAR, where you can find all the information that you need, anywhere in the world. In order to make it work, we encourage you to very easily <a href="#/milongas/new" class="body_links noto">POST A MILONGA</a> or <a href="#/classes/new" class="body_links noto">POST A CLASS</a> that you don't see listed, and spread the word with local organizers and teachers. The more we contribute, the better <strong>QueMilonga.com</strong> can serve the community. You can also check our <a class='body_links noto' href="#/threads/587bffed166ccb87548255f9">Welcome Thread</a> out and share your opinion with us, or <a href="#/forum" class="body_links noto">make new threads</a>  to discuss with your friends. Thank you!
-    </div> -->
+        <strong class="noto">Welcome<span ng-if='user.first_name' class="noto"> {{user.first_name}}</span> to QueMilonga.com!</strong> We are launching our <strong>community-driven</strong> WORLWIDE TANGO CALENDAR, where you can find all the information you need, in one place. We encourage you to very easily <a href="#/milongas/new" class="body_links noto">POST A MILONGA</a> or <a href="#/classes/new" class="body_links noto">POST A CLASS</a> that you don't see, and spread the word in your community. The more we contribute, the better <strong>QueMilonga.com</strong> can serve all of us. You can also check our <a class='body_links noto' href="#/threads/587bffed166ccb87548255f9">Welcome Thread</a> or visit our <h4 class="inline"><a href="#/forum" style="font-family: 'La Belle Aurore', cursive; color: #0000ff">QueMilonga<strong style="font-family: 'Inconsolata', monospace; ">FORUM</strong></a></h4>. We would love to hear what you think!
+    </div>
 
     <div class="row">
 
@@ -39,12 +39,12 @@
 
             <div ng-if='sorryMsg'>
                 <h4 ng-if='search.what != "All"' style="color: #EAAF00; background-color: #f5f5f0; padding: .8em; border: 1px solid #EAAF00; border-radius: 5px;">Sorry, no {{search.what}} found for <strong>{{search.date | date : fullDate}}</strong>. See the next few days's results:</h4>
-                <h4 ng-if='search.what == "All"' style="color: #EAAF00; background-color: #f5f5f0; padding: .8em; border: 1px solid #EAAF00; border-radius: 5px;">Sorry, no events found for <strong>{{search.date | date : fullDate}}</strong>. See the next few days's results:</h4>
-            </div><br>
+                <h4 ng-if='search.what == "All"' style="color: #EAAF00; background-color: #f5f5f0; padding: .8em; border: 1px solid #EAAF00; border-radius: 5px;">Sorry, no events found for <strong>{{search.date | date : fullDate}}</strong>. See the next few days's results:</h4><br>
+            </div>
 
-            <div class="col-md-8">
-                <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc">
-            </div><br>
+
+            <input class="form-control" type="text" ng-model="filter_name" placeholder="Filter by city, teacher, etc"><br>
+
 
             <div ng-repeat='day in milongas' ng-if='day.length > 0' class="milonga">
             <br>
@@ -305,7 +305,7 @@
                 <button type="button" class="but btn btn-secondary btn-lg btn-block" ng-click="go('/generalMap')">SEE OUR REACH</button><br>
             
 
-                <div class="container" style="text-align: center; border-top: 4px solid #e64d00; border-right: 1px solid #e64d00; border-left: 1px solid #e64d00; box-shadow: 10px 10px 5px #888888;">
+                <div class="container" style="text-align: center; border-top: 4px solid #e64d00; border-right: 1px solid #e64d00; border-left: 1px solid #e64d00; box-shadow: 10px 10px 5px #888888; background-color: #fbfafa">
 
                         <form name="form2">
                             <div class="form-group"><br>

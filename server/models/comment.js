@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var CommentSchema = new mongoose.Schema({
     content: String,
     _user: {type: Schema.Types.ObjectId, ref: 'user'},
+    youtubeLink : String,
 },{timestamps:true});
 
 mongoose.model('comment', CommentSchema);

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-// var Performer = mongoose.model('performer');
+var Performer = mongoose.model('performer');
 // var Milonga = mongoose.model('milonga');
 // var Request = mongoose.model('request');
 var User = mongoose.model('user');
@@ -120,26 +120,53 @@ module.exports = (function() {
 				if(err){
 					console.log(err);
 					console.log('error creating a new Comment');
-				} else {
+				} 
+
+				else {
 					console.log('this is our new Comment',result);
-					Thread.findOne({_id: req.body.threadId}, function (err, thread){
-						if(err){
-							console.log('********************ERROR FINDING THREAD',err)
-						}
-						else{
-							thread._comments.push(result._id);
-						    thread.save(function (err) {
-						        if(err) {
-						            console.log('********************ERROR SAVING THREAD!');
-						        }
-						        else{
-						        	console.log('SUCCES********************', thread)
-						        	res.json({status:'ok'});
-						        }
-						    });
-						}
-						
-					});
+
+
+					if(req.body.type && req.body.type == 'performer'){
+						Performer.findOne({_id: req.body.performerId}, function (err, performer){
+							if(err){
+								console.log('********************ERROR FINDING performer',err)
+							}
+							else{
+								performer._comments.push(result._id);
+							    performer.save(function (err) {
+							        if(err) {
+							            console.log('********************ERROR SAVING performer!');
+							        }
+							        else{
+							        	console.log('SUCCES********************', performer)
+							        	res.json({status:'ok'});
+							        }
+							    });
+							}
+							
+						});
+					}
+					else{
+						Thread.findOne({_id: req.body.threadId}, function (err, thread){
+							if(err){
+								console.log('********************ERROR FINDING THREAD',err)
+							}
+							else{
+								thread._comments.push(result._id);
+							    thread.save(function (err) {
+							        if(err) {
+							            console.log('********************ERROR SAVING THREAD!');
+							        }
+							        else{
+							        	console.log('SUCCES********************', thread)
+							        	res.json({status:'ok'});
+							        }
+							    });
+							}
+							
+						});
+					}
+					
 
 				}
 			})

@@ -2,38 +2,297 @@
 <!-- {{performer}} -->
 
 	<div id="showPageInfo">
-		<h5 ng-if='performer._id == user.performerId' class="inline" style="float: right;"><a ng-click='editMyProfile()' class="body_links noto pointer">EDIT MY PERFORMER PROFILE</a><br></h5><br>
 		<div class="row">
 
-			<div class="col-xs-12 col-md-6">
-				<h3 class="noto">{{performer.name}}</h3>
-				<h5 ng-if='performer.from'>From {{performer.from}}</h5>
-				<h5 ng-if='performer._partner'>Partners with <a href="#/performers/{{performer._partner._id}}" class="body_links noto">{{performer._partner.name}}</a></h5>
+			<div class="col-xs-6 col-md-6">
+				<a  class='inline' href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fperformers%2F{{performer._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Flegswithlogo.png&title={{performer.name}}%27s+profile+and+schedule+on+QueMilonga.com&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Follow+{{performer.name}}%27s++detailed+schedule+on+QueMilonga.com&description={{performer.introduction}}"><div class='shareButton'></div></a><br>
+				<h5>Share this profile on Facebook</h5>
+
 			</div>
-			<div class="col-xs-12 col-md-6" >
-				
-				<a  class='inline' style="float: right;" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fperformers%2F{{performer._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Flegswithlogo.png&title={{performer.name}}%27s+profile+on+QueMilonga.com&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Follow+{{performer.name}}%27s++detailed+schedule+on+QueMilonga.com&description={{performer.introduction}}"><div class='shareButton'></div></a><br>
-				<h5 style="float: right;">Share this profile on Facebook</h5>
-			</div>
-
-		</div><br><hr>
-
-
-		<div class="row">
-			<div class="col-xs-12 col-md-6" style="text-align: center" ng-if='performer.introduction || performer._favorite_dancers.length > 0'>
-				<h4 ng-if='performer.introduction'>{{performer.introduction}}</h4><br><br>
-				<div ng-if='performer._favorite_dancers.length > 0'>
-					<h4><strong>Some of my favorite Colleagues:</strong></h4>
-					<h5 ng-repeat='d in performer._favorite_dancers' class="inline"><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h5><br><br>
-					<!-- <div id="map" style="width: 420px; height: 315px;"></div> -->
+			<div class="col-xs-6 col-md-6">
+				<h5 ng-if='performer._id == user.performerId' style="float: right;"><a ng-click='editMyProfile()' class="body_links noto pointer">EDIT MY PERFORMER PROFILE</a></h5>
+				<div style="float: right;"><br>
+					<a id='followBtn' ng-if='performer._id != user.performerId' class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-click='followOrEndorse("follow")' data-placement="top" title="I want to receive updates about this dancer">Follow</a>
+					<a id='endorseBtn' class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-if='performer._id != user.performerId && user.performerId' ng-click='followOrEndorse("endorse")' data-placement="top" title="I publicly approve or support this dancer">Endorse</a>
 				</div>
+
+				<br><br>
+				
 			</div>
-			<div ng-if='performer.youtubeLink' class="col-xs-12 col-md-6" style="text-align: center;">
-				<iframe height="300em" width="98%" 
-				ng-src="{{trustSrc(youtubeURL)}}">
-				</iframe>
-			<br><br>
-			<br><hr><br>
+
+			
+
+		</div>
+
+
+<!-- {{performer}} -->
+
+
+
+		<div class="row">
+
+				<h1 class="noto" style="text-align: center;">{{performer.name}}</h1>
+				<h6 style="text-align: center;">Followed by <strong>{{performer._followers.length}}</strong> people</h6>
+				<h6 style="text-align: center;">Endorsed by <strong>{{performer._endorsers.length}}</strong> professionals</h6><br>
+				<br><br>
+
+			
+		</div>
+		<hr class="hr">
+
+
+
+
+
+
+
+
+		<div ng-click='seeMySchedule()' style="cursor: pointer; height: auto; width: 100%; margin: 0 auto; background-color: #b30000; padding: .5em; color: white; border-radius: 0px 0px 15px 15px; box-shadow: 10px 10px 5px #888888;"><h5 id='seeMyUpcoming' style="text-align: center; font-weight: bolder;" class="noto">SEE MY UPCOMING EVENTS ▲</h5></div>
+			
+
+
+			<div id='schedule' class="invisibleScroll" style="max-height: 35em; background-color: #fbfafa; box-shadow: 10px 10px 5px #888888; width: 80%; margin: 0 auto; border-top: .7em solid #b30000">
+
+			    <!-- SCHEDULE TOGGLE--> 
+				<h4 class="noto" style="color: #b30000;">My upcoming events</h4>
+
+				<div style="text-align: center;" ng-if='performer._milongas_attending.length < 1 || futureDates == false'>
+					<br><br>
+					<h4>Sorry, this performer doesn't have any upcoming events listed.</h4>
+					<h4>Do you know where he/she's going to be?</h4>
+					<div>
+			            <button type="button" class="but btn" ng-click="go('/milongas/new')">POST NEW MILONGA</button>
+			            <button type="button" class="but btn" ng-click="go('/classes/new')">POST NEW CLASS</button>
+						<h4>and tag him! It's very easy, and you don't need to be an organizer to add events.</h4><br><br>
+			        </div>
+				</div>
+				
+
+				<div ng-if='futureDates == true' >
+						<table class="table table-hover" >
+						  <thead>
+						    <tr>
+						      <th></th>
+						      <th></th>
+						    </tr>
+						  </thead>
+						  <tbody>
+
+						  	<tr ng-repeat='m in performer._milongas_attending | orderBy : sortMilongas' ng-if='m.milonga[0].date >= now || m.class[0].date >= now'>
+
+						        <th scope="row" ng-if="m.milonga[0].event_type == 'milonga'" style="background-color: #f8fcfb;">
+						        	<a href="#/milongas/{{m.milonga[0]._id}}" style="color: black" class="scheduleLinks">
+						        	<h3 ng-if='m.action == "performance" || m.action == "both"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
+						        	<h5 ng-if='m.action == "performance" || m.action == "both"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h5>
+						        	
+
+						        	<h3 ng-if='m.action == "class"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
+						        	<h4 ng-if='m.action == "class"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
+						        	</a>
+
+			        	      		<a ng-if='performer._id == user.performerId' href="#/milongas/{{m.milonga[0]._id}}/edit"><button class="but btn-sm">Update Details</button></a>
+
+
+						        </th>
+
+						      	<td ng-if='m.action == "performance"' style="background-color: #f8fcfb;">
+						      		<h4 style="color: red">PERFORMANCE</h4>
+						      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
+						      		<h5>{{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}}</h5>
+						      		<h5>${{m.milonga[0].price}}</h5>
+
+						      	</td>
+
+					  		  	<td ng-if='m.action == "both"' style="background-color: #fcf8f9">
+						      		<h4 style="color: red">PERFORMANCE AND CLASS</h4>
+						      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
+						      		<h5>Class: {{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}} | ${{m.milonga[0].class_price}}</h5>
+						      		<h5>Milonga: {{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}} | ${{m.milonga[0].price}}</h5>
+						      		<h5 ng-if='m.milonga[0].class_combo_price'>Combo Price: ${{m.milonga[0].class_combo_price}}</h5>
+						      	</td>
+
+					  		  	<td ng-if='m.action == "class" && m.milonga[0].event_type == "milonga"' style="background-color: #fcf8f9">      		
+					  		  		<h4 style="color: red">PRE MILONGA CLASS</h4>
+						      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
+						      		<h5>{{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}}</h5>
+						      		<h5>${{m.milonga[0].class_price}}</h5>
+						      	</td>
+
+
+						        <th scope="row" ng-if="m.class[0].event_type == 'class'" style="background-color: #fcf8f9" class="scheduleLinks">
+						        	<a href="#/classes/{{m.class[0]._id}}" style="color: black">
+						        	<h4>Topic: <strong>{{m.class[0].topic}}</strong></h4>
+						        	<h5>{{m.class[0].address.city}}, {{m.class[0].address.country}}</h5>
+						        	</a>
+			        	      		<a ng-if='performer._id == user.performerId' href="#/classes/{{m.class[0]._id}}/edit"><button class="but btn-sm">Update Details</button></a>
+
+						        </th>
+
+						      	<td ng-if="m.class[0].event_type == 'class'" style="background-color: #fcf8f9">
+						      		<h4 style="color: red">STUDIO CLASS</h4>
+						      		<h5 style="font-weight: bolder">{{m.class[0].date | date : fullDate}}</h5>
+						      		<h5>{{m.class[0].start_time | date:'shortTime'}} - {{m.class[0].end_time | date:'shortTime'}}</h5>
+						      		<h5>${{m.class[0].class_price}}</h5>
+						      	</td>
+
+						      	
+
+						    </tr>
+
+
+						  </tbody>
+						</table>
+			
+			    </div>
+
+			</div> <!-- END OF SCHEDULE SECTION TOGGLE-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<br><br><br>
+		<div class="row">
+
+			<div class="col-xs-11 col-md-4" style="background-color: #fbfafa; box-shadow: 10px 10px 5px #888888; margin-right: 0; margin-left: 0;"><br>
+
+
+				<div class="row">
+
+					<div ng-if='performer.from' class="col-xs-6 col-md-6">
+
+						<h4 style="color: #b30000;" class="noto">I'm from</h4>
+						<p>{{performer.from}}</p><br>
+					</div>
+
+
+					<div ng-if='performer._partner' class="col-xs-6 col-md-6">
+
+						<h4 style="color: #b30000;" class="noto">My partner</h4>
+						<p><a href="#/performers/{{performer._partner._id}}" class="body_links noto">{{performer._partner.name}}</a></p><br>
+					</div>
+				</div>
+
+
+				<div ng-if='performer.introduction'>
+
+					<h4 style="color: #b30000;" class="noto">Intro</h4>
+					<p>{{performer.introduction}}</p><br><br>
+				</div>
+
+				<div ng-if='performer.youtubeLink'>
+					<h4 style="color: #b30000;" class="noto">Video spotlight</h4>
+					<iframe height="300em" width="98%" 
+					ng-src="{{trustSrc(youtubeURL)}}">
+					</iframe>
+					<br><br><br>
+
+				</div>
+
+
+				<div ng-if='performer._favorite_dancers.length > 0'>
+					<h4 style="color: #b30000;" class="noto">Some of my favorite dancers</h4>
+					<div class="invisibleScroll" style="max-height: 4em;">
+						<h6 ng-repeat='d in performer._favorite_dancers' class="inline"  ><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h6>
+					</div><br><br>
+				</div>
+
+
+
+			</div>
+
+
+
+
+
+
+
+
+
+			<div class="col-xs-11 col-md-8" id='performerScheduleSide'>
+
+				<h4 style="color: #b30000;" class="noto">My plan</h4><br>
+
+				<div id="map" style="width:100%; height: 300px;box-shadow: 10px 10px 5px #888888;"></div><br>
+				<a class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-if='performer._id == user.performerId' ng-click='editPlan()' data-placement="top" title="Generate a new map">Edit my Plan</a>
+				<br><br>	
+
+				<div style="max-height: 100em; padding: 2em; background-color: #fbfafa; box-shadow: 10px 10px 5px #888888;" class="invisibleScroll">
+
+
+
+					<h4 style="color: #b30000;" class="noto">My notebook</h4><br>
+
+					<!-- FORM TO LEAVE COMMENT -->
+					
+					<form name="form2">
+						<div class="row">
+
+							<div class="col-xs-9 col-md-10">
+								<h6 ng-if='performer._id == user.performerId' id="showAddVideo"><a class="noto body_links" ng-click='addVideo()' style="cursor: pointer;">Add video to post</a></h6>
+								<input id='addVideo' style="display: none;" type="text" class="form-control" id="recipient-name" ng-model="comment.youtubeLink" name="dLink" placeholder="Enter Youtube video URL...">
+
+								<textarea class="form-control" id="recipient-name" ng-model="comment.content" name="dFrom" required="" ng-minlength='5' maxlength='180' placeholder="Say something..."></textarea>
+					            <div class="errorMsgs" ng-show="form2.$submitted || form2.dFrom.$touched">
+					                <!-- <div ng-show="form2.dFrom.$error.required">Content is required</div> -->
+					                <div ng-show="form2.dFrom.$error.minlength">Minimum length in 5 characters</div>
+					            </div>
+							</div>
+							<div class="col-xs-3 col-md-2" style="padding-top: 3em;">
+				        		<input type="submit" class="btn-sm btn-primary noto" ng-click="addComment()" value="Post"/>
+							</div>
+				            
+
+				        </div>
+
+
+
+
+
+
+
+				    </form><br>
+
+
+
+
+
+				    <!-- COMMENTS -->
+				    <div ng-if='performer._comments.length > 0'  >
+
+					    <div ng-repeat='c in performer._comments | orderBy: "createdAt":true ' style="padding-bottom: 1em;">
+					    	<h5 class="inline"><a href="http://www.facebook.com/{{c._user.fb_id}}" class="noto body_links">{{c._user.first_name}} {{c._user.last_name}}</a></h5><h5 class="inline"> {{c.createdAt | date : 'short'}}</h5><br>
+					    	<div style="padding-left: 2em; padding-right: 2em;">
+						    	<h4 class="inline">{{c.content}}</h4>
+						    	<div ng-if='c.youtubeLink'>
+									<iframe height="300em" width="98%" 
+									ng-src="{{trustSrc(c.youtubeURL)}}">
+									</iframe>
+									<br><br><br>
+
+								</div>
+							</div>
+					    	<div style="float: right;">
+	<!-- 					    	<button style="padding-left: 5px; padding-right: 5px; border-radius: 3px;" ng-if='c._user._id == user._id' ng-click='editComment(c._id)'>Edit</button>  -->
+						    	<button class="btn-sm btn-primary noto" ng-if='c._user._id == user._id || performer._id == user.performerId' ng-click='destroyComment(c._id)'>Delete</button> 
+					    	</div><br><br>
+					    </div>
+				    </div>
+
+				</div><br><br>
+
+				
 
 			</div>
 		</div><br><br><br>
@@ -41,98 +300,12 @@
 
 
 
-	<h4 class="noto">MY UPCOMING EVENTS</h4><br>
-
-	<div style="text-align: center;" ng-if='performer._milongas_attending.length < 1 || futureDates == false'>
-		<h5>Sorry, this performer doesn't have any upcoming events listed.</h5>
-		<h4>Do you know where he/she's going to be?</h4>
-		<div>
-            <button type="button" class="but btn" ng-click="go('/milongas/new')">POST NEW MILONGA</button>
-            <button type="button" class="but btn" ng-click="go('/classes/new')">POST NEW CLASS</button>
-			<h4>and tag him! It's very easy, and you don't need to be an organizer to add events.</h4>
-            <hr>
-        </div>
-	</div>
 	
-
-	<div class="scrollbar" id="style-13" ng-if='futureDates == true'>
-      	<div class="force-overflow">
-			<table class="table table-hover" >
-			  <thead>
-			    <tr>
-			      <th></th>
-			      <th></th>
-			    </tr>
-			  </thead>
-			  <tbody>
-
-			  	<tr ng-repeat='m in performer._milongas_attending | orderBy : sortMilongas' ng-if='m.milonga[0].date >= now || m.class[0].date >= now'>
-
-			        <th scope="row" ng-if="m.milonga[0].event_type == 'milonga'" style="background-color: #f8fcfb;">
-			        	<a href="#/milongas/{{m.milonga[0]._id}}" style="color: black" class="scheduleLinks">
-			        	<h3 ng-if='m.action == "performance" || m.action == "both"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
-			        	<h5 ng-if='m.action == "performance" || m.action == "both"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h5>
-			        	
-
-			        	<h3 ng-if='m.action == "class"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
-			        	<h4 ng-if='m.action == "class"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
-			        	</a>
-
-        	      		<a ng-if='performer._id == user.performerId' href="#/milongas/{{m.milonga[0]._id}}/edit"><button class="but btn">Update Details</button></a>
-
-
-			        </th>
-
-			      	<td ng-if='m.action == "performance"' style="background-color: #f8fcfb;">
-			      		<h4 style="color: red">PERFORMANCE</h4>
-			      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
-			      		<h5>{{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}}</h5>
-			      		<h5>${{m.milonga[0].price}}</h5>
-
-			      	</td>
-
-		  		  	<td ng-if='m.action == "both"' style="background-color: #fcf8f9">
-			      		<h4 style="color: red">PERFORMANCE AND CLASS</h4>
-			      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
-			      		<h5>Class: {{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}} | ${{m.milonga[0].class_price}}</h5>
-			      		<h5>Milonga: {{m.milonga[0].start_time | date:'shortTime'}} - {{m.milonga[0].end_time | date:'shortTime'}} | ${{m.milonga[0].price}}</h5>
-			      		<h5 ng-if='m.milonga[0].class_combo_price'>Combo Price: ${{m.milonga[0].class_combo_price}}</h5>
-			      	</td>
-
-		  		  	<td ng-if='m.action == "class" && m.milonga[0].event_type == "milonga"' style="background-color: #fcf8f9">      		
-		  		  		<h4 style="color: red">PRE MILONGA CLASS</h4>
-			      		<h5 style="font-weight: bolder">{{m.milonga[0].date | date : fullDate}}</h5>
-			      		<h5>{{m.milonga[0].class_start_time | date:'shortTime'}} - {{m.milonga[0].class_end_time | date:'shortTime'}}</h5>
-			      		<h5>${{m.milonga[0].class_price}}</h5>
-			      	</td>
-
-
-			        <th scope="row" ng-if="m.class[0].event_type == 'class'" style="background-color: #fcf8f9" class="scheduleLinks">
-			        	<a href="#/classes/{{m.class[0]._id}}" style="color: black">
-			        	<h4>Topic: <strong>{{m.class[0].topic}}</strong></h4>
-			        	<h5>{{m.class[0].address.city}}, {{m.class[0].address.country}}</h5>
-			        	</a>
-        	      		<a ng-if='performer._id == user.performerId' href="#/classes/{{m.class[0]._id}}/edit"><button class="but btn">Update Details</button></a>
-
-			        </th>
-
-			      	<td ng-if="m.class[0].event_type == 'class'" style="background-color: #fcf8f9">
-			      		<h4 style="color: red">STUDIO CLASS</h4>
-			      		<h5 style="font-weight: bolder">{{m.class[0].date | date : fullDate}}</h5>
-			      		<h5>{{m.class[0].start_time | date:'shortTime'}} - {{m.class[0].end_time | date:'shortTime'}}</h5>
-			      		<h5>${{m.class[0].class_price}}</h5>
-			      	</td>
-
-			      	
-
-			    </tr>
-
-
-			  </tbody>
-			</table>
-		</div>
-    </div>
 </div>
+
+
+
+				
 
 
 
@@ -227,6 +400,97 @@
                         <input type="submit" class="btn btn-primary noto" ng-click="updateMyProfile()" value="SAVE DETAILS"/>
                         </form>
                     </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+<!-- EDIT PLAN MODAL -->
+        <div class="modal fade bd-example-modal-lg" id="editPlan" tabindex="-1" role="dialog" aria-labelledby="mylgallModalLabel" aria-hidden="true" >
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="container">
+                        <br><h4 class="noto">Edit my Plan</h4><br>
+                        <h5 class="noto">Add your destinations, one by one, in order:</h5><br>
+
+
+
+                        <form name="form5" style="min-height: 30em; max-height: 50em;" class="invisibleScroll">
+
+
+                        	<div class="row form-group" ng-repeat='p in planCities track by $index'>
+
+								<div class="col-xs-12 col-md-4">
+
+									<label for="recipient-name" class="form-control-label">City</label><br>
+									<input class="form-control" id='city[$index]' type="text" g-places-autocomplete ng-model="plan[$index].city" options="autocompleteOptions" placeholder="Enter a city" style="border: 1px solid #ccc; border-radius: 4px; padding: 6px 12px;" name="city[$index]" required="" />
+
+	                                <div class="errorMsgs" ng-show="form6.$submitted || form6.city[$index].$touched">
+	                                    <div ng-show="form6.city[$index].$error">Start typing and select from google options</div>
+							      		<div ng-show="form6.city[$index].$error.required">City is required</div>
+
+
+	                                </div>
+
+								</div>
+
+
+								<div class="col-xs-6 col-md-4">
+
+									<label for="recipient-name" class="form-control-label">Start Date</label><br>
+
+									<p class="input-group">
+								          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="plan[$index].start_date" is-open="popup1[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" name="start_date[$index]" required=""/>
+
+								          <span class="input-group-btn">
+								            <button type="button" class="btn btn-default" ng-click="open1($index)"><i class="glyphicon glyphicon-calendar"></i></button>
+								          </span>
+
+							        </p>
+							        <div class="errorMsgs" ng-show="form6.$submitted || form6.start_date[$index].$touched">
+							      		<!-- <div ng-show="form6.start_date[$index].$error">Start typing and select from google options</div> -->
+							      		<div ng-show="form6.start_date[$index].$error.required">Start date is required</div>
+							    	</div>
+
+								</div>
+
+								<div class="col-xs-6 col-md-4">
+
+									<label for="recipient-name" class="form-control-label">End Date</label><br>
+									<p class="input-group">
+
+								          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="plan[$index].end_date" is-open="popup2[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" name="end_date[$index]" required=""/>
+
+								          <span class="input-group-btn">
+								            <button type="button" class="btn btn-default" ng-click="open2($index)"><i class="glyphicon glyphicon-calendar"></i></button>
+								          </span>
+
+							        </p>
+							        <div class="errorMsgs" ng-show="form6.$submitted || form6.end_date[$index].$touched">
+							      		<!-- <div ng-show="form6.end_date[$index].$error">Start typing and select from google options</div> -->
+							      		<div ng-show="form6.end_date[$index].$error.required">Start date is required</div>
+							    	</div>
+								</div>
+
+
+							</div>
+
+
+
+							<button class='btn-sm but inline' ng-click="addCampus()">Add another city</button>
+							<button class='btn-sm but inline' ng-click="removeCampus()">Remove last city</button>
+
+
+		                    <div class="modal-footer">
+		                        <input type="submit" class="btn btn-primary noto" ng-click="savePlan()" value="Create Plan"/>
+                    </form>
+		                    </div>
                 </div>
 
             </div>

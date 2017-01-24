@@ -8,6 +8,7 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
   var st;
   var range = 50;
   $rootScope.search = {};
+  $rootScope.search.date = new Date();
   $rootScope.search.what = 'Milongas'
 
   

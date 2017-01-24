@@ -38,6 +38,17 @@ var PerformerSchema = new mongoose.Schema({
         _id: {type: Schema.Types.ObjectId, ref: 'performer'},
         name: String,
     }],
+    _comments: [{type: Schema.Types.ObjectId, ref: 'comment'}],
+    _followers: [{type: Schema.Types.ObjectId, ref: 'user'}],
+    _endorsers: [{type: Schema.Types.ObjectId, ref: 'user'}],
+    destinations: [{
+            city: String,
+            lat: Number,
+            lng: Number,
+            start_date: String,
+            end_date: String,
+        }]
+
 },{timestamps:true});
 
 mongoose.model('performer', PerformerSchema);

@@ -342,14 +342,21 @@ module.exports = (function() {
 			Performer.findOne({_id: req.params.id})
 			.populate('_milongas_attending.milonga')
 			.populate('_milongas_attending.class')
+			.populate({ 
+			     path: '_comments',
+			     populate: {
+			       path: '_user',
+			       model: 'user'
+			    } 
+			})
 
 			
-			.exec(function (err, milonga) {
+			.exec(function (err, performer) {
 			  if(err){
 					console.log("error finding the performer", err);
 				} else {
-					console.log('this is our performer',milonga);
-					res.json(milonga);
+					console.log('this is our performer',performer);
+					res.json(performer);
 				}
 			});
 		},
@@ -1048,13 +1055,16 @@ module.exports = (function() {
 				}
 				else {
 					// console.log('this is our performer',performer);
-					if (req.body._favorite_dancers.length > 0) {
+					if (req.body._favorite_dancers && req.body._favorite_dancers.length > 0) {
 					performer._favorite_dancers = req.body._favorite_dancers;}
+					if (req.body.destinations) {
+						console.log('DESTINATIONS::::::::::::::::**************', req.body.destinations)
+					performer.destinations = req.body.destinations;}
 					if (req.body.youtubeLink) {
 					performer.youtubeLink = req.body.youtubeLink;}
 					if (req.body.from) {
 					performer.from = req.body.from;}
-					if (req.body._partner[0]) {
+					if (req.body._partner && req.body._partner[0]) {
 					performer._partner = req.body._partner[0];}
 					if (req.body.introduction) {
 					performer.introduction = req.body.introduction;}
@@ -1083,6 +1093,145 @@ module.exports = (function() {
 			})
 		},
 
+		followOrEndorse: function(req, res){
+			console.log("THIS IS REQBODY START FOLLOW OR ENDORSE ********************", req.body);
+			Performer.findOne({_id: req.body.followed}, function(err, performer){
+				if(err){
+					console.log("error finding the performer", err);
+				}
+				else {
+					// console.log('this is our performer',performer);
+					
+					if(req.body.type == 'follow'){
+						performer._followers.push(req.body.follower);
+					}
+					else if( req.body.type == 'endorse'){
+						performer._endorsers.push(req.body.follower);
+					}
+
+					performer.save(function(erro, performer) {
+						if (erro) {
+							console.log('ERROR', erro)
+						}
+						else{
+							User.findOne({_id: req.body.follower}, function(err, user){
+								if(err){
+									console.log("error finding the user", err);
+								}
+								else {
+									// console.log('this is our user',user);
+									
+									if(req.body.type == 'follow'){
+										user._performers_following.push(req.body.followed);
+									}
+									user.save(function(erro, user) {
+										if (erro) {
+											console.log('ERROR', erro)
+										}
+										else{
+											res.json({performer: performer, user: user})
+										}
+									});
+								}
+							});
+
+						}
+					})
+				}
+			})
+
+		},
+
+		stopFollowOrEndorse: function(req, res){
+			console.log("THIS IS REQBODY STOP FOLLOW OR ENDORSE ********************", req.body);
+			Performer.findOne({_id: req.body.followed}, function(err, performer){
+				if(err){
+					console.log("error finding the performer", err);
+				}
+				else {
+					// console.log('this is our performer',performer);
+					
+					if(req.body.type == 'follow'){
+
+						var searchTerm = req.body.follower;
+						var index = -1;
+						for(var i = 0; i < performer._followers.length; i++) {
+						    if (performer._followers[i] == searchTerm) {
+						        index = i;
+						        break;
+						    }
+						}
+
+						performer._followers.splice(index, 1);
+
+					}
+
+					else if( req.body.type == 'endorse'){
+
+						console.log('IF TYPE IS ENDORSE***********************')
+						var searchTerm = req.body.follower;
+						var index = -1;
+						for(var i = 0; i < performer._endorsers.length; i++) {
+						    if (performer._endorsers[i] == searchTerm) {
+								console.log('FOUND searchTerm***********************')
+
+						        index = i;
+						        break;
+						    }
+						}
+
+						performer._endorsers.splice(index, 1);
+					}
+
+					performer.save(function(erro, performer) {
+						if (erro) {
+							console.log('ERROR', erro)
+						}
+						else{
+							console.log("****************PERFORMER AFTER STOP FOLLOW OR ENDORSE ************", performer);
+
+							User.findOne({_id: req.body.follower}, function(err, user){
+								if(err){
+									console.log("error finding the user", err);
+								}
+								else {
+									console.log('*************************this is our user',user);
+									
+									if(req.body.type == 'follow'){
+
+
+										var searchTerm = req.body.followed;
+										var index = -1;
+										for(var i = 0; i < user._performers_following.length; i++) {
+										    if (user._performers_following[i] == searchTerm) {
+										        index = i;
+										        break;
+										    }
+										}
+
+										user._performers_following.splice(index, 1);
+									}
+
+
+									user.save(function(erro, user) {
+										console.log("****************USER AFTER STOP FOLLOW OR ENDORSE ************", user);
+
+										if (erro) {
+											console.log('ERROR', erro)
+										}
+										else{
+											res.json({performer: performer, user: user})
+										}
+									});
+								}
+							});
+
+						}
+					})
+				}
+			})
+
+		},
 
 		
 	}

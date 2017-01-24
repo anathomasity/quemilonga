@@ -94,6 +94,16 @@ module.exports = function(app){
 		milongas.updatePerformerProfile(req, res);
 	})
 
+	app.post('/performers/followOrEndorse', function(req, res){
+		console.log('made it to my /followOrEndorse post route');
+		milongas.followOrEndorse(req, res);
+	})
+
+	app.post('/performers/stopFollowOrEndorse', function(req, res){
+		console.log('made it to my /stopFollowOrEndorse post route');
+		milongas.stopFollowOrEndorse(req, res);
+	})
+
 
 	//get users
 

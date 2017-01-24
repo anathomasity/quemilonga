@@ -403,6 +403,23 @@ myApp.factory('eventsFactory', function($http){
 		})
 	}
 
+	factory.followOrEndorse = function(info, callback){
+		// console.log('THIS IS INFO, FACTORY', info)
+		$http.post('/performers/followOrEndorse', info).then(function(data){
+			// console.log('updated milonga:', data.data);
+			callback(data.data);
+		})
+	}
+
+	factory.stopFollowOrEndorse = function(info, callback){
+		// console.log('THIS IS INFO, FACTORY', info)
+		$http.post('/performers/stopFollowOrEndorse', info).then(function(data){
+			// console.log('updated milonga:', data.data);
+			callback(data.data);
+		})
+	}
+	
+
 
 	return factory;
 })

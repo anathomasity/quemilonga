@@ -30,6 +30,7 @@ var Userschema = new mongoose.Schema({
 	_attending: [{type: Schema.Types.ObjectId, ref: 'milonga'}],
 	_class_favorites: [{type: Schema.Types.ObjectId, ref: 'class'}],
 	_class_attending: [{type: Schema.Types.ObjectId, ref: 'class'}],
+	_performers_following: [{type: Schema.Types.ObjectId, ref: 'performer'}],
 },{timestamps:true});
 
 // Userschema.methods.generateHash = function(password) {
