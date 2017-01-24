@@ -1,6 +1,6 @@
 <section class="clearfix">
 
-            <div class="searchLine container">
+            <div class="searchLine container inline">
                 <h4 class="inline">Find</h4>
                 <select class="inline searchInputs" ng-model="search.what">
                     <option ng-selected="search" style="color: black">Milongas</option> 
@@ -18,7 +18,10 @@
                 </select>
                 <h4 class="inline">miles from</h4>
                 <input class="inline searchInputs cityInput" type="text" g-places-autocomplete ng-model="search.city" options="autocompleteOptions" placeholder="Enter a City" ng-value='search.city' ng-click="search.city = null"/>
+                <div class="inline" id='useCurrentLocation' ng-click='useCurrentLocation()' data-toggle="tooltip" data-placement="bottom" title="Use your current location"></div><br>
+                <h5 ng-if='userDeniedLocation'>Current Location permission denied.</h5> <h6 ng-if='userDeniedLocation'>You can change your browser location settings or enter a city.</h6>
             </div>
+
 
 </section>
 

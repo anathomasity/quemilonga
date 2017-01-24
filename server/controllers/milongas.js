@@ -233,7 +233,7 @@ module.exports = (function() {
 		getClasses: function(req, res){
 
 			console.log('GET classes:', req.body);
-			Class.find({"address.state" : req.body.state.state})
+			Class.find({})
 			.populate('_class_teachers')
 			.exec(function(err, classes){
 				if(err){

@@ -4,7 +4,7 @@
 
 myApp.controller('indexController', function($scope, eventsFactory, forumFactory, $cookies, $location, $http, $rootScope, $window){
 
-  $scope.pos;
+  var pos;
   var st;
   var range = 50;
   $rootScope.search = {};
@@ -20,7 +20,7 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
 
   if($rootScope.user && $rootScope.user.city_preference){
 
-      $scope.pos = {
+      pos = {
         lat: $rootScope.user.city_preference.coordinates.lat,
         lng: $rootScope.user.city_preference.coordinates.lng,
       }
@@ -30,17 +30,17 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
 
   else if (($rootScope.user && !$rootScope.user.city_preference) || !$rootScope.user){
       if (navigator.geolocation) {
-          $rootScope.search.city = 'Your current location';
+          // $rootScope.search.city = 'Your current location';
           navigator.geolocation.getCurrentPosition(success, error);
       }
-      else{
-        $scope.pos = {
-          lat: 37.7749295,
-          lng: -122.41941550000001,
-        }
-        // var st = 'CA'
-        $rootScope.search.city = 'San Francisco, CA, USA';
-      }
+      // else{
+      //   pos = {
+      //     lat: 37.7749295,
+      //     lng: -122.41941550000001,
+      //   }
+      //   // var st = 'CA'
+      //   $rootScope.search.city = 'San Francisco, CA, USA';
+      // }
 
   }
 
@@ -56,32 +56,39 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
   // }
 
   function success(position) {
-      console.log('SUCCESS', position)
-      $scope.pos = {
+      // console.log('SUCCESS', position)
+      $scope.userDeniedLocation = false;
+      $rootScope.search.city = 'Your current location';
+
+      pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      info.pos = $scope.pos;
+      info.pos = pos;
+
+      eventsFactory.getMilongas(info, function(data){
+        $scope.milongas = data;
+        setErrorMsg();
+      })
   };
 
   function error(err) {
-    console.log(`ERROR(${err.code}): ${err.message}`);
-    $scope.pos = {
-      lat: 37.7749295,
-      lng: -122.41941550000001,
-    }
-    // var st = 'CA'
-    $rootScope.search.city = 'San Francisco, CA, USA';
 
-    eventsFactory.getMilongas(info, function(data){
-        $scope.milongas = data;
-        setErrorMsg();
-    })
+
+    console.log(`ERROR(${err.code}): ${err.message}`);
+
+    $scope.$apply(function () {
+        $scope.userDeniedLocation = true;
+        $rootScope.search.city = '';
+    });
+
+    
+    
   };
 
   var info = {
       range: range,
-      pos: $scope.pos,
+      pos: pos,
       state: {state: st},
       dates: {
         today: moment($rootScope.search.date).format('YYYY MM DD'),
@@ -95,16 +102,6 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
       $scope.milongas = data;
       setErrorMsg();
   })
-
-
-  //AS SOON AS POS GETS DEFINED BY GEOLOCATION, GET MILONGAS AGAIN
-  $scope.$watch("pos", function(newValue, oldValue) {
-      eventsFactory.getMilongas(info, function(data){
-          $scope.milongas = data;
-          setErrorMsg();
-      })
-  });
-
   
 
 
@@ -154,17 +151,19 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
   $rootScope.$watch("search.city", function(newValue, oldValue) {
     $scope.sorryMsg = false;
     // console.log(newValue);
+    $scope.userDeniedLocation = false;
+
     if(newValue != oldValue && newValue != null){
 
         //if the user typed in a new city, save it to preferences
         if ($rootScope.search.city && $rootScope.search.city.geometry) {
             // console.log($rootScope.search.city)
-            $scope.pos = {
+            pos = {
               lat: $rootScope.search.city.geometry.location.lat(),
               lng: $rootScope.search.city.geometry.location.lng()
             };
             st = $rootScope.search.city.address_components[2].short_name;
-            info.pos =  $scope.pos;
+            info.pos =  pos;
             info.state = {state: st};
             info.city = $rootScope.search.city.formatted_address;
 
@@ -302,8 +301,9 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
     //IN DIFFERENT VARIABLES SO WE ONLY PUT IN MILONGAS WHAT WE NEED
     //IMPROVEMENT FOR LATER, TO NOT HAVE TO QUERY SO MUCH UNNESESARY
     if (newValue == 'Classes') {
-      // console.log('new value is equal to classes')
+      // console.log('new value is equal to classes', info)
       eventsFactory.getClasses(info, function(data){
+        // console.log('CLASES:', data)
           $scope.milongas = data;   
           setErrorMsg();
       })
@@ -602,6 +602,15 @@ var mapsInfo = [];
           return false;
       }
       return true;
+  }
+
+  $scope.useCurrentLocation = function(){
+      // console.log('INSIDE USE CURRENT LOCATION')
+      if (navigator.geolocation && $rootScope.search.city != 'Your current location') {
+          // console.log('running again')
+          // $rootScope.search.city = 'Your current location';
+          navigator.geolocation.getCurrentPosition(success, error);
+      }
   }
 
   

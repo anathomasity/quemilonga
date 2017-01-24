@@ -164,7 +164,7 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 
 
 	function initMap(destinations) {
-		console.log(destinations, "DESTINATIONS")
+		// console.log(destinations, "DESTINATIONS")
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 1,
           center: {lat: 20, lng: 15},
