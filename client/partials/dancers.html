@@ -19,7 +19,7 @@
 				<h6>Search your favorites and follow them!</h6>
 				<div class="invisibleScroll" style="max-height: 5em;">
 					<h6 ng-if='user._performers_following.length > 0' ng-repeat='d in user._performers_following' class="inline"  ><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h6>
-					<p ng-if='user._performers_following.length < 1'>You are not following any dancers yet!</a></p>
+					<p ng-if='user._performers_following.length < 1' style='font-weight: bolder;'>You are not following any dancers yet!</a></p>
 
 				</div><br><br>
 			</div>

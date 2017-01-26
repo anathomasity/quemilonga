@@ -24,8 +24,10 @@ myApp.controller('dancersController', function($scope, eventsFactory, $routePara
 	    else{
 	    	var highestScores = totals.splice(0,numberOfPosts);
 	    	highestScores = shuffle(highestScores);
-	    	$scope.topDancers.push(topDancers[highestScores[0].index])
-	    	$scope.topDancers.push(topDancers[highestScores[1].index])
+	    	for (var i = 0; i < 11; i++) {
+	    		$scope.topDancers.push(topDancers[highestScores[i].index])
+	    	}
+	    	
 	    }
 
 	})
