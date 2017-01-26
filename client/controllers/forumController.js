@@ -4,6 +4,7 @@ myApp.controller('forumController', function($scope, $routeParams, forumFactory,
     $scope.thread.user = '';
     $window.scrollTo(0, 0);
 
+    $scope.toggleClass("forumRow", "calendarRow", "findRow");
 
     forumFactory.getThreads(function(dat){
         $scope.threads = dat;

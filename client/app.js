@@ -373,6 +373,7 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		};
 
 		$scope.toggleClass = function(button, but2, but3){
+			// console.log('indise toggle class')
 			$('#' + button).addClass( 'navRowClicked' );
 			$('#' + but2).removeClass( 'navRowClicked' );
 			$('#' + but3).removeClass( 'navRowClicked' );

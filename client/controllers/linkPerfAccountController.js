@@ -3,6 +3,7 @@ myApp.controller('linkPerfAccountController', function($scope, $rootScope, $rout
     $rootScope.teachers = [];
     $window.scrollTo(0, 0);
     
+    $scope.toggleClass( "findRow","calendarRow","forumRow");
 
 
     eventsFactory.getPerformers(function(dat){

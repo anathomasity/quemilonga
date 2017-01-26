@@ -11,6 +11,7 @@ myApp.controller('showMilongaController', function($scope, $routeParams, eventsF
     
 	})
 
+  $scope.toggleClass("calendarRow", "findRow", "forumRow");
 
 
 

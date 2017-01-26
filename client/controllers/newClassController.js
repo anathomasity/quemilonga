@@ -9,6 +9,7 @@ myApp.controller('newClassController', function($scope, eventsFactory, $location
 	$rootScope.multipleVersions = [];
 
 	// console.log('USER is: ',$rootScope.user);
+    $scope.toggleClass("calendarRow", "findRow", "forumRow");
 
 	eventsFactory.getPerformers(function(dat){
 		// console.log('performers:',data);

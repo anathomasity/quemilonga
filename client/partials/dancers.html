@@ -1,6 +1,6 @@
 <div class="container" >
     <div style="text-align: center;">
-	   <h1 class="inline" style="font-family: 'La Belle Aurore', cursive; font-weight: bolder;">QueMilonga.com</h1><h2 class="inline" style="color: #b30000;"><strong>TANGONEWS</strong></h2><br>
+	   <h1 class="inline" style="font-family: 'La Belle Aurore', cursive; font-weight: bolder;">QueMilonga.com</h1><h2 class="inline" style="color: #b30000;"><strong>GOSSIP</strong></h2><br>
     </div><br><br><br><br>
 
 
@@ -18,16 +18,26 @@
 				<h4 class="noto" style="color: #b30000;">Dancers you are following</h4>
 				<h6>Search your favorites and follow them!</h6>
 				<div class="invisibleScroll" style="max-height: 5em;">
-					<h6 ng-if='user._performers_following.length > 0' ng-repeat='d in user._performers_following' class="inline"  ><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h6>
-					<p ng-if='user._performers_following.length < 1' style='font-weight: bolder;'>You are not following any dancers yet!</a></p>
+					<h6 ng-if='user._performers_following.length > 0' ng-repeat='d in user._performers_following' class="inline"  >
+						<div class="inline smallPic"></div>
+
+						<a href="#/performers/{{d._id}}" class="body_links noto inline" style="padding-right: 1em;">{{d.name}}</a>
+					</h6>
+
+
+					<p ng-if='user._performers_following.length < 1' style='font-weight: bolder;'>You are not following any dancers yet!</p>
+					<p ng-if='!user' style='font-weight: bolder;'>Please <a ng-click='login()' class="body_links noto" style="cursor: pointer;">LOGIN</a> to see dancers you are following</p>
 
 				</div><br><br>
 			</div>
 			<div>
 				<h4 class="noto" style="color: #b30000;">Some of our dancers on high demand</h4>
 				<h6>Most followed and highest interactions profiles</h6>
-				<div class="invisibleScroll" style="max-height: 5em;">
-					<h6 ng-repeat='d in topDancers' class="inline"  ><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h6>
+				<div>
+					<h6 ng-repeat='d in topDancers' class="inline"  >
+						<div class="inline smallPic"></div>
+						<a href="#/performers/{{d._id}}" class="body_links noto inline" style="padding-right: 1em;">{{d.name}}</a>
+					</h6>
 				</div><br><br>
 			</div>
 
@@ -39,7 +49,7 @@
 
 				<form name="form2">
 			        <div class="form-group"><br>
-		   				 <h4 class="noto" style="color: #b30000;">Find your favorite dancer's profile and schedule, and follow him!</h4><br>
+		   				 <h4 class="noto" style="color: #b30000;">Find your favorite dancer's profile and follow him!</h4><br>
 
 
 			            <!-- <label for="recipient-name" class="form-control-label">You can find your favorite dancer's schedule and follow him!</label> -->
@@ -82,7 +92,7 @@
 		    <div style="text-align: center; border-top: 4px solid #e64d00; border-right: 1px solid #e64d00; border-left: 1px solid #e64d00; box-shadow: 10px 10px 5px #888888; background-color: #fbfafa; padding: 1em;">
                 <h4 class="noto" style="color: #b30000;">Are you a <br> TANGO PROFESSIONAL?</h4><br>
                 <h4 style="font-weight: bolder;">See a <a class="body_links noto" href="#/performers/587ef328d6d0e9cc02be0295">SAMPLE</a><br> of a complete profile!</h4><br>
-                <p>If you are a professional dancer and would like to edit and share your profile <a href="#/linkPerfAccount" class="body_links noto">Click HERE</a> and we will link your account to it!</p>
+                <p>If you would like to edit and share your profile <a href="#/linkPerfAccount" class="body_links noto">Click HERE</a> and we will link your account to it. Easy way to advertise yourself!</p>
             </div>
 
 

@@ -7,6 +7,7 @@ myApp.controller('indexController', function($scope, eventsFactory, forumFactory
   $rootScope.search.date = new Date();
   $rootScope.search.what = 'Milongas'
 
+  $scope.toggleClass("calendarRow", "findRow", "forumRow");
   
   $scope.milongas = {
     today: [],

@@ -8,6 +8,7 @@ myApp.controller('showClassController', function($scope, $routeParams, eventsFac
 	})
 
   $window.scrollTo(0, 0);
+  $scope.toggleClass("calendarRow", "findRow", "forumRow");
   
 
   $scope.saveClass = function(eventId) {

@@ -9,6 +9,7 @@ myApp.controller('editMilongaController', function($scope, $routeParams, $locati
 	$scope.toggle;
   	$window.scrollTo(0, 0);
 
+    $scope.toggleClass("calendarRow", "findRow", "forumRow");
 
 
 

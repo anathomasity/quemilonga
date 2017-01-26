@@ -2,6 +2,7 @@ myApp.controller('generalMapController', function($scope, $routeParams, eventsFa
 
     var dat = [];
     $window.scrollTo(0, 0);
+    $scope.toggleClass("calendarRow", "findRow", "forumRow");
 
 
     eventsFactory.countMilongas(function(data){

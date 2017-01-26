@@ -1,3 +1,13 @@
+.smallPic{
+	width: 2em;
+	height: 2em;
+	background-image:    url('silueta.jpg');
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;  
+}
+
+
 .profilePic{
 	width: 12em;
 	height: 12em;

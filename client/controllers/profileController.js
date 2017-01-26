@@ -5,6 +5,7 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
   }
   else {
   $scope.refreshUser(); 
+  $scope.toggleClass( "findRow","calendarRow","forumRow");
 
   $window.scrollTo(0, 0);
 

@@ -3,7 +3,7 @@ myApp.controller('dancersController', function($scope, eventsFactory, $routePara
     $window.scrollTo(0, 0);
     $scope.topDancers = [];
 
-    // console.log('USER', $rootScope.user)
+    $scope.toggleClass( "findRow","calendarRow","forumRow");
 
     eventsFactory.getPerformers(function(dat){
 	    var topDancers = dat;
@@ -24,8 +24,12 @@ myApp.controller('dancersController', function($scope, eventsFactory, $routePara
 	    else{
 	    	var highestScores = totals.splice(0,numberOfPosts);
 	    	highestScores = shuffle(highestScores);
-	    	for (var i = 0; i < 11; i++) {
+
+	    	// var classes = ['smallPic', 'smallPic2', 'smallPic3', 'smallPic4'];
+	    	// classes = shuffle[classes];
+	    	for (var i = 0; i < 15; i++) {
 	    		$scope.topDancers.push(topDancers[highestScores[i].index])
+
 	    	}
 	    	
 	    }

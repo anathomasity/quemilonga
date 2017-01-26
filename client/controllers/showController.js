@@ -12,6 +12,7 @@ myApp.controller('showController', function($scope, $rootScope, $http, $sce, $ro
 	var performerId = $routeParams.id;
 
 
+    $scope.toggleClass( "findRow","calendarRow","forumRow");
 
 
 	eventsFactory.getPerformer(performerId, function(data){

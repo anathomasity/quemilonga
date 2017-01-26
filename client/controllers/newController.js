@@ -9,6 +9,7 @@ myApp.controller('newController', function($scope, eventsFactory, $location, $ht
 	$scope.toggle;
 
 	$rootScope.multipleVersions = [];
+    $scope.toggleClass("calendarRow", "findRow", "forumRow");
 
 	// console.log('USER is: ',$rootScope.user);
 
