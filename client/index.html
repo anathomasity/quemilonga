@@ -73,8 +73,18 @@
     <script src = "/controllers/forumController.js"></script>
     <script src = "/controllers/threadController.js"></script>
     <script src = "/controllers/linkPerfAccountController.js"></script>
+    <script src = "/controllers/dancersController.js"></script>
 
 
+
+    <!-- AMAZON SDK -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.6.1.min.js"></script>
+    <!-- IMAGE CROP -->
+    <script src="ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <link rel="stylesheet" type="text/css" href="ng-img-crop/compile/unminified/ng-img-crop.css">
+    <!-- FILE UPLOAD -->
+    <script src="ng-file-upload/ng-file-upload-shim.min.js"></script>
+    <script src="ng-file-upload/ng-file-upload.min.js"></script>
 
 
 
@@ -110,6 +120,9 @@
     <script src="moment-timezone/moment-timezone.js"></script>
 
 
+
+
+
             
 </head>
 <header>
@@ -126,13 +139,31 @@
                 <a href="#/profile" ng-if='user' class="navLinks" ng-click='closeNav()'>{{user.first_name}} {{user.last_name}}</a>
                 <a id="newMilLink" class="navLinks" href="#/milongas/new" ng-click='closeNav()'>POST NEW MILONGA</a>
                 <a id="newMilLink" class="navLinks" href="#/classes/new" ng-click='closeNav()'>POST NEW CLASS</a>
-                <a id="forumLink" class="navLinks" href="#/forum" ng-click='closeNav()' style="font-family: 'La Belle Aurore', cursive;">QueMilonga<strong style="font-family: 'Inconsolata', monospace; ">FORUM</strong></a>
-                <a ng-click='findPerformerModal(); closeNav()' class="navLinks">Find Dancer Schedule</a>
+                <!-- <a id="forumLink" class="navLinks" href="#/forum" ng-click='closeNav()' style="font-family: 'La Belle Aurore', cursive;">QueMilonga<strong style="font-family: 'Inconsolata', monospace; ">FORUM</strong></a> -->
+                <!-- <a ng-click='findPerformerModal(); closeNav()' class="navLinks">Find Dancer Schedule</a> -->
                 <a ng-if='!user' ng-click='login(); closeNav()' class="navLinks">Login</a>
                 <a ng-if='user' ng-click='logout(); closeNav()' class="navLinks">Logout</a>
             </nav>
         </div>
     </div>
+    <div id='navRow' class="row">
+
+
+        <div id='calendarRow' class="col-xs-4 col-md-4 navRowUnclicked navRowClicked" ng-click='go("/"); toggleClass( "calendarRow", "findRow", "forumRow")'><h3 style="letter-spacing: .3em; font-family: 'La Belle Aurore', cursive;"><strong>EVENTS</strong></h3></div>
+
+
+        <div id='findRow' class="col-xs-4 col-md-4 navRowUnclicked" ng-click='go("/dancers"); toggleClass("findRow", "calendarRow", "forumRow")'><h3 style="letter-spacing: .3em; font-family: 'La Belle Aurore', cursive;"><strong>DANCERS</strong></h3></div>
+
+        <div id='forumRow' class="col-xs-4 col-md-4 navRowUnclicked" ng-click='go("/forum"); toggleClass("forumRow", "calendarRow", "findRow")'><h3 style="font-family: 'La Belle Aurore', cursive; font-weight: bolder;">QueMilonga<strong style="font-family: 'Inconsolata', monospace; letter-spacing: .3em;">FORUM</strong></h3></div>
+
+
+
+
+
+
+    </div>
+
+
 </header>
 
 
@@ -355,6 +386,62 @@
             </div>
           </div>
         </div> -->
+
+
+
+
+        <!-- CROP IMAGE MODAL -->
+
+        <div class="modal fade" id="cropImageModal" tabindex="-1" role="dialog" aria-labelledby="cropImageModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content container" style="width: 80%;">
+                    <div class="modal-header">
+                        <h4 class="noto"> Change your profile picture</h4>
+                    </div>
+
+                    <div class="modal-body">
+
+                            <form novalidate>
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-6">
+                                        <div ngf-drop ng-model="$parent.picFile" ngf-pattern="image/*"
+                                    class="cropArea">
+                                            <img-crop image="$parent.picFile  | ngfDataUrl"                 
+                                            result-image="croppedDataUrl" ng-init="croppedDataUrl=''" area-type="square">
+                                            </img-crop>
+                                        </div><br>
+                                        <button ngf-select ng-model="$parent.picFile" accept="image/*" class="btn but" >Select Picture</button>
+                                    </div>
+                                    
+
+                                    <div class="col-xs-12 col-md-6">
+                                        <img ng-src="{{croppedDataUrl}}" />
+                                    </div>
+
+                                </div>
+                                <span class="progress" ng-show="progress >= 0">    
+                                    <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
+                                 </span>
+                                <span ng-show="result">Upload Successful</span>
+                                <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+                            </form>
+
+                    </div>
+
+                    <hr class="hr">
+
+                    <div style="float: right;">
+                    <br>
+                        <button type="button" class="btn but inline" ng-click="uploadFiles(croppedDataUrl)" style="vertical-align: bottom;">Upload</button>
+                        <button type="button" class="btn but inline" data-dismiss="modal" style="vertical-align: bottom;">Close</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- END OF CROP IMAGE MODAL -->
+
 
 
             

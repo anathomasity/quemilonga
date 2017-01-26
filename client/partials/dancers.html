@@ -1,0 +1,94 @@
+<div class="container" >
+    <div style="text-align: center;">
+       <h1 class="inline" >Dancers</h1><h2 class="inline" style="color: #b30000;"><strong>HAPPENING</strong></h2><br>
+    </div><br>
+
+
+	<div class="row">
+		
+
+
+		<div class="col-xs-12 col-md-6" style="padding-right: 5em;">
+			<form name="form2">
+		        <div class="form-group"><br>
+	   				 <h4 class="noto" >Find your favorite dancer's profile and schedule, and follow him!</h4><br>
+
+
+		            <!-- <label for="recipient-name" class="form-control-label">You can find your favorite dancer's schedule and follow him!</label> -->
+		            <h5>Please enter dancer's name: (e.g: "Osvaldo Zotto")</h5>
+
+		            <input type="text" class="form-control" id="recipient-name" ng-model="dancer.name" name="dName" required="">
+		            <div class="errorMsgs" ng-show="form2.dName.$touched" ng-if='fullname'>
+		                <div ng-show="form2.dName.$error.required">Enter a full name</div>
+		            </div>
+		        </div>
+
+		        <div ng-if='onlyOneMsg'>
+		            <h5 style="color:red;">{{onlyOneMsg}}</h5>
+		        </div>
+		        <div ng-if='matches.length > 0'>
+		            <h3 class="noto">Did you mean...</h3>
+		            <a ng-repeat='m in matches' class="body_links" style="cursor: pointer; display: block;" ng-click='viewPerformer(m._id);'>.. {{m.name}}?</a>
+		            <br>
+		            <p>If we couldn't find a match, you can still put a request to add him/her.</p>
+		        </div>
+		        <div ng-if='matches.length == 0'>
+		            <h5 style="color:red;" id="noMatchMessage">We couldn't find a match, you can still put a request to add him/her to our database.</h5>
+		        </div>
+		        <div ng-if='msg'>
+		            <h5 style="color:green;" >Thanks! Request succesfully submitted.</h5>
+		        </div>
+
+		        
+		        <br>
+		        <input ng-show='!matches' type="submit" class="btn btn-primary noto" ng-click="findMatches(2)" value="Find"/>
+		        <input ng-show='matches' type="submit" class="btn btn-primary noto" ng-click="addPerformer()" value="Request Permission to Add"/>
+		        <br><br>
+		    </form>
+		</div>
+
+
+
+
+		<div class="col-xs-12 col-md-6">
+			<h3 class="noto">Tango Newsletter</h3>
+
+			<form name="form3">
+				<div class="row">
+
+					<div class="col-xs-9 col-md-10">
+						<h6 id="showAddVideo"><a class="noto body_links" ng-click='addVideo()' style="cursor: pointer;">Add video to post</a></h6>
+						<input id='addVideo' style="display: none;" type="text" class="form-control" id="recipient-name" ng-model="comment.youtubeLink" name="dLink" placeholder="Enter Youtube video URL...">
+
+						
+
+						<textarea class="form-control" id="recipient-name" ng-model="comment.content" name="dFrom" required="" ng-minlength='5' maxlength='180' placeholder="Say something..."></textarea>
+			            <div class="errorMsgs" ng-show="form3.$submitted || form3.dFrom.$touched">
+			                <!-- <div ng-show="form3.dFrom.$error.required">Content is required</div> -->
+			                <div ng-show="form3.dFrom.$error.minlength">Minimum length in 5 characters</div>
+			            </div>
+					</div>
+					<div class="col-xs-3 col-md-2" style="padding-top: 3em;">
+		        		<input type="submit" class="btn-sm btn-primary noto" ng-click="addComment()" value="Post"/>
+					</div>
+		            
+
+		        </div>
+
+
+
+
+
+
+
+		    </form><br>
+		</div>
+
+
+
+
+	</div>
+	
+	
+
+</div>

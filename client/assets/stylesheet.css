@@ -1,3 +1,41 @@
+.profilePic{
+	width: 12em;
+	height: 12em;
+	background-image:    url('defaultProfPic.jpg');
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;  
+    border: 5px solid #CD6155;
+    box-shadow : inset 0em 0em 1em #000000;
+}
+
+
+.cropArea {
+    background: #E4E4E4;
+    overflow: hidden;
+    width:12em;
+    height:12em;
+}
+form .progress {
+    line-height: 15px;
+}
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
+}
+
+
+
+
+
+
+
 .pac-container {
     z-index: 10000 !important;
 }
@@ -398,8 +436,8 @@ header{
 	}
 
 	.but:hover {
-		font-size: large;
-		color: #EAAF00;
+		/*font-size: large;*/
+		color: black;
 	}
 
 	.butforum {
@@ -598,16 +636,49 @@ nav>a:hover{
 	color: white;
 	background-color: transparent;
 }
-section{
+
+#navRow{
+	margin: 0;
 	width: 100%;
 	height: auto;
 	background-image: -webkit-linear-gradient(#660000 0%, #b30000 100%);
 	border-top: 1px solid white;
+	color: white;
+}
+
+.navRowClicked {
+	/*color: black;*/
+	/*background-color: white;*/
+	box-shadow : inset 0em 0em 1em #000000;
+	text-align: center; 
+	font-weight: bolder;
+	background-color: #CD6155;
 
 }
+
+
+
+.navRowUnclicked{
+	/*color: white;*/
+	/*box-shadow: 0em 0em 1em #000000;*/
+	cursor: pointer; 
+	font-weight: bolder; 
+	text-align: center; 
+}
+
+#section{
+	margin: 1em auto 0;
+	height: auto;
+	background-color: black;
+	border-radius: .5em;
+}
+
+
 .searchLine h4 {
 	color: white; 
 	font-size: x-large;
+	font-weight: bolder;
+
 }
 .searchLine {
 	color: white; 
@@ -618,7 +689,7 @@ section{
 .searchInputs {
 	background-color: transparent;
 	color: white;
-	font-weight: bold;
+	font-weight: bolder;
 	letter-spacing: 2px;
 	padding: 2px;
 	margin:5px;
@@ -628,7 +699,8 @@ section{
 }
 
 #threadPage {
-	width: 50%;
+	margin: 0 auto;
+	width: 70%;
 }
 
 #threadComments {
@@ -837,6 +909,17 @@ section{
 	  padding-top: .2em;
 	  padding-bottom: .2em;
 	  text-align: center;
+	}
+
+	.navRowClicked h3 {
+		font-size: small;
+		letter-spacing: none;
+
+	}
+
+	.navRowUnclicked h3{
+		font-size: small;
+		letter-spacing: none;
 	}
 
 	#mainInfoPartial{

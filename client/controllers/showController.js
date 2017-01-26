@@ -3,7 +3,7 @@
 
 
 
-myApp.controller('showController', function($scope, $rootScope, $sce, $routeParams, eventsFactory, forumFactory, $window, $route){
+myApp.controller('showController', function($scope, $rootScope, $http, $sce, $routeParams, eventsFactory, forumFactory, $window, $route){
 
 	$scope.now = moment().add(-1,'days').format();
 	$rootScope.teachers = [];
@@ -204,7 +204,12 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
 
   	
 
-	$scope.addComment = function(){
+	$scope.addComment = function(file){
+
+		// if($scope.file && $scope.file.size > 400000) {
+		//   $scope.imgTooBig = 'Sorry, image size must be under 400KB';
+		//   return;
+		// }
 
         if($scope.form2.$valid == false) {
             return;
@@ -216,24 +221,48 @@ myApp.controller('showController', function($scope, $rootScope, $sce, $routePara
         }
         else {
 
+        	if(file){
+
+        		$rootScope.uploadFiles(file, 'comment', '123123123')
+        	}
+
+
+
+
             $scope.comment._user = $rootScope.user._id;
             $scope.comment.type = 'performer';
             $scope.comment.performerId = $scope.performer._id;
+
+
+
+            // $scope.comment.imageLink = 'ADD LINK HERE';
             // console.log("comment TO ADD", $scope.comment)
-            forumFactory.addComment($scope.comment, function(addedComment){
-                // console.log("ADDED Comment", addedComment)
-                $scope.comment = {};
-                eventsFactory.getPerformer(performerId, function(data){
-                    $scope.performer = data.data;
-                    checkCommentVideos();
-                })
+            // forumFactory.addComment($scope.comment, function(addedComment){
+            //     // console.log("ADDED Comment", addedComment)
+            //     $scope.comment = {};
+            //     eventsFactory.getPerformer(performerId, function(data){
+            //         $scope.performer = data.data;
+            //         checkCommentVideos();
+            //     })
                 
 
-            });
+            // });
 
         } //END OF ELSE
 
     };
+
+
+ //    $scope.uploadFile = function(file) {
+
+ //    	var fd = new FormData();
+
+	// 	fd.append( 'file', file );
+	//     $http.post('/uploadImage', fd).then(function(da){
+	// 		console.log("BACK FROM BACKEND DATA:", da);
+	// 	})
+
+	// };
 
     $scope.destroyComment = function(cId){
         forumFactory.destroyComment(cId, function(destroyedComment){

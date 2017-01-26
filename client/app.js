@@ -1,7 +1,7 @@
-var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'google.places', 'multipleDatePicker', "isteven-multi-select"]);
+var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bootstrap', 'ngAnimate', 'ngTouch', 'google.places', 'multipleDatePicker', "isteven-multi-select", 'ngFileUpload', 'ngImgCrop']);
 
 (function(){
-	myApp.controller('MainCtrl', function ($scope, $window, $cookies, $rootScope, $facebook, eventsFactory, forumFactory, $location, $route) {
+	myApp.controller('MainCtrl', function ($scope, $window, $cookies, $rootScope, $facebook, eventsFactory, forumFactory, $location, $route, Upload, S3UploadService, $timeout) {
     	
 
     	$scope.$on('$viewContentLoaded', function(event) {
@@ -330,37 +330,86 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 			})
 		}
 
-		  function compare(a,b) {
-		    if (a.total < b.total)
-		      return 1;
-		    if (a.total > b.total)
-		      return -1;
-		    return 0;
-		  }
+		function compare(a,b) {
+			if (a.total < b.total)
+			  return 1;
+			if (a.total > b.total)
+			  return -1;
+			return 0;
+		}
 
-		  function shuffle(array) {
-		    var currentIndex = array.length, temporaryValue, randomIndex;
+		function shuffle(array) {
+			var currentIndex = array.length, temporaryValue, randomIndex;
 
-		    // While there remain elements to shuffle...
-		    while (0 !== currentIndex) {
+			// While there remain elements to shuffle...
+			while (0 !== currentIndex) {
 
-		      // Pick a remaining element...
-		      randomIndex = Math.floor(Math.random() * currentIndex);
-		      currentIndex -= 1;
+			  // Pick a remaining element...
+				  randomIndex = Math.floor(Math.random() * currentIndex);
+				  currentIndex -= 1;
 
-		      // And swap it with the current element.
-		      temporaryValue = array[currentIndex];
-		      array[currentIndex] = array[randomIndex];
-		      array[randomIndex] = temporaryValue;
-		    }
+				  // And swap it with the current element.
+				  temporaryValue = array[currentIndex];
+				  array[currentIndex] = array[randomIndex];
+				  array[randomIndex] = temporaryValue;
+			}
 
-		    return array;
-		  }
+			return array;
+		}
 
-		  $scope.openFaceProfile = function(added_by_id) {
-		     $window.open('https://www.facebook.com/' + added_by_id, '_blank');
-		  };
+		$scope.openFaceProfile = function(added_by_id) {
+		 	$window.open('https://www.facebook.com/' + added_by_id, '_blank');
+		};
 
+		$scope.toggleClass = function(button, but2, but3){
+			$('#' + button).addClass( 'navRowClicked' );
+			$('#' + but2).removeClass( 'navRowClicked' );
+			$('#' + but3).removeClass( 'navRowClicked' );
+		}
+
+
+
+		// upload image functionality
+
+	    $rootScope.uploadFiles = function (file, modelName, id) {
+
+	    	var cropped = Upload.dataUrltoBlob(file);
+	        // console.log("CROPPED", cropped);
+			// console.log('this is the file',file);
+
+	        cropped.url = modelName + id + '.jpg'
+
+	        $scope.File = file;
+
+		    S3UploadService.Upload(cropped).then(function (result) {
+		        console.log('RESULT',result);
+		        $scope.success = true;
+		    }, function (error)  {
+		        // Mark the error
+		        $scope.error = error;
+		    }, function (progress) {
+		        // Write the progress as a percentage
+		        $scope.progress = (progress.loaded / progress.total) * 100
+		        console.log(progress);
+	            setTimeout(function(){
+	        		location.reload()
+				}, 1200)
+		    });
+
+		    //PICTURE UPLOADING CORRECTLY
+		    //IF IS A COMMENT PICTURE, NOT CROP FUNCTIONALITY, FIRST ADD COMMENT THEN WITH NEW ID ADD PICTURE
+		    //IF ITS A PROFILE PIC, CROP FNCTIONALITY, ADD PICTURE WITH USER ID AND THEN SET user.pic = true AT MONGO;
+
+	        // usersFactory.uploadPhoto($scope.user._id, function(data){
+	        //     console.log(data);
+	        // })
+
+	    };
+	    //#########################ENDS##############
+
+	    $scope.cropImageModal = function(){
+	    	$('#cropImageModal').modal();
+	    }
 
 
 
@@ -452,7 +501,13 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 				controller: 'linkPerfAccountController', 
 				templateUrl: "partials/linkPerfAccount.html",
 				// needAuth: true,
-			})		
+			})
+			.when('/dancers', 
+			{
+				controller: 'dancersController', 
+				templateUrl: "partials/dancers.html",
+				// needAuth: true,
+			})
 
 	});
 	myApp.config(['$facebookProvider', function($facebookProvider) {
@@ -471,6 +526,64 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 	    $rootScope.$on('fb.load', function() {
 	      $window.dispatchEvent(new Event('fb.load'));
 	    });
-	  }])
+	}])
+
+
+	// myApp.directive('file', function() {
+	//   return {
+	//     restrict: 'AE',
+	//     scope: {
+	//       file: '@'
+	//     },
+	//     link: function(scope, el, attrs){
+	//       el.bind('change', function(event){
+	//         var files = event.target.files;
+	//         var file = files[0];
+	//         scope.file = file;
+	//         scope.$parent.file = file;
+	//         scope.$apply();
+	//       });
+	//     }
+	//   };
+	// });
+
+	myApp.service('S3UploadService', ['$q', function ($q) {
+	    // Us standard region
+	    AWS.config.region = 'us-west-1';
+	    AWS.config.update({ accessKeyId: 'AKIAJGDN5CBBKMBOQD4Q', secretAccessKey: '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' });
+
+	    var bucket = new AWS.S3({ params: { Bucket: 'www.quemilonga.com', maxRetries: 5 }, httpOptions: { timeout: 360000 } });
+
+	    this.Progress = 0;
+	    this.Upload = function (file) {
+	        console.log('in the S3UploadService')
+	        console.log(file)
+	        var deferred = $q.defer();
+	        var params = { Bucket: 'www.quemilonga.com', Key: file.url, ContentType: file.type, Body: file };
+	        var options = {
+	            // Part Size of 10mb
+	            partSize: 10 * 1024 * 1024,
+	            queueSize: 1,
+	            // Give the owner of the bucket full control
+	            ACL: 'bucket-owner-full-control'
+	        };
+	        var uploader = bucket.upload(params, options, function (err, data) {
+	            if (err) {
+	                deferred.reject(err);
+	            }
+	            deferred.resolve();
+	        });
+	        uploader.on('httpUploadProgress', function (event) {
+	            deferred.notify(event);
+	        });
+
+	        return deferred.promise;
+	    };
+	}]);
+
+
+
+
+
 }());
 

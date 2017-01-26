@@ -3,8 +3,20 @@ var express  = require( 'express' ),
     root     = __dirname,
     port     = process.env.PORT || 8000,
     bp       = require('body-parser'),
-    app      = express();
-    moment   = require('moment');
+    app      = express(),
+    moment   = require('moment'),
+    S3 = require('aws-sdk/clients/s3');
+    AWS = require('aws-sdk');
+
+
+
+//AWS S3 CONFIGURATIONS
+
+AWS.config.loadFromPath('./config.json');
+
+var s3 = new AWS.S3();
+
+
 
 
 app.use( express.static( path.join( root, 'client' )));

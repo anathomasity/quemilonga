@@ -1,9 +1,11 @@
 <div class="container">
-	<h1 class="inline" style="font-family: 'La Belle Aurore', cursive; font-weight: bolder;">QueMilonga.com</h1><h2 class="inline" style="color: #b30000;"><strong>FORUM</strong></h2><br>
+    <div style="text-align: center;">
+	   <h1 class="inline" style="font-family: 'La Belle Aurore', cursive; font-weight: bolder;">QueMilonga.com</h1><h2 class="inline" style="color: #b30000;"><strong>FORUM</strong></h2><br>
+    </div>
 
         <br><button type="button" class="but btn" ng-click="newThread()">CREATE NEW THREAD</button><br><br>
 
-    <div style="height: 60em; overflow: scroll;" >
+    <div style="max-height: 60em;" class="invisibleScroll" >
     	<table class="table table-hover">
     	<div class="col-md-8">
             <input class="form-control" type="text" ng-model="thread_name" placeholder="Search threads by keywords">
@@ -18,7 +20,7 @@
         	      		<h5 class="inline"><strong>By <a href="http://www.facebook.com/{{t._user.fb_id}}" class="body_links">{{t._user.first_name}} {{t._user.last_name}}</a></strong> |</h5>
         	      		<h5 class="inline" ng-if='t._comments'><strong>{{t._comments.length}}</strong> answers </h5>
         	      		<h5 class="inline"> | <strong>{{t.views}}</strong> views </h5>
-        	      		<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fthreads%2F{{t._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fforum2.png&title={{t.title}}&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Check+out+this+thread+on+QueMilonga.com+FORUM&description={{t.content}}"><div class='shareButton inline'></div><br></a>
+        	      		<a style="float: right;" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fthreads%2F{{t._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fforum2.png&title={{t.title}}&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Check+out+this+thread+on+QueMilonga.com+FORUM&description={{t.content}}"><div class='shareButton inline'></div><br></a>
         	        </td>
 
         	      <td ng-if='user._id && t._user._id == user._id'>
