@@ -1,7 +1,3 @@
-// IF USER DENIES GEOLOCATION, FIX SAN FRANCISCO!!!!
-
-
-
 myApp.controller('indexController', function($scope, eventsFactory, forumFactory, $cookies, $location, $http, $rootScope, $window){
 
   var pos;
@@ -395,7 +391,7 @@ var mapsInfo = [];
                     $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                     // console.log('BACK stopAttending profile controller,', data);
                     $('#status'+ eventId).html('Event saved');
-                    refreshUser();
+                    $scope.refreshUser();
                 });
             });
         }
@@ -408,7 +404,7 @@ var mapsInfo = [];
             eventsFactory.stopSaving(info, function(data){
                 // console.log('BACK stopSaving profile controller,', data);
                 $('#status'+ eventId).html('');
-                refreshUser();   
+                $scope.refreshUser();   
             });
         }//END OF ELSE IF
 
@@ -423,7 +419,7 @@ var mapsInfo = [];
     else {
         var check = false;
         var id = 'a' + eventId;
-                    console.log('ID TO START ATTENDING',id)
+                    // console.log('ID TO START ATTENDING',id)
         for(var i = 0; i < $rootScope.user._attending.length; i++){
             if(eventId == $rootScope.user._attending[i]._id){
                 check = true;
@@ -443,7 +439,7 @@ var mapsInfo = [];
                     var id = 's' + eventId;
                     $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                     $('#status'+ eventId).html('Attending event');
-                    refreshUser(); 
+                    $scope.refreshUser(); 
                 }); 
             });
         }
@@ -455,7 +451,7 @@ var mapsInfo = [];
             }
             eventsFactory.stopAttending(info, function(data){
                 $('#status'+ eventId).html('');
-                refreshUser(); 
+                $scope.refreshUser(); 
             });
         }//END OF ELSE IF
 
@@ -495,7 +491,7 @@ var mapsInfo = [];
                     $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
                     // console.log('BACK stopAttending profile controller,', data);
                     $('#status'+ eventId).html('Event saved');
-                    refreshUser();
+                    $scope.refreshUser();
                 }); 
             });
         }
@@ -508,7 +504,7 @@ var mapsInfo = [];
             eventsFactory.stopSavingClass(info, function(data){
                 // console.log('BACK stopSaving profile controller,', data);
                 $('#status'+ eventId).html('');
-                refreshUser();   
+                $scope.refreshUser();   
             });
         }//END OF ELSE IF
 
@@ -542,7 +538,7 @@ var mapsInfo = [];
                 eventsFactory.stopSavingClass(datos, function(data){
                     var id = 'sc' + eventId;
                     $('#' + id).css({"box-shadow": ".3em .3em .1em #888888"});
-                    refreshUser(); 
+                    $scope.refreshUser(); 
                 }); 
             });
         }
@@ -554,7 +550,7 @@ var mapsInfo = [];
             }
             eventsFactory.stopAttendingClass(info, function(data){
                 $('#status'+ eventId).html('');
-                refreshUser(); 
+                $scope.refreshUser(); 
             });
         }//END OF ELSE IF
 
@@ -650,16 +646,7 @@ var mapsInfo = [];
       };
   };
 
-  function refreshUser() {
 
-      eventsFactory.getUser($rootScope.user.fb_id, function(data){
-          $scope.attending = data.data._attending;
-          $scope.favorites = data.data._favorites;
-          $scope.class_attending = data.data._class_attending;
-          $scope.class_favorites = data.data._class_favorites;
-          $rootScope.user = data.data;
-      }); 
-  }
 
   var getEditDistance = function(a, b){
       if(a.length == 0) return b.length; 

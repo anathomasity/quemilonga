@@ -1,8 +1,3 @@
-// WHEN YOU EDIT AN EVENT, IF YOU REMOVE PERFORMERS FROM A MILONGA THERE IS AN ERROR
-//WHEN EDDITING "EVENTS_ATTENDING" ON THAT PERFORMER, BUT IF YOU REMOVE THE TEACHERS, IT EDITS CORRECTLY
-
-
-
 myApp.controller('showController', function($scope, $rootScope, $http, $sce, $routeParams, eventsFactory, forumFactory, $window, $route){
 
 	$scope.now = moment().add(-1,'days').format();
@@ -15,8 +10,6 @@ myApp.controller('showController', function($scope, $rootScope, $http, $sce, $ro
     var endorsing = false;
     $window.scrollTo(0, 0);
 	var performerId = $routeParams.id;
-
-
 
 
 
@@ -506,7 +499,6 @@ myApp.controller('showController', function($scope, $rootScope, $http, $sce, $ro
 
 	  	});
   	}
-
 
 
 

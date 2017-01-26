@@ -85,6 +85,17 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 		    }
 	    });
 
+	    $scope.refreshUser = function() {
+
+		      eventsFactory.getUser($rootScope.user.fb_id, function(data){
+		          $scope.attending = data.data._attending;
+		          $scope.favorites = data.data._favorites;
+		          $scope.class_attending = data.data._class_attending;
+		          $scope.class_favorites = data.data._class_favorites;
+		          $rootScope.user = data.data;
+		      }); 
+		 }
+
 	    $scope.loginToggle = function() {
 	    	// console.log('inside loginToggle')
 		    if($scope.status) {

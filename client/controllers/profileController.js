@@ -4,11 +4,10 @@ myApp.controller('profileController', function($scope, eventsFactory, $location,
     $location.url('/')
   }
   else {
+  $scope.refreshUser(); 
 
   $window.scrollTo(0, 0);
 
-
-  refreshUser();
 
   $scope.now = moment().add(-1,'days').format();
 

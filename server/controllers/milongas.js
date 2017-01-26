@@ -662,6 +662,9 @@ module.exports = (function() {
 			       model: 'performer'
 			    } 
 			})
+			.populate({ 
+			     path: '_performers_following'
+			})
 			.exec(function (err, user) {
 			  if(err){
 					console.log("error finding the User", err);

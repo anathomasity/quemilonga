@@ -1,57 +1,99 @@
 <div class="container" >
     <div style="text-align: center;">
-       <h1 class="inline" >Dancers</h1><h2 class="inline" style="color: #b30000;"><strong>HAPPENING</strong></h2><br>
-    </div><br>
+	   <h1 class="inline" style="font-family: 'La Belle Aurore', cursive; font-weight: bolder;">QueMilonga.com</h1><h2 class="inline" style="color: #b30000;"><strong>TANGONEWS</strong></h2><br>
+    </div><br><br><br><br>
 
 
 	<div class="row">
+
+		
+
+		
 		
 
 
-		<div class="col-xs-12 col-md-5" style="padding-right: 5em;">
-			<form name="form2">
-		        <div class="form-group"><br>
-	   				 <h4 class="noto" style="color: #b30000;">Find your favorite dancer's profile and schedule, and follow him!</h4><br>
+		<div class="col-xs-12 col-md-5" style="padding-right: 2em; border-right: 3px solid black;">
+
+			<div>
+				<h4 class="noto" style="color: #b30000;">Dancers you are following</h4>
+				<h6>Search your favorites and follow them!</h6>
+				<div class="invisibleScroll" style="max-height: 5em;">
+					<h6 ng-if='user._performers_following.length > 0' ng-repeat='d in user._performers_following' class="inline"  ><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h6>
+					<p ng-if='user._performers_following.length < 1'>You are not following any dancers yet!</a></p>
+
+				</div><br><br>
+			</div>
+			<div>
+				<h4 class="noto" style="color: #b30000;">Some of our dancers on high demand</h4>
+				<h6>Most followed and highest interactions profiles</h6>
+				<div class="invisibleScroll" style="max-height: 5em;">
+					<h6 ng-repeat='d in topDancers' class="inline"  ><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h6>
+				</div><br><br>
+			</div>
 
 
-		            <!-- <label for="recipient-name" class="form-control-label">You can find your favorite dancer's schedule and follow him!</label> -->
-		            <h5 style="text-align: center;">Enter dancer's name: (e.g: "Maria Nieves")</h5>
 
-		            <input type="text" class="form-control" id="recipient-name" ng-model="dancer.name" name="dName" required="">
-		            <div class="errorMsgs" ng-show="form2.dName.$touched" ng-if='fullname'>
-		                <div ng-show="form2.dName.$error.required">Enter a full name</div>
-		            </div>
-		        </div>
 
-		        <div ng-if='onlyOneMsg' style="text-align: center;">
-		            <h5 style="color:red;">{{onlyOneMsg}}</h5>
-		        </div>
-		        <div ng-if='matches.length > 0' style="text-align: center;">
-		            <h3 class="noto">Did you mean...</h3>
-		            <a ng-repeat='m in matches' class="body_links" style="cursor: pointer; display: block;" ng-click='viewPerformer(m._id);'>.. {{m.name}}?</a>
-		            <br>
-		            <p>If we couldn't find a match, you can still put a request to add him/her.</p>
-		        </div>
-		        <div ng-if='matches.length == 0' style="text-align: center;">
-		            <h5 style="color:red;" id="noMatchMessage">We couldn't find a match, you can still put a request to add him/her to our database.</h5>
-		        </div>
-		        <div ng-if='msg'>
-		            <h5 style="color:green;" >Thanks! Request succesfully submitted.</h5>
-		        </div>
 
-		        
-		        <br>
-		        <input style='float: right;' ng-show='!matches' type="submit" class="btn btn-primary noto" ng-click="findMatches(2)" value="Find"/>
-		        <input style='float: right;' ng-show='matches' type="submit" class="btn btn-primary noto" ng-click="addPerformer()" value="Request Permission to Add"/>
-		        <br><br>
-		    </form>
+			<div style="text-align: center; border-top: 4px solid #e64d00; border-right: 1px solid #e64d00; border-left: 1px solid #e64d00; box-shadow: 10px 10px 5px #888888; background-color: #fbfafa; padding: 1em;">
+
+				<form name="form2">
+			        <div class="form-group"><br>
+		   				 <h4 class="noto" style="color: #b30000;">Find your favorite dancer's profile and schedule, and follow him!</h4><br>
+
+
+			            <!-- <label for="recipient-name" class="form-control-label">You can find your favorite dancer's schedule and follow him!</label> -->
+			            <h5 style="text-align: center;">Enter dancer's name: (e.g: "Maria Nieves")</h5>
+
+			            <input type="text" class="form-control" id="recipient-name" ng-model="dancer.name" name="dName" required="">
+			            <div class="errorMsgs" ng-show="form2.dName.$touched" ng-if='fullname'>
+			                <div ng-show="form2.dName.$error.required">Enter a full name</div>
+			            </div>
+			        </div>
+
+			        <div ng-if='onlyOneMsg' style="text-align: center;">
+			            <h5 style="color:red;">{{onlyOneMsg}}</h5>
+			        </div>
+			        <div ng-if='matches.length > 0' style="text-align: center;">
+			            <h3 class="noto">Did you mean...</h3>
+			            <a ng-repeat='m in matches' class="body_links" style="cursor: pointer; display: block;" ng-click='viewPerformer(m._id);'>.. {{m.name}}?</a>
+			            <br>
+			            <p>If we couldn't find a match, you can still put a request to add him/her.</p>
+			        </div>
+			        <div ng-if='matches.length == 0' style="text-align: center;">
+			            <h5 style="color:red;" id="noMatchMessage">We couldn't find a match, you can still put a request to add him/her to our database.</h5>
+			        </div>
+			        <div ng-if='msg'>
+			            <h5 style="color:green;" >Thanks! Request succesfully submitted.</h5>
+			        </div>
+
+			        
+			        <br>
+			        <input style='float: right;' ng-show='!matches' type="submit" class="btn btn-primary noto" ng-click="findMatches(2)" value="Find"/>
+			        <input style='float: right;' ng-show='matches' type="submit" class="btn btn-primary noto" ng-click="addPerformer()" value="Request Permission to Add"/>
+			        <br><br>
+			    </form>
+		    </div>
+
+
+		    <br><br>
+
+
+		    <div style="text-align: center; border-top: 4px solid #e64d00; border-right: 1px solid #e64d00; border-left: 1px solid #e64d00; box-shadow: 10px 10px 5px #888888; background-color: #fbfafa; padding: 1em;">
+                <h4 class="noto" style="color: #b30000;">Are you a <br> TANGO PROFESSIONAL?</h4><br>
+                <h4 style="font-weight: bolder;">See a <a class="body_links noto" href="#/performers/587ef328d6d0e9cc02be0295">SAMPLE</a><br> of a complete profile!</h4><br>
+                <p>If you are a professional dancer and would like to edit and share your profile <a href="#/linkPerfAccount" class="body_links noto">Click HERE</a> and we will link your account to it!</p>
+            </div>
+
+
+
 		</div>
 
 
 
 
 		<div class="col-xs-12 col-md-7">
-			<h3 class="noto" style="color: #b30000; text-align: center;">Tango Newsletter</h3><br><br>
+			
 
 			<h3 style="text-align: center;">COMING SOON!</h3>
 
