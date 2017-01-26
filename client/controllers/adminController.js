@@ -4,7 +4,7 @@ myApp.controller('adminController', function($scope, eventsFactory, $location, $
  		// console.log('!Rosotscope user')
  		$location.url('/')
  	}
- 	else if ($rootScope.user.fb_id != '10210732169205347' || $rootScope.user.fb_id != '100014999446893') {
+ 	else if ($rootScope.user.fb_id != '10210732169205347') {
  		// console.log('Rosotscope userId not compatible')
  		$location.url('/')
  	}
