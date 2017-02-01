@@ -383,47 +383,66 @@ var myApp = angular.module('Myapp', ['ngRoute','ngFacebook', 'ngCookies', 'ui.bo
 
 		// upload image functionality
 
-	    $rootScope.uploadFiles = function (file, modelName, id) {
+	    $rootScope.uploadFiles = function (file) {
+			console.log('this is the file',file);
+
+
+	    	$('#cropImageModal').modal('hide');
 
 	    	var cropped = Upload.dataUrltoBlob(file);
-	        // console.log("CROPPED", cropped);
-			// console.log('this is the file',file);
+	        console.log("CROPPED", cropped);
 
-	        cropped.url = modelName + id + '.jpg'
+	        cropped.url = modelNameForS3 + idForS3 + '.jpg'
 
 	        $scope.File = file;
 
+	        console.log(cropped.url, 'CROPPED URL')
 		    S3UploadService.Upload(cropped).then(function (result) {
-		        console.log('RESULT',result);
-		        $scope.success = true;
+
+		        $scope.imageUploadSuccess = true;
+		        var info = {
+		        	modelName: modelNameForS3,
+		        	_id: idForS3,
+		        }
+		        forumFactory.uploadPhoto(info, function(data){
+		            console.log(data);
+		            if(data.data == 'ok' && modelNameForS3 == 'performer'){
+		            	$route.reload();
+		            }
+		        })
 		    }, function (error)  {
-		        // Mark the error
 		        $scope.error = error;
 		    }, function (progress) {
-		        // Write the progress as a percentage
-		        $scope.progress = (progress.loaded / progress.total) * 100
-		        console.log(progress);
-	            setTimeout(function(){
-	        		location.reload()
-				}, 1200)
+	            
 		    });
-
-		    //PICTURE UPLOADING CORRECTLY
-		    //IF IS A COMMENT PICTURE, NOT CROP FUNCTIONALITY, FIRST ADD COMMENT THEN WITH NEW ID ADD PICTURE
-		    //IF ITS A PROFILE PIC, CROP FNCTIONALITY, ADD PICTURE WITH USER ID AND THEN SET user.pic = true AT MONGO;
-
-	        // usersFactory.uploadPhoto($scope.user._id, function(data){
-	        //     console.log(data);
-	        // })
-
 	    };
-	    //#########################ENDS##############
 
-	    $scope.cropImageModal = function(){
+	    var modelNameForS3 = '';
+	    var idForS3 = '';
+	    $scope.cropImageModal = function(modelName, id){
+	    	console.log('here',modelName, id)
+	    	modelNameForS3 = modelName;
+	    	idForS3 = id;
 	    	$('#cropImageModal').modal();
 	    }
 
+	    // $scope.commentImage = function(modelName, id){
+	    // 	console.log('here',modelName, id)
+	    // 	modelNameForS3 = modelName;
+	    // 	idForS3 = id;
+	    // 	$rootScope.uploadFiles($rootScope.file);
 
+	    // }
+
+	    // $scope.attachImage = function(file, errFiles) {
+	    // 	console.log('FILE!!', file)
+	    //     $scope.f = file;
+	    //     $scope.errFile = errFiles && errFiles[0];
+	    //     console.log('$SCOPE.F', $scope.f)
+	    // }
+
+
+	    //#########################ENDS##############
 
 
     });

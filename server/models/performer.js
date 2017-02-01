@@ -47,7 +47,11 @@ var PerformerSchema = new mongoose.Schema({
             lng: Number,
             start_date: String,
             end_date: String,
-        }]
+        }],
+    imageUrl : {
+        type : Boolean,
+        default: false,
+    },
 
 },{timestamps:true});
 

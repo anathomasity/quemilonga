@@ -20,13 +20,14 @@
         	      		<h5 class="inline"><strong>By <a href="http://www.facebook.com/{{t._user.fb_id}}" class="body_links">{{t._user.first_name}} {{t._user.last_name}}</a></strong> |</h5>
         	      		<h5 class="inline" ng-if='t._comments'><strong>{{t._comments.length}}</strong> answers </h5>
         	      		<h5 class="inline"> | <strong>{{t.views}}</strong> views </h5>
-        	      		<a style="float: right;" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fthreads%2F{{t._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fforum2.png&title={{t.title}}&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Check+out+this+thread+on+QueMilonga.com+FORUM&description={{t.content}}"><div class='shareButton inline'></div><br></a>
+        	      		
         	        </td>
 
-        	      <td ng-if='user._id && t._user._id == user._id'>
-        	      	<button class="but btn" ng-click='editThread(t._id)'>Edit</button>
-        	      	<button class="but btn" ng-click='destroyThread(t._id)'>Delete</button>
-        	      </td>
+            	    <td style="text-align: center; vertical-align: bottom;">
+                        <a id='endorseBtn' class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-click='editThread(t._id)' ng-if='user._id && t._user._id == user._id'>Edit</a>
+                        <a id='endorseBtn' class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-if='user._id && t._user._id == user._id' ng-click='destroyThread(t._id)'>Delete</a><br>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fthreads%2F{{t._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fforum2.png&title={{t.title}}&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Check+out+this+thread+on+QueMilonga.com+FORUM&description={{t.content}}"><div class='shareButton inline'></div><br></a>
+            	    </td>
 
         	    </tr>
         	  </tbody>
@@ -105,7 +106,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="message-text" class="form-control-label">CONTENT:</label>
-                                <textarea class="form-control" id="recipient-name" ng-model="thread.content" name="dFrom" required="" rows="15" ng-minlength="150" maxlength="5000">Enter content here</textarea>
+                                <textarea class="form-control" id="recipient-name" ng-model="thread.content" name="dFrom" required="" rows="15" ng-minlength="150" maxlength="5000" wrap="hard">Enter content here</textarea>
                                 <div class="errorMsgs" ng-show="form3.$submitted || form3.dFrom.$touched">
                                     <div ng-show="form3.dFrom.$error.required">Content is required</div>
                                     <div ng-show="form3.dFrom.$error.minlength">Minimum length is 150 characters</div>

@@ -6,14 +6,17 @@
 
 			<div class="col-xs-6 col-md-6">
 				<a  class='inline' href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fperformers%2F{{performer._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fmapad.png&title={{performer.name}}%27s+profile+and+schedule+on+QueMilonga.com&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Follow+{{performer.name}}%27s++detailed+schedule+on+QueMilonga.com&description={{performer.introduction}}"><div class='shareButton'></div></a><br>
-				<h5>Share this profile on Facebook</h5>
+				<h5>Share this profile </h5>
 
 			</div>
 			<div class="col-xs-6 col-md-6">
-				<h5 ng-if='performer._id == user.performerId' style="float: right;"><a ng-click='editMyProfile()' class="body_links noto pointer">EDIT MY PERFORMER PROFILE</a></h5>
+				
 				<div style="float: right;"><br>
 					<a id='followBtn' ng-if='performer._id != user.performerId' class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-click='followOrEndorse("follow")' data-placement="top" title="I want to receive updates about this dancer">Follow</a>
 					<a id='endorseBtn' class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-if='performer._id != user.performerId && user.performerId' ng-click='followOrEndorse("endorse")' data-placement="top" title="I publicly approve or support this dancer">Endorse</a>
+					<!-- FOR FUTURE, MORE INFO ON ENDORSE -->
+					<!-- <div class="moreInfo" ng-click='endorseInfo'></div> -->
+					
 				</div>
 
 				<br><br>
@@ -33,9 +36,11 @@
 
 				<div class="col-xs-9 col-md-6">
 					
-					<div class="profilePic"  style="float: right;">
-						<h3 style="position: absolute; bottom: 0; text-align: center;"><a class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-if='performer._id == user.performerId' ng-click='cropImageModal()'>Change Image</a></h3>
-
+					<div ng-if='performer.imageUrl == false || !performer.imageUrl' class="profilePic"  >
+						<h3 style="position: absolute; bottom: 0; text-align: center;"><a class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-if='performer._id == user.performerId' ng-click='cropImageModal("performer", performer._id)'>Change Image</a></h3>
+					</div>
+					<div ng-if='performer.imageUrl == true' class="realProfilePic" style="background-image: url('https://s3-us-west-1.amazonaws.com/www.quemilonga.com/performer{{performer._id}}.jpg');">
+						<h3 style="position: absolute; bottom: 0; text-align: center;"><a class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-if='performer._id == user.performerId' ng-click='cropImageModal("performer", performer._id)'>Change Image</a></h3>
 					</div>
 
 
@@ -71,10 +76,22 @@
 			<div id='schedule' class="invisibleScroll" style="max-height: 35em; background-color: #fbfafa; box-shadow: 10px 10px 5px #888888; width: 80%; margin: 0 auto; border-top: .7em solid #b30000">
 
 			    <!-- SCHEDULE TOGGLE--> 
-				<h4 class="noto" style="color: #b30000;">My upcoming events</h4>
+				<div class="col-xs-6 col-md-6">
+					<div style="vertical-align: bottom;">
+						<h4 style="color: #b30000;" class="noto">Schedule</h4><br>
+					</div>
+				</div>
+				<div class="col-xs-6 col-md-6" ng-if='futureDates'>
+					<div style="float: right;">
+
+						<a class='inline' href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fperformers%2F{{performer._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fmapad.png&title={{performer.name}}%27s+itinerary+on+QueMilonga.com&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Follow+{{performer.name}}+on+QueMilonga+to+receive+all+related+updates&description={{performer.introduction}}"><div class='shareButton'></div></a><br>
+						<h5>Share schedule </h5>
+					</div>
+
+				</div>
 
 				<div style="text-align: center;" ng-if='performer._milongas_attending.length < 1 || futureDates == false'>
-					<br><br>
+					<br><br><br>
 					<h4>Sorry, this performer doesn't have any upcoming events listed.</h4>
 					<h4>Do you know where he/she's going to be?</h4>
 					<div>
@@ -104,7 +121,7 @@
 						        	
 
 						        	<h3 ng-if='m.action == "class"' style="font-weight: bolder">{{m.milonga[0].title}}</h3>
-						        	<h4 ng-if='m.action == "class"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h4>
+						        	<h5 ng-if='m.action == "class"'>{{m.milonga[0].address.city}}, {{m.milonga[0].address.country}}</h5>
 						        	</a>
 
 			        	      		<a ng-if='performer._id == user.performerId' href="#/milongas/{{m.milonga[0]._id}}/edit"><button class="but btn-sm">Update Details</button></a>
@@ -159,7 +176,13 @@
 
 						  </tbody>
 						</table>
-			
+						<br><br>
+					<div>
+						<h5 class="inline">Are we missing an event?</h5>
+			            <a class='body_links inline' style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-click="go('/milongas/new')">POST NEW MILONGA</a> or 
+			            <a class='body_links inline' style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-click="go('/classes/new')">POST NEW CLASS</a>
+						<h5 style="display: inline;">and tag <strong>{{performer.name}}</strong>! It's very easy, and you don't need to be an organizer to add events.</h5><br><br>
+					</div>
 			    </div>
 
 			</div> <!-- END OF SCHEDULE SECTION TOGGLE-->
@@ -182,8 +205,11 @@
 		<br><br><br>
 		<div class="row">
 
-			<div class="col-xs-11 col-md-4" style="background-color: #fbfafa; box-shadow: 10px 10px 5px #888888; margin-right: 0; margin-left: 0;"><br>
-
+			<div class="col-xs-12 col-md-4" style="background-color: #fbfafa; box-shadow: 10px 10px 5px #888888; margin-right: 0; margin-left: 0;"><br>
+				<div ng-if='performer._id == user.performerId'>
+					<a class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;"  ng-click='editMyProfile()' data-placement="top" title="Edit your profile details">Edit my details</a>
+					<br><br>
+				</div>
 
 				<div class="row">
 
@@ -197,7 +223,9 @@
 					<div ng-if='performer._partner' class="col-xs-6 col-md-6">
 
 						<h4 style="color: #b30000;" class="noto">My partner</h4>
-						<p><a href="#/performers/{{performer._partner._id}}" class="body_links noto">{{performer._partner.name}}</a></p><br>
+						<div class="inline smallPic"></div>
+
+						<p class="inline"><a href="#/performers/{{performer._partner._id}}" class="body_links noto">{{performer._partner.name}}</a></p><br>
 					</div>
 				</div>
 
@@ -206,6 +234,14 @@
 
 					<h4 style="color: #b30000;" class="noto">Intro</h4>
 					<p>{{performer.introduction}}</p><br><br>
+				</div>
+
+
+				<div ng-if='performer._favorite_dancers.length > 0'>
+					<h4 style="color: #b30000;" class="noto">Some of my favorite dancers</h4>
+					<div class="invisibleScroll" style="max-height: 5em;">
+						<h6 ng-repeat='d in performer._favorite_dancers' class="inline"  ><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h6>
+					</div><br><br>
 				</div>
 
 				<div ng-if='performer.youtubeLink'>
@@ -218,12 +254,7 @@
 				</div>
 
 
-				<div ng-if='performer._favorite_dancers.length > 0'>
-					<h4 style="color: #b30000;" class="noto">Some of my favorite dancers</h4>
-					<div class="invisibleScroll" style="max-height: 4em;">
-						<h6 ng-repeat='d in performer._favorite_dancers' class="inline"  ><a href="#/performers/{{d._id}}" class="body_links noto" style="padding: .5em;">{{d.name}}</a></h6>
-					</div><br><br>
-				</div>
+				
 
 
 
@@ -237,15 +268,30 @@
 
 
 
-			<div class="col-xs-11 col-md-8" id='performerScheduleSide'>
+			<div class="col-xs-12 col-md-8" id='performerScheduleSide'>
 
-				<h4 style="color: #b30000;" class="noto">My plan</h4><br>
+				<div class="row">
 
-				<div id="map" style="width:100%; height: 300px;box-shadow: 10px 10px 5px #888888;"></div><br>
-				<a class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-if='performer._id == user.performerId' ng-click='editPlan()' data-placement="top" title="Generate a new map">Edit my Plan</a>
+					<div class="col-xs-6 col-md-6">
+						<h4 style="color: #b30000;" class="noto">My plan</h4>
+						<a class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" ng-if='performer._id == user.performerId' ng-click='editPlan()' data-placement="top" title="Generate a new map">Edit my Plan</a>
+						<br>
+					</div>
+					<div class="col-xs-4 col-md-4">
+						<div style="float: right;">
+							
+						
+							<a  class='inline' href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.quemilonga.com%2F%23%2Fperformers%2F{{performer._id}}&picture=https%3A%2F%2Fs3-us-west-1.amazonaws.com%2Fwww.quemilonga.com%2Fmapad.png&title={{performer.name}}%27s+itinerary+on+QueMilonga.com&caption=QueMilonga.com+%7C+Worldwide+Tango+Calendar&quote=Follow+{{performer.name}}+on+QueMilonga+to+receive+all+related+updates&description={{performer.introduction}}"><div class='shareButton'></div></a>
+							<h5>Share plan </h5>
+						</div>							
+					</div>
+				</div>
+
+				<div id="map" style="width:90%; height: 300px;box-shadow: 10px 10px 5px #888888;"></div><br>
+				
 				<br><br>	
 
-				<div style="max-height: 100em; padding: 2em; background-color: #fbfafa; box-shadow: 10px 10px 5px #888888;" class="invisibleScroll">
+				<div style="max-height: 100em; width: 100%" class="invisibleScroll">
 
 
 
@@ -257,79 +303,28 @@
 						<div class="row">
 
 							<div class="col-xs-9 col-md-10">
-								<h6 ng-if='performer._id == user.performerId' id="showAddVideo"><a class="noto body_links" ng-click='addVideo()' style="cursor: pointer;">Add image or video to post</a></h6>
+								<h6 ng-if='performer._id == user.performerId' id="showAddVideo" class="inline"><a class="noto body_links" ng-click='addVideo()' style="cursor: pointer;">Attach video</a></h6>
+
+								<!-- UPLOAD IMAGE -->
+								<!-- <h6 ng-if='performer._id == user.performerId' class="inline"> -->
+
+								<input type="file" ngf-select ng-model="picFile" name="file"    
+             					accept="image/*" ngf-max-size="2MB" required
+         						ngf-model-invalid="errorFile"> 
+         						<i ng-show="myForm.file.$error.maxSize">File too large 
+          						{{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+      							<img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb"> <button ng-click="picFile = null" ng-show="picFile">Remove</button>
+
+
+         						<!-- </h6> -->
+
+         						<!-- END UPLOAD PAGE -->
+
+
+
 								<input id='addVideo' style="display: none;" type="text" class="form-control" id="recipient-name" ng-model="comment.youtubeLink" name="dLink" placeholder="Enter Youtube video URL...">
 								
-
-
-
-
-<!-- 								<input name="file" type="file" file/>
-				                <div class="errorMsgs" ng-show="imgTooBig">{{imgTooBig}}</div> -->
-
-
-
-				<!-- 			<form name="myForm">
-							        <div>Crop Image and Upload</div>
-							        <button ngf-select ng-model="picFile" accept="image/*">
-							            Select Picture</button>
-							        <div ngf-drop ng-model="picFile" ngf-pattern="image/*"
-							             class="cropArea">
-							            <img-crop image="picFile  | ngfDataUrl"                 
-							            result-image="croppedDataUrl" ng-init="croppedDataUrl=''">
-							            </img-crop>
-							        </div>
-							        <div>
-							            <img ng-src="{{croppedDataUrl}}" />
-							        </div>
-							        <button ng-click="upload(croppedDataUrl, picFile.name)">Submit</button> 
-							            
-							        <span class="progress" ng-show="progress >= 0">
-							          <div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
-							        </span>
-							        <span ng-show="result">Upload Successful</span>
-							        <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
-							    </form> -->
-
-
-<!-- 							    <form novalidate>
-                            		<div>
-		                                <h1>Upload Profile Picture</h1>
-
-		                                <button type="file" ngf-select="uploadFiles($files)">
-		                                        Select File
-		                                    </button> -->
-<!-- 		                                    <button ngf-select ng-model="$parent.picFile" accept="image/*"  >
-		                                        Select Picture
-		                                    </button>
-		                                    <div ngf-drop ng-model="$parent.picFile" ngf-pattern="image/*"
-		                                    class="cropArea">
-		                                        <img-crop image="$parent.picFile  | ngfDataUrl"                 
-		                                        result-image="croppedDataUrl" ng-init="croppedDataUrl=''" area-type="square">
-		                                        </img-crop>
-		                                    </div>
-		                                    <div>
-		                                        <img ng-src="{{croppedDataUrl}}" />
-		                                    </div>
-
-		                                    <button ng-click = "uploadFiles(croppedDataUrl)">Submit</button>
-		                                </p>
-		                            </div>
-                            		<span class="progress" ng-show="progress >= 0">    
-                                		<div style="width:{{progress}}%" ng-bind="progress + '%'"></div>
-                           			 </span>
-	                            	<span ng-show="result">Upload Successful</span>
-	                            	<span class="err" ng-show="errorMsg">{{errorMsg}}</span>
-                       	 		</form> -->
-
-
-
-
-
-
-
-
-
+								
 								<textarea class="form-control" id="recipient-name" ng-model="comment.content" name="dFrom" required="" ng-minlength='5' maxlength='180' placeholder="Say something..."></textarea>
 					            
 					            <div class="errorMsgs" ng-show="form2.$submitted || form2.dFrom.$touched">
@@ -338,7 +333,7 @@
 					            </div>
 							</div>
 							<div class="col-xs-3 col-md-2" style="padding-top: 3em;">
-				        		<input type="submit" class="btn-sm btn-primary noto" ng-click="addComment(croppedDataUrl)" value="Post"/>
+				        		<input type="submit" class="btn-sm btn-primary noto" ng-click="addComment(picFile)" value="Post"/>
 							</div>
 				            
 
@@ -358,13 +353,15 @@
 
 
 				    <!-- COMMENTS -->
-				    <div ng-if='performer._comments.length > 0'  >
+				    <div ng-if='performer._comments.length > 0' style='background-color: #fbfafa;'>
 
-					    <div ng-repeat='c in performer._comments | orderBy: "createdAt":true ' style="padding-bottom: 1em;">
+					    <div ng-repeat='c in performer._comments | orderBy: "createdAt":true ' style="padding: 1em;">
 					    	<h5 class="inline"><a href="http://www.facebook.com/{{c._user.fb_id}}" class="noto body_links">{{c._user.first_name}} {{c._user.last_name}}</a></h5><h5 class="inline"> {{c.createdAt | date : 'short'}}</h5><br>
-					    	<div style="padding-left: 2em; padding-right: 2em;">
+
+					    	<div>
 						    	<h4 class="inline">{{c.content}}</h4>
 						    	<div ng-if='c.youtubeLink'>
+						    		<br>
 									<iframe height="300em" width="98%" 
 									ng-src="{{trustSrc(c.youtubeURL)}}">
 									</iframe>
@@ -373,9 +370,10 @@
 								</div>
 							</div>
 					    	<div style="float: right;">
-	<!-- 					    	<button style="padding-left: 5px; padding-right: 5px; border-radius: 3px;" ng-if='c._user._id == user._id' ng-click='editComment(c._id)'>Edit</button>  -->
-						    	<button class="btn-sm btn-primary noto" ng-if='c._user._id == user._id || performer._id == user.performerId' ng-click='destroyComment(c._id)'>Delete</button> 
+								<!-- 					    	<button style="padding-left: 5px; padding-right: 5px; border-radius: 3px;" ng-if='c._user._id == user._id' ng-click='editComment(c._id)'>Edit</button>  -->
+						    	<a ng-if='c._user._id == user._id || performer._id == user.performerId' ng-click='destroyComment(c._id)' class="body_links" style="font-weight: bolder; padding: 5px; text-decoration: none; cursor: pointer;" >Delete</a> 
 					    	</div><br><br>
+					    	<hr class="hr">
 					    </div>
 				    </div>
 

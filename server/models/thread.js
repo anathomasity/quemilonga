@@ -10,6 +10,10 @@ var ThreadSchema = new mongoose.Schema({
         type : Number,
         default: 0,
     },
+    imageUrl : {
+        type : Boolean,
+        default: false,
+    },
 },{timestamps:true});
 
 mongoose.model('thread', ThreadSchema);

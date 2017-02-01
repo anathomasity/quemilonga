@@ -6,9 +6,9 @@ module.exports = function(app){
 
 	//s3 images
 
-	app.post('/imgUrl/:id', function(req, res){
+	app.post('/addImageUrl', function(req, res){
 	    // console.log('made it to the upload image route')
-	    threads.uploadUrl(req, res);
+	    threads.addImageUrl(req, res);
     })
 
 

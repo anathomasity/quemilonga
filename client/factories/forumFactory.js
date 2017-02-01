@@ -84,14 +84,8 @@ myApp.factory('forumFactory', function($http){
 
 	// IMAGES TO AND FROM S3
 
-	factory.uploadPhoto = function (upload, callback){
-        console.log(upload);
-        var url = 'https://s3-us-west-1.amazonaws.com/siliconvalleyfaces/'+upload+'.jpg'
-        var photo = {
-            image: url
-        }
-        $http.post('/imgUrl/'+upload, photo)
-        .then(function(data){
+	factory.uploadPhoto = function (info, callback){
+        $http.post('/addImageUrl', info ).then(function(data){
             callback(data);
         });
     };

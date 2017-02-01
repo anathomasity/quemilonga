@@ -1,3 +1,24 @@
+#wrapper{
+	min-height:100%;
+	position:relative;
+/*	background-image:    url('background.jpg');
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center; */
+}
+
+.moreInfo {
+	width: 1em;
+	height: 1em;
+	background-image:    url('info.png');
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;  
+    display: inline-block;
+    vertical-align: bottom;
+    cursor: pointer;
+}
+
 .smallPic{
 	width: 2em;
 	height: 2em;
@@ -7,10 +28,19 @@
     background-position: center center;  
 }
 
+.smallPic2{
+	width: 2em;
+	height: 2em;
+	background-image:    url('silueta.jpg');
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;  
+}
 
 .profilePic{
 	width: 12em;
 	height: 12em;
+	float: right;
 	background-image:    url('defaultProfPic.jpg');
     background-size:     cover;
     background-repeat:   no-repeat;
@@ -18,6 +48,18 @@
     border: 5px solid #CD6155;
     box-shadow : inset 0em 0em 1em #000000;
 }
+
+.realProfilePic{
+	width: 12em;
+	height: 12em;
+	float: right;
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;  
+    border: 5px solid #CD6155;
+    box-shadow : inset 0em 0em 1em #000000;
+}
+
 
 
 .cropArea {
@@ -497,10 +539,7 @@ header{
 	background-color: #f8fcfb;
 }
 
-#wrapper{
-	min-height:100%;
-	position:relative;
-}
+
 
 footer{
 	position:absolute;
@@ -717,9 +756,15 @@ nav>a:hover{
 	padding-left: 4em;
 }
 
-#threadContent {
-	padding: 2em;
+#threadContent h3 {
+	padding: 1em;
+	white-space: pre-line;
 }
+
+/*#threadTitle{
+	white-space: pre-line;
+	overflow: auto;
+}*/
 
 .cityInput {
 	width: 15em;
@@ -787,6 +832,7 @@ nav>a:hover{
 #mainInfo{
 	padding-bottom: 30%;
 	height: 80%;
+
 }
 
 /* Portrait tablet to landscape and desktop */
@@ -1156,7 +1202,7 @@ nav>a:hover{
 #login-btn {
 	background-color: white;
 	background-image: url("fblogin.png");
-	width: 18em;
+	width: 16em;
 	height: 3em;
 	background-size: auto 100%;
 	background-repeat: no-repeat;

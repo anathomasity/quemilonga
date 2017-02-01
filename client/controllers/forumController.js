@@ -92,11 +92,18 @@ myApp.controller('forumController', function($scope, $routeParams, forumFactory,
     $scope.destroyThread = function(tId){
         // console.log('destroying Thread!!', index);
         // var threadId = $scope.threads[index]._id;
-        forumFactory.destroyThread(tId, function(destroyedThread){
-            forumFactory.getThreads(function(dat){
-                $scope.threads = dat;
+        deleteUser = $window.confirm('Are you sure? You are about to delete this thread. This action cannot be reverted');
+        if(deleteUser){
+         //Your action will goes here
+            // alert('Yes i want to delete');
+            forumFactory.destroyThread(tId, function(destroyedThread){
+                forumFactory.getThreads(function(dat){
+                    $scope.threads = dat;
+                })
             })
-        })
+        }
+        
     }
+
 
 });

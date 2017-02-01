@@ -11,19 +11,32 @@ var moment = require('moment');
 module.exports = (function() {
 	return {
 
-		uploadUrl: function(req, res){
+		addImageUrl: function(req, res){
 			console.log('IMAGE URL ************************BACKEND ******************', req.body);
-	      // console.log(req.params.id); 
-	      // console.log(req.body)
-	      // User.findByIdAndUpdate({_id: req.params.id}, { profile_pic: req.body.image}, {new: true}, function(err, updatedUser){
-	      //   if(err){
-	      //     console.log('error', err);
-	      //   }
-	      //   else{
-	      //     console.log('success, this is the updated user: ', updatedUser); 
-	      //     res.json(updatedUser);
-	      //   }
-	      // })
+
+			if(req.body.modelName == 'performer'){
+				Performer.findByIdAndUpdate({_id: req.body._id}, { imageUrl: true }, function(err, updatedPerformer){
+					if (err) {
+						console.log('ERROR ADDING IMAGE TO PERFORMER')
+					}
+					else{
+						console.log('SUCCESS****************', updatedPerformer)
+						res.json('ok');
+					}
+				})
+			}
+	        if(req.body.modelName == 'comment'){
+				Comment.findByIdAndUpdate({_id: req.body._id}, { imageUrl: true }, function(err, updatedComment){
+					if (err) {
+						console.log('SUCCESS****************', updatedComment)
+
+						console.log('ERROR ADDING IMAGE TO COMMENT')
+					}
+					else{
+						res.json('ok');
+					}
+				})
+			}
 	    },
 
 
@@ -156,7 +169,7 @@ module.exports = (function() {
 							        }
 							        else{
 							        	console.log('SUCCES********************', performer)
-							        	res.json({status:'ok'});
+							        	res.json(result);
 							        }
 							    });
 							}
@@ -176,7 +189,7 @@ module.exports = (function() {
 							        }
 							        else{
 							        	console.log('SUCCES********************', thread)
-							        	res.json({status:'ok'});
+							        	res.json(result);
 							        }
 							    });
 							}

@@ -1,4 +1,4 @@
-myApp.controller('showController', function($scope, $rootScope, $http, $sce, $routeParams, eventsFactory, forumFactory, $window, $route){
+myApp.controller('showController', function($scope, $rootScope, $http, $sce, $routeParams, eventsFactory, forumFactory, $window, $route, Upload, S3UploadService){
 
 	$scope.now = moment().add(-1,'days').format();
 	$rootScope.teachers = [];
@@ -215,48 +215,61 @@ myApp.controller('showController', function($scope, $rootScope, $http, $sce, $ro
         }
         else {
 
-        	if(file){
-
-        		$rootScope.uploadFiles(file, 'comment', '123123123')
-        	}
-
-
-
-
             $scope.comment._user = $rootScope.user._id;
             $scope.comment.type = 'performer';
             $scope.comment.performerId = $scope.performer._id;
+            if(file){
+            	$scope.comment.imageUrl = true;
+				// $scope.file = file;
+            }
 
 
+            console.log("comment TO ADD", $scope.comment)
+            forumFactory.addComment($scope.comment, function(addedComment){
+                console.log("ADDED Comment", addedComment)
 
-            // $scope.comment.imageLink = 'ADD LINK HERE';
-            // console.log("comment TO ADD", $scope.comment)
-            // forumFactory.addComment($scope.comment, function(addedComment){
-            //     // console.log("ADDED Comment", addedComment)
-            //     $scope.comment = {};
-            //     eventsFactory.getPerformer(performerId, function(data){
-            //         $scope.performer = data.data;
-            //         checkCommentVideos();
-            //     })
+                if(addedComment.imageUrl == true){
+                	console.log('THERE IS IMAGE URL')
+                	console.log(file, 'THIS IS THE FILE')
+
+
+	        		modelNameForS3 = 'comment';
+					idForS3 = addedComment._id;
+
+
+	        		var cropped = Upload.dataUrltoBlob(file);
+			        console.log("CROPPED", cropped);
+
+			        cropped.url = modelNameForS3 + idForS3 + '.jpg'
+
+			        $scope.File = file;
+
+			        console.log(cropped.url, 'CROPPED URL')
+				    S3UploadService.Upload(cropped).then(function (result) {
+
+				        $scope.imageUploadSuccess = true;
+				    }, function (error)  {
+				        $scope.error = error;
+				    }, function (progress) {
+			            
+				    });
+	        	} 
+            
                 
 
-            // });
+            });
 
         } //END OF ELSE
+        $scope.comment = {};
+        // $scope.f = false;
 
     };
 
+    var idForS3;
+    var modelNameForS3;
+    
 
- //    $scope.uploadFile = function(file) {
 
- //    	var fd = new FormData();
-
-	// 	fd.append( 'file', file );
-	//     $http.post('/uploadImage', fd).then(function(da){
-	// 		console.log("BACK FROM BACKEND DATA:", da);
-	// 	})
-
-	// };
 
     $scope.destroyComment = function(cId){
         forumFactory.destroyComment(cId, function(destroyedComment){
@@ -327,11 +340,16 @@ myApp.controller('showController', function($scope, $rootScope, $http, $sce, $ro
     		}
     	}
 
-
-    	
-
     }
 
+  //   $scope.endorseInfo = function(){
+  //   	console.log('INDISE ENDORSE INFO')
+  //   	$('#hello').popover({
+		//   trigger: 'focus'
+		// })
+  //   }
+
+  	
     
     function checkFollowAndEndorse () {
     	if($rootScope.user){
